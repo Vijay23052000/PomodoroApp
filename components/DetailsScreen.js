@@ -11,16 +11,33 @@ import Icon from 'react-native-vector-icons/AntDesign';
 // import CircularProgress from 'react-native-circular-progress-indicator';
 // import {Sound} from 'react-native-sound';
 
+
 const DetailsScreen = ({navigation}) => {
   const [bgColor, setBgColor] = useState('#3cd689');
   const [isEnabled, setIsEnabled] = useState(false);
-  const initialPomodoroTime = 5; // 25 minutes by default for Pomodoro
-  const initialShortBreakTime = 2; // 5 minutes by default for short break
-  const initialLongBreakTime = 4; // 15 minutes by default for long break
 
-  const [pomodoro, setPomodoro] = useState(initialPomodoroTime)
-  const [Break, setBreak] = useState(initialShortBreakTime)
-  const [longBreak, setLongBreak] = useState(initialLongBreakTime)
+  // const secondsToMinutes = seconds => {
+  //   return seconds / 60;
+  // };
+  let initialPomodoroTime = 120; // 25 minutes by default for Pomodoro
+  let initialShortBreakTime = 180; // 5 minutes by default for short break
+  let initialLongBreakTime = 120; // 15 minutes by default for long break
+
+console.log("initialPomodoroTime---->",initialPomodoroTime)
+  let secondtominute = 60;
+
+  const minPomodoro = (initialPomodoroTime/secondtominute);
+  const minBreak = (initialShortBreakTime/secondtominute);
+  const minLongBreak = (initialLongBreakTime/secondtominute);
+  console.log("minPomodoro----------->",minPomodoro)
+
+
+  const [pomodoro, setPomodoro] = useState(minPomodoro)
+  const [Break, setBreak] = useState(minBreak)
+  const [longBreak, setLongBreak] = useState(minLongBreak)
+
+console.log("pomodoro---------->",pomodoro)
+
 
   const [timer, setTimer] = useState(initialPomodoroTime);
   const [isRunning, setIsRunning] = useState(false);
@@ -54,6 +71,22 @@ const DetailsScreen = ({navigation}) => {
     return () => clearInterval(timerInterval);
   }, [timer, isRunning, timerType]);
 
+  
+
+
+  const incrementMinutes = () => {
+    setPomodoro(pomodoro + 1);
+
+    setTimer(pomodoro*60);
+  };
+
+  const decrementMinutes = () => {
+    if (pomodoro > 0) {
+      setPomodoro(pomodoro - 1);
+      setTimer(pomodoro);
+    }
+  };
+
   const toggleTimer = () => {
     setIsRunning(!isRunning);
   };
@@ -80,7 +113,7 @@ const DetailsScreen = ({navigation}) => {
   };
 
   const setTimerDuration = time => {
-    resetTimer();
+    // resetTimer();
     setTimer(time);
   };
 
@@ -166,18 +199,65 @@ const DetailsScreen = ({navigation}) => {
         <TouchableOpacity
           style={[styles.PomodoroText, {backgroundColor: 'bgColor'}]}
           onPress={() => setTimerDuration(initialPomodoroTime)}>
-          <Text style={styles.PomodoroText}>POMODORO</Text>
+          <View style={styles.containerpomodoro}>
+            <Text style={styles.topText}>{pomodoro}</Text>
+            <Text style={styles.bottomText}>Pomodoro</Text>
+          </View>
         </TouchableOpacity>
         <TouchableOpacity
           style={[styles.PomodoroText, {backgroundColor: 'bgColor'}]}
           onPress={() => setTimerDuration(initialShortBreakTime)}>
-          <Text style={styles.PomodoroText}>BREAK</Text>
+          <View style={styles.containerpomodoro}>
+            <Text style={styles.topText}>{Break}</Text>
+            <Text style={styles.bottomText}>Break</Text>
+          </View>
         </TouchableOpacity>
         <TouchableOpacity
           style={[styles.PomodoroText, {backgroundColor: 'bgColor'}]}
           onPress={() => setTimerDuration(initialLongBreakTime)}>
-          <Text style={styles.PomodoroText}>LONG BREAK</Text>
+          <View style={styles.containerpomodoro}>
+            <Text style={styles.topText}>{longBreak}</Text>
+            <Text style={styles.bottomText}>Long Break</Text>
+          </View>
         </TouchableOpacity>
+      </View>
+      <View style={styles.PlusMinusecontainer}>
+        <View style={styles.PlusMinuseView}>
+          <TouchableOpacity
+            style={styles.plusButton}
+            onPress={incrementMinutes}>
+            <Text style={styles.buttonText}>+</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.minusButton}
+            onPress={decrementMinutes}>
+            <Text style={styles.buttonText}>-</Text>
+          </TouchableOpacity>
+        </View>
+        <View style={styles.PlusMinuseView}>
+          <TouchableOpacity
+            style={styles.plusButton}
+            onPress={incrementMinutes}>
+            <Text style={styles.buttonText}>+</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.minusButton}
+            onPress={decrementMinutes}>
+            <Text style={styles.buttonText}>-</Text>
+          </TouchableOpacity>
+        </View>
+        <View style={styles.PlusMinuseView}>
+          <TouchableOpacity
+            style={styles.plusButton}
+            onPress={incrementMinutes}>
+            <Text style={styles.buttonText}>+</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.minusButton}
+            onPress={decrementMinutes}>
+            <Text style={styles.buttonText}>-</Text>
+          </TouchableOpacity>
+        </View>
       </View>
       <View style={styles.TextViewSound}>
         <Text style={styles.TextSound}>COLOR THEMES</Text>
@@ -521,7 +601,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
   },
   TextViewSoundDURATIONS: {
-    marginTop: 15,
+    marginTop: 15, 
   },
   container: {
     flex: 1,
@@ -661,6 +741,72 @@ const styles = StyleSheet.create({
     alignContent: 'center',
     alignItems: 'center',
     alignSelf: 'center',
+  },
+  PlusMinusecontainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  PlusMinuseView: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginLeft: 14,
+    marginRight: 14,
+  },
+
+  plusButton: {
+    backgroundColor: 'lightblue',
+    paddingHorizontal: 18,
+    paddingVertical: 12,
+    borderRadius: 5,
+    // marginHorizontal: 10,
+  },
+  minusButton: {
+    backgroundColor: 'lightcoral',
+    paddingHorizontal: 20,
+    paddingVertical: 12,
+    // paddingTop: 9,
+    borderRadius: 5,
+    // marginHorizontal: 10,
+  },
+  buttonText: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    justifyContent: 'center',
+    textAlign: 'center',
+    alignItems: 'center',
+  },
+  containerpomodoro: {
+    flex: 1,
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    width: 105,
+    height: 85,
+  },
+  topText: {
+    color: 'white',
+    fontSize: 40,
+    
+    // textAlignVertical: 'bottom',
+    // width: 100,
+    // height: 105,
+    paddingRight: 9,
+
+  },
+  bottomText: {
+    //  fontSize: 8,
+    // width: 100,
+    // height: 105,
+    // borderWidth: 0.2,
+    // borderRadius: 3,
+    // borderWidth: 0.3,
+    fontSize: 14,
+    textAlign: 'center',
+    textAlignVertical: 'bottom',
+    paddingBottom: 1,
+    // paddingTop: 40,
+    color: '#ffffff',
   },
 });
 export default DetailsScreen;
