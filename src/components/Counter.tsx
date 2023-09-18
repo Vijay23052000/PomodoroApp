@@ -1,6 +1,10 @@
 import {Button, Text} from 'react-native';
 import React from 'react';
-import {decrement, increment, setCustomValue} from '../redux/update';
+import {
+  decrement,
+  increment,
+  setCustomValue,
+} from '../redux/counter';
 import {useReduxDispatch, useReduxSelector} from '../redux';
 
 const Counter = (): React.ReactElement => {
@@ -9,7 +13,6 @@ const Counter = (): React.ReactElement => {
 
   // useReduxDispath for dispatching actions
   const dispatch = useReduxDispatch();
-
 
   return (
     <>
