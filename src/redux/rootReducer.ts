@@ -1,5 +1,5 @@
 import {combineReducers} from '@reduxjs/toolkit';
-import counterReducer from './demo/update';
+import counterReducer from './update';
 
 const rootReducer = combineReducers({
   // state
