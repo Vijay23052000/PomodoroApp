@@ -4,7 +4,10 @@ import {decrement, increment} from '../../redux/demo/update';
 import {useReduxDispatch, useReduxSelector} from '../../redux';
 
 const Counter = (): React.ReactElement => {
+  //  using useReduxSelector it will take current state and update it to new state
   const value = useReduxSelector(state => state.counter);
+
+  // useReduxDispath for dispatching actions
   const dispatch = useReduxDispatch();
 
   return (
