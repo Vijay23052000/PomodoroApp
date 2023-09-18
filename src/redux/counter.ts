@@ -12,5 +12,6 @@ const counterSlice = createSlice({
   },
 });
 
-export const {increment, decrement, setCustomValue} = counterSlice.actions;
-export default counterSlice.reducer;
+export const {increment, decrement, setCustomValue} = counterSlice.actions;      // destructing actions with same name of reducer. through which dispatcher will dispatch action
+export default counterSlice.reducer;  // exported reducers
+ 
