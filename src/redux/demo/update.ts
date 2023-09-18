@@ -6,7 +6,7 @@ const counterSlice = createSlice({
   reducers: {
     increment: (state, action: PayloadAction<number>) => state + action.payload,
     decrement: (state, action: PayloadAction<number>) => state - action.payload,
-    setCustomValue: (state, action: PayloadAction<string>) => action.payload,
+    setCustomValue: (state, action: PayloadAction<number>) => action.payload,
   },
 });
 
