@@ -11,7 +11,6 @@ import Icon from 'react-native-vector-icons/AntDesign';
 // import CircularProgress from 'react-native-circular-progress-indicator';
 // import {Sound} from 'react-native-sound';
 
-
 const DetailsScreen = ({navigation}) => {
   const [bgColor, setBgColor] = useState('#3cd689');
   const [isEnabled, setIsEnabled] = useState(false);
@@ -23,21 +22,25 @@ const DetailsScreen = ({navigation}) => {
   let initialShortBreakTime = 180; // 5 minutes by default for short break
   let initialLongBreakTime = 120; // 15 minutes by default for long break
 
-console.log("initialPomodoroTime---->",initialPomodoroTime)
+  console.log('initialPomodoroTime---->', initialPomodoroTime);
   let secondtominute = 60;
 
-  const minPomodoro = (initialPomodoroTime/secondtominute);
-  const minBreak = (initialShortBreakTime/secondtominute);
-  const minLongBreak = (initialLongBreakTime/secondtominute);
-  console.log("minPomodoro----------->",minPomodoro)
+  const minPomodoro = initialPomodoroTime / secondtominute;
+  const minBreak = initialShortBreakTime / secondtominute;
+  const minLongBreak = initialLongBreakTime / secondtominute;
+  console.log('minPomodoro----------->', minPomodoro);
 
+  const secondsToMinutes = seconds => {
+    return seconds / 60;
+  };
 
-  const [pomodoro, setPomodoro] = useState(minPomodoro)
-  const [Break, setBreak] = useState(minBreak)
-  const [longBreak, setLongBreak] = useState(minLongBreak)
+  const [pomodoro, setPomodoro] = useState(
+    secondsToMinutes(initialPomodoroTime)
+  );
+  const [Break, setBreak] = useState(minBreak);
+  const [longBreak, setLongBreak] = useState(minLongBreak);
 
-console.log("pomodoro---------->",pomodoro)
-
+  console.log('pomodoro-------vijay--->', pomodoro);
 
   const [timer, setTimer] = useState(initialPomodoroTime);
   const [isRunning, setIsRunning] = useState(false);
@@ -57,8 +60,7 @@ console.log("pomodoro---------->",pomodoro)
           if (timer === 0 && timerType === 'Pomodoro') {
             switchToBreak();
             playSound();
-          }
-          else if(timer === 0 &&  timerType === 'Break'){
+          } else if (timer === 0 && timerType === 'Break') {
             switchToPomodoro();
             playSound();
           }
@@ -71,13 +73,10 @@ console.log("pomodoro---------->",pomodoro)
     return () => clearInterval(timerInterval);
   }, [timer, isRunning, timerType]);
 
-  
-
-
   const incrementMinutes = () => {
     setPomodoro(pomodoro + 1);
 
-    setTimer(pomodoro*60);
+    setTimer(pomodoro * 60);
   };
 
   const decrementMinutes = () => {
@@ -102,14 +101,14 @@ console.log("pomodoro---------->",pomodoro)
     if (timerType === 'Pomodoro') {
       setTimer(initialShortBreakTime);
       setTimerType('Break');
-    } 
+    }
   };
 
   const switchToPomodoro = () => {
     if (timerType === 'Break') {
       setTimer(initialPomodoroTime);
-      setTimerType('Pomodoro');  
-    } 
+      setTimerType('Pomodoro');
+    }
   };
 
   const setTimerDuration = time => {
@@ -156,15 +155,19 @@ console.log("pomodoro---------->",pomodoro)
   return (
     <ScrollView style={{backgroundColor: bgColor}}>
       <Text style={styles.TextStyle}>
-                  {(timerType === 'Pomodoro') ? 'Keep Work Hard!' : 'Take Break'}
-                </Text>
-     
+        {timerType === 'Pomodoro' ? 'Keep Work Hard!' : 'Take Break'}
+      </Text>
+
       <View style={styles.buttonContainer}>
         <View style={[styles.outerCircle, {backgroundColor: bgColor}]}>
           <View style={styles.innerCircle}>
             <View style={[styles.innerCircle2, {backgroundColor: bgColor}]}>
               <TouchableOpacity
-              style={[styles.innerCircle2, {backgroundColor: bgColor}, isRunning ? styles.pauseButton : null,]}
+                style={[
+                  styles.innerCircle2,
+                  {backgroundColor: bgColor},
+                  isRunning ? styles.pauseButton : null,
+                ]}
                 // style={[
                 //   styles.innerCircle2,
                 //   isRunning ? styles.pauseButton : null,
@@ -185,7 +188,7 @@ console.log("pomodoro---------->",pomodoro)
           </View>
         </View>
       </View>
-      
+
       {/* <Text>(timerType==='Pomodoro') </Text> */}
       <View style={{width: 40, height: 40, marginLeft: 20, marginTop: 10}}>
         <TouchableOpacity onPress={() => navigation.navigate('Home')}>
@@ -268,113 +271,113 @@ console.log("pomodoro---------->",pomodoro)
           <TouchableOpacity
             style={[styles.buttonText, {backgroundColor: '#eba000'}]}
             onPress={() => changeColor('#ebb813')}>
-            <Text style={styles.buttonText}></Text>
+            <Text style={styles.buttonText} />
           </TouchableOpacity>
 
           <TouchableOpacity
             style={[styles.buttonText, {backgroundColor: '#aee080'}]}
             onPress={() => changeColor('#aef280')}>
-            <Text style={styles.buttonText}></Text>
+            <Text style={styles.buttonText} />
           </TouchableOpacity>
 
           <TouchableOpacity
             style={[styles.buttonText, {backgroundColor: '#b6afb0'}]}
             onPress={() => changeColor('#b6bfb0')}>
-            <Text style={styles.buttonText}></Text>
+            <Text style={styles.buttonText} />
           </TouchableOpacity>
           <TouchableOpacity
             style={[styles.buttonText, {backgroundColor: '#68d3d9'}]}
             onPress={() => changeColor('#68d3d9')}>
-            <Text style={styles.buttonText}></Text>
+            <Text style={styles.buttonText} />
           </TouchableOpacity>
           <TouchableOpacity
             style={[styles.buttonText, {backgroundColor: '#283357'}]}
             onPress={() => changeColor('#283357')}>
-            <Text style={styles.buttonText}></Text>
+            <Text style={styles.buttonText} />
           </TouchableOpacity>
         </View>
         <View style={styles.oneView}>
           <TouchableOpacity
             style={[styles.buttonText, {backgroundColor: '#ebb813'}]}
             onPress={() => changeColor('#FF0000')}>
-            <Text style={styles.buttonText}></Text>
+            <Text style={styles.buttonText} />
           </TouchableOpacity>
           <TouchableOpacity
             style={[styles.buttonText, {backgroundColor: '#ebb813'}]}
             onPress={() => changeColor('#00FF00')}>
-            <Text style={styles.buttonText}></Text>
+            <Text style={styles.buttonText} />
           </TouchableOpacity>
 
           <TouchableOpacity
             style={[styles.buttonText, {backgroundColor: '#ebb813'}]}
             onPress={() => changeColor('#0000FF')}>
-            <Text style={styles.buttonText}></Text>
+            <Text style={styles.buttonText} />
           </TouchableOpacity>
           <TouchableOpacity
             style={[styles.buttonText, {backgroundColor: '#ebb813'}]}
             onPress={() => changeColor('#0000FF')}>
-            <Text style={styles.buttonText}></Text>
+            <Text style={styles.buttonText} />
           </TouchableOpacity>
           <TouchableOpacity
             style={[styles.buttonText, {backgroundColor: '#ebb813'}]}
             onPress={() => changeColor('#0000FF')}>
-            <Text style={styles.buttonText}></Text>
+            <Text style={styles.buttonText} />
           </TouchableOpacity>
         </View>
         <View style={styles.oneView}>
           <TouchableOpacity
             style={[styles.buttonText, {backgroundColor: '#ebb813'}]}
             onPress={() => changeColor('#FF0000')}>
-            <Text style={styles.buttonText}></Text>
+            <Text style={styles.buttonText} />
           </TouchableOpacity>
           <TouchableOpacity
             style={[styles.buttonText, {backgroundColor: '#ebb813'}]}
             onPress={() => changeColor('#00FF00')}>
-            <Text style={styles.buttonText}></Text>
+            <Text style={styles.buttonText} />
           </TouchableOpacity>
 
           <TouchableOpacity
             style={[styles.buttonText, {backgroundColor: '#ebb813'}]}
             onPress={() => changeColor('#0000FF')}>
-            <Text style={styles.buttonText}></Text>
+            <Text style={styles.buttonText} />
           </TouchableOpacity>
           <TouchableOpacity
             style={[styles.buttonText, {backgroundColor: '#ebb813'}]}
             onPress={() => changeColor('#0000FF')}>
-            <Text style={styles.buttonText}></Text>
+            <Text style={styles.buttonText} />
           </TouchableOpacity>
           <TouchableOpacity
             style={[styles.buttonText, {backgroundColor: '#ebb813'}]}
             onPress={() => changeColor('#0000FF')}>
-            <Text style={styles.buttonText}></Text>
+            <Text style={styles.buttonText} />
           </TouchableOpacity>
         </View>
         <View style={styles.oneView}>
           <TouchableOpacity
             style={[styles.buttonText, {backgroundColor: '#ebb813'}]}
             onPress={() => changeColor('#FF0000')}>
-            <Text style={styles.buttonText}></Text>
+            <Text style={styles.buttonText} />
           </TouchableOpacity>
           <TouchableOpacity
             style={[styles.buttonText, {backgroundColor: '#ebb813'}]}
             onPress={() => changeColor('#00FF00')}>
-            <Text style={styles.buttonText}></Text>
+            <Text style={styles.buttonText} />
           </TouchableOpacity>
 
           <TouchableOpacity
             style={[styles.buttonText, {backgroundColor: '#ebb813'}]}
             onPress={() => changeColor('#0000FF')}>
-            <Text style={styles.buttonText}></Text>
+            <Text style={styles.buttonText} />
           </TouchableOpacity>
           <TouchableOpacity
             style={[styles.buttonText, {backgroundColor: '#ebb813'}]}
             onPress={() => changeColor('#0000FF')}>
-            <Text style={styles.buttonText}></Text>
+            <Text style={styles.buttonText} />
           </TouchableOpacity>
           <TouchableOpacity
             style={[styles.buttonText, {backgroundColor: '#ebb813'}]}
             onPress={() => changeColor('#0000FF')}>
-            <Text style={styles.buttonText}></Text>
+            <Text style={styles.buttonText} />
           </TouchableOpacity>
         </View>
       </View>
@@ -601,7 +604,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
   },
   TextViewSoundDURATIONS: {
-    marginTop: 15, 
+    marginTop: 15,
   },
   container: {
     flex: 1,
@@ -720,7 +723,7 @@ const styles = StyleSheet.create({
     width: 270, // Adjust the width and height as needed
     height: 270, // Adjust the width and height as needed
     borderRadius: 185, // Half of the width and height to create a circular shape
-    backgroundColor: "#ffffff", // Change the background color to your desired color
+    backgroundColor: '#ffffff', // Change the background color to your desired color
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -787,12 +790,11 @@ const styles = StyleSheet.create({
   topText: {
     color: 'white',
     fontSize: 40,
-    
+
     // textAlignVertical: 'bottom',
     // width: 100,
     // height: 105,
     paddingRight: 9,
-
   },
   bottomText: {
     //  fontSize: 8,

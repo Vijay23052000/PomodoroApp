@@ -13,20 +13,20 @@ function App() {
   return (
     <NavigationContainer>
       <Provider store={store}>
-        <Stack.Navigator initialRouteName="Counter">
-          {/* <Stack.Screen name="Home" component={HomeScreen} options={{ headerShown: false }}/>
-           <Counter /> */}
+        <Stack.Navigator initialRouteName="Details">
+
+
 
           <Stack.Screen
             name="Counter"
             component={Counter}
             options={{headerShown: false}}
           />
-          <Stack.Screen
+          {/* <Stack.Screen
             name="Details"
             component={DetailsScreen}
             options={{headerShown: false}}
-          />
+          /> */}
         </Stack.Navigator>
       </Provider>
     </NavigationContainer>
