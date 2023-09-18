@@ -1,7 +1,7 @@
 import {Button, Text} from 'react-native';
 import React from 'react';
-import {decrement, increment, setCustomValue} from '../../redux/demo/update';
-import {useReduxDispatch, useReduxSelector} from '../../redux';
+import {decrement, increment, setCustomValue} from '../redux/demo/update';
+import {useReduxDispatch, useReduxSelector} from '../redux';
 
 const Counter = (): React.ReactElement => {
   //  using useReduxSelector it will take current state and update it to new state
