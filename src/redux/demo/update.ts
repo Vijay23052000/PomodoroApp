@@ -6,9 +6,9 @@ const counterSlice = createSlice({
   reducers: {
     increment: (state, action: PayloadAction<number>) => state + action.payload,
     decrement: (state, action: PayloadAction<number>) => state - action.payload,
-    setThirtyMinute: (state, action: PayloadAction<number>) => action.payload,
+    setCustomValue: (state, action: PayloadAction<number>) => action.payload,
   },
 });
 
-export const {increment, decrement, setThirtyMinute} = counterSlice.actions;
+export const {increment, decrement, setCustomValue} = counterSlice.actions;
 export default counterSlice.reducer;
