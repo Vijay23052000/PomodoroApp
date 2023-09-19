@@ -1,7 +1,7 @@
 import * as React from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import DetailsScreen from './src/components/DetailsScreen';
+import DetailsScreen from './src/screens/DetailsScreen';
 import {Provider} from 'react-redux';
 import store from './src/redux';
 import Counter from './src/components/Counter';

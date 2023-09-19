@@ -8,7 +8,7 @@ import {
   // Switch,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/AntDesign';
-import DropdownComponent from './Counter';
+import DropdownComponent from '../components/Counter';
 // import CircularProgress from 'react-native-circular-progress-indicator';
 // import {Sound} from 'react-native-sound';
 

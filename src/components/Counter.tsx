@@ -1,8 +1,8 @@
 // import {Button, Text} from 'react-native';
 // import React from 'react';
-// import {decrement, increment, setCustomValue} from '../redux/counter';
-// import {useReduxDispatch, useReduxSelector} from '../redux';
-// import { updateToTwentyFiveMinutes, updateToOneHour, resetTimer } from '../redux/timer';
+import {decrement, increment, setCustomValue} from '../redux/counter';
+import {useReduxDispatch, useReduxSelector} from '../redux';
+import { updateToTwentyFiveMinutes, updateToOneHour, resetTimer } from '../redux/timer';
 
 // const Counter = (): React.ReactElement => {
 //   //  using useReduxSelector it will take current state and update it to new state
