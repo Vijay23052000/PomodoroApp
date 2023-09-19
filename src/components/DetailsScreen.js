@@ -8,6 +8,7 @@ import {
   // Switch,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/AntDesign';
+import DropdownComponent from './Counter';
 // import CircularProgress from 'react-native-circular-progress-indicator';
 // import {Sound} from 'react-native-sound';
 
@@ -185,7 +186,7 @@ console.log("pomodoro---------->",pomodoro)
           </View>
         </View>
       </View>
-      
+      <DropdownComponent></DropdownComponent>
       {/* <Text>(timerType==='Pomodoro') </Text> */}
       <View style={{width: 40, height: 40, marginLeft: 20, marginTop: 10}}>
         <TouchableOpacity onPress={() => navigation.navigate('Home')}>

@@ -5,6 +5,7 @@ import DetailsScreen from './src/components/DetailsScreen';
 import {Provider} from 'react-redux';
 import store from './src/redux';
 import Counter from './src/components/Counter';
+import DropdownComponent from './src/components/Counter';
 
 // import HomeScreen from './components/HomeScreen';
 const Stack = createNativeStackNavigator();
@@ -13,12 +14,12 @@ function App() {
   return (
     <NavigationContainer>
       <Provider store={store}>
-        <Stack.Navigator initialRouteName="Counter">
+        <Stack.Navigator initialRouteName="Details">
 
 
           <Stack.Screen
-            name="Counter"
-            component={Counter}
+            name="DropdownComponent"
+            component={DropdownComponent}
             options={{headerShown: false}}
           />
           <Stack.Screen
