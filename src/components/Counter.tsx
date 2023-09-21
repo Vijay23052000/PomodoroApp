@@ -10,21 +10,17 @@ const Counter = (): React.ReactElement => {
   // useReduxDispath for dispatching actions
   const dispatch = useReduxDispatch();
 
-
   return (
     <>
       <Text>{value}</Text>
-      <Button title="increment" onPress={() => dispatch(increment(1))}>
-        +1
-      </Button>
-      <Button title="decrement" onPress={() => dispatch(decrement(1))}>
-        -1
-      </Button>
+      <Button title="increment" onPress={() => dispatch(increment(1))} />
+
+      <Button title="decrement" onPress={() => dispatch(decrement(1))} />
+
       <Button
         title="SetCustomTime"
-        onPress={() => dispatch(setCustomValue(30 * 60))}>
-        -1
-      </Button>
+        onPress={() => dispatch(setCustomValue(30 * 60))}
+      />
     </>
   );
 };
