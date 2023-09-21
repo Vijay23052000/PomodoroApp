@@ -11,6 +11,7 @@ import DropDown from './src/components/DropDown';
 import SettingIcon from './src/components/SettingIcon';
 import ProgressBar from './src/components/ProgressBar';
 import Timer from './src/components/Timer';
+import Reset from './src/components/Reset';
 
 // import HomeScreen from './components/HomeScreen';
 const Stack = createNativeStackNavigator();
@@ -61,6 +62,7 @@ function App() {
             component={Timer}
             options={{headerShown: false}}
           />
+          
         </Stack.Navigator>
       </Provider>
     </NavigationContainer>

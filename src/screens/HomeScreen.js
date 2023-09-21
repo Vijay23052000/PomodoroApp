@@ -7,6 +7,7 @@ import {
 import DropDown from '../components/DropDown';
 import SettingIcon from '../components/SettingIcon';
 import ProgressBar from '../components/ProgressBar';
+import Reset from '../components/Reset';
 
 const HomeScreen = ({navigation}) => {
   return (
@@ -14,6 +15,7 @@ const HomeScreen = ({navigation}) => {
      <SettingIcon />
      <ProgressBar />
       <DropDown />
+      <Reset />
     </View>
   );
 };

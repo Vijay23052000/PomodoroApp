@@ -29,7 +29,7 @@ const styles = StyleSheet.create({
         opacity: .7,
       },
       ImageView: {
-        width: 16.5,
+        width: 17.5,
         height: 22,
         marginRight: 8,
       },
