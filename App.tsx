@@ -20,7 +20,7 @@ function App() {
   return (
     <Provider store={store}>
       <NavigationContainer>
-        <Stack.Navigator initialRouteName="Home">
+        <Stack.Navigator initialRouteName="Setting">
           {/* <Stack.Screen
             name="Counter"
             component={Counter}

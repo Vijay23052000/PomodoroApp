@@ -7,6 +7,11 @@ import {
   ScrollView,
   // Switch,
 } from 'react-native';
+import {
+  responsiveFontSize,
+  responsiveHeight,
+  responsiveWidth,
+} from 'react-native-responsive-dimensions';
 import Icon from 'react-native-vector-icons/AntDesign';
 // import CircularProgress from 'react-native-circular-progress-indicator';
 // import {Sound} from 'react-native-sound';
@@ -35,7 +40,7 @@ const SettingScreen = ({navigation}) => {
   };
 
   const [pomodoro, setPomodoro] = useState(
-    secondsToMinutes(initialPomodoroTime)
+    secondsToMinutes(initialPomodoroTime),
   );
   const [Break, setBreak] = useState(minBreak);
   const [longBreak, setLongBreak] = useState(minLongBreak);
@@ -154,587 +159,448 @@ const SettingScreen = ({navigation}) => {
 
   return (
     <ScrollView style={{backgroundColor: bgColor}}>
-      
-
-      
-
       {/* <Text>(timerType==='Pomodoro') </Text> */}
-      <View style={{width: 40, height: 40, marginLeft: 20, marginTop: 10}}>
-        <TouchableOpacity onPress={() => navigation.navigate('Home')}>
-          <Text style={{fontSize: 28}}>{'<'}</Text>
-        </TouchableOpacity>
-      </View>
-      <View style={styles.TextViewSoundDURATIONS}>
-        <Text style={styles.TextSound}>DURATIONS</Text>
-      </View>
-      <View style={styles.TimerContainer}>
-        <TouchableOpacity
-          style={[styles.PomodoroText, {backgroundColor: 'bgColor'}]}
-          onPress={() => setTimerDuration(initialPomodoroTime)}>
-          <View style={styles.containerpomodoro}>
-            <Text style={styles.topText}>{pomodoro}</Text>
-            <Text style={styles.bottomText}>Pomodoro</Text>
-          </View>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={[styles.PomodoroText, {backgroundColor: 'bgColor'}]}
-          onPress={() => setTimerDuration(initialShortBreakTime)}>
-          <View style={styles.containerpomodoro}>
-            <Text style={styles.topText}>{Break}</Text>
-            <Text style={styles.bottomText}>Break</Text>
-          </View>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={[styles.PomodoroText, {backgroundColor: 'bgColor'}]}
-          onPress={() => setTimerDuration(initialLongBreakTime)}>
-          <View style={styles.containerpomodoro}>
-            <Text style={styles.topText}>{longBreak}</Text>
-            <Text style={styles.bottomText}>Long Break</Text>
-          </View>
-        </TouchableOpacity>
-      </View>
-     
-      <View style={styles.TextViewSound}>
-        <Text style={styles.TextSound}>COLOR THEMES</Text>
-      </View>
-
-      <View style={styles.ColorContainer}>
-        <View style={styles.oneView}>
+      <View style={styles.Main}>
+        <View style={styles.BackButtonStyle}>
+          <TouchableOpacity onPress={() => navigation.navigate('Home')}>
+            <Text style={{fontSize: 22}}>{'<'}</Text>
+          </TouchableOpacity>
+        </View>
+        <View>
+          <Text style={styles.DurationText}>DURATIONS</Text>
+        </View>
+        <View style={styles.TimerContainer}>
           <TouchableOpacity
-            style={[styles.buttonText, {backgroundColor: '#eba000'}]}
+            style={[styles.PomodoroText, {backgroundColor: 'bgColor'}]}
+            onPress={() => setTimerDuration(initialPomodoroTime)}>
+            <View style={styles.containerpomodoro}>
+              <Text style={styles.topText}>{pomodoro}</Text>
+              <Text style={styles.bottomText}>POMODORO</Text>
+            </View>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={[styles.PomodoroText, {backgroundColor: 'bgColor'}]}
+            onPress={() => setTimerDuration(initialShortBreakTime)}>
+            <View style={styles.containerpomodoro}>
+              <Text style={styles.topText}>{Break}</Text>
+              <Text style={styles.bottomText}>BREAK</Text>
+            </View>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={[styles.PomodoroText, {backgroundColor: 'bgColor'}]}
+            onPress={() => setTimerDuration(initialLongBreakTime)}>
+            <View style={styles.containerpomodoro}>
+              <Text style={styles.topText}>{longBreak}</Text>
+              <Text style={styles.bottomText}>LONG BREAK</Text>
+            </View>
+          </TouchableOpacity>
+        </View>
+
+        <View>
+          <Text style={styles.ColorThemeStyle}>COLOR THEMES</Text>
+        </View>
+
+        <View style={styles.ColorContainer}>
+          <View style={styles.oneView}>
+            <TouchableOpacity
+              style={[styles.buttonText, {backgroundColor: '#eba000'}]}
+              onPress={() => changeColor('#ebb813')}>
+              <Text style={styles.buttonText} />
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              style={[styles.buttonText, {backgroundColor: '#aee080'}]}
+              onPress={() => changeColor('#aef280')}>
+              <Text style={styles.buttonText} />
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              style={[styles.buttonText, {backgroundColor: '#b6afb0'}]}
+              onPress={() => changeColor('#b6bfb0')}>
+              <Text style={styles.buttonText} />
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={[styles.buttonText, {backgroundColor: '#68d3d9'}]}
+              onPress={() => changeColor('#68d3d9')}>
+              <Text style={styles.buttonText} />
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={[styles.buttonText, {backgroundColor: '#283357'}]}
+              onPress={() => changeColor('#283357')}>
+              <Text style={styles.buttonText} />
+            </TouchableOpacity>
+          </View>
+          <View style={styles.oneView}>
+            <TouchableOpacity
+              style={[styles.buttonText, {backgroundColor: '#eba000'}]}
+              onPress={() => changeColor('#ebb813')}>
+              <Text style={styles.buttonText} />
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              style={[styles.buttonText, {backgroundColor: '#aee080'}]}
+              onPress={() => changeColor('#aef280')}>
+              <Text style={styles.buttonText} />
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              style={[styles.buttonText, {backgroundColor: '#b6afb0'}]}
+              onPress={() => changeColor('#b6bfb0')}>
+              <Text style={styles.buttonText} />
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={[styles.buttonText, {backgroundColor: '#68d3d9'}]}
+              onPress={() => changeColor('#68d3d9')}>
+              <Text style={styles.buttonText} />
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={[styles.buttonText, {backgroundColor: '#283357'}]}
+              onPress={() => changeColor('#283357')}>
+              <Text style={styles.buttonText} />
+            </TouchableOpacity>
+          </View>
+          <View style={styles.oneView}>
+            <TouchableOpacity
+              style={[styles.buttonText, {backgroundColor: '#eba000'}]}
+              onPress={() => changeColor('#ebb813')}>
+              <Text style={styles.buttonText} />
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              style={[styles.buttonText, {backgroundColor: '#aee080'}]}
+              onPress={() => changeColor('#aef280')}>
+              <Text style={styles.buttonText} />
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              style={[styles.buttonText, {backgroundColor: '#b6afb0'}]}
+              onPress={() => changeColor('#b6bfb0')}>
+              <Text style={styles.buttonText} />
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={[styles.buttonText, {backgroundColor: '#68d3d9'}]}
+              onPress={() => changeColor('#68d3d9')}>
+              <Text style={styles.buttonText} />
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={[styles.buttonText, {backgroundColor: '#283357'}]}
+              onPress={() => changeColor('#283357')}>
+              <Text style={styles.buttonText} />
+            </TouchableOpacity>
+          </View>
+          <View style={styles.oneView}>
+            <TouchableOpacity
+              style={[styles.buttonText, {backgroundColor: '#eba000'}]}
+              onPress={() => changeColor('#ebb813')}>
+              <Text style={styles.buttonText} />
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              style={[styles.buttonText, {backgroundColor: '#aee080'}]}
+              onPress={() => changeColor('#aef280')}>
+              <Text style={styles.buttonText} />
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              style={[styles.buttonText, {backgroundColor: '#b6afb0'}]}
+              onPress={() => changeColor('#b6bfb0')}>
+              <Text style={styles.buttonText} />
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={[styles.buttonText, {backgroundColor: '#68d3d9'}]}
+              onPress={() => changeColor('#68d3d9')}>
+              <Text style={styles.buttonText} />
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={[styles.buttonText, {backgroundColor: '#283357'}]}
+              onPress={() => changeColor('#283357')}>
+              <Text style={styles.buttonText} />
+            </TouchableOpacity>
+          </View>
+        </View>
+        <View>
+          <Text style={styles.SoundThemsStyle}>SOUND THEMS</Text>
+        </View>
+        <View style={styles.TimerContainerView}>
+          <TouchableOpacity
+            style={[{backgroundColor: 'bgColor'}]}
             onPress={() => changeColor('#ebb813')}>
-            <Text style={styles.buttonText} />
+            <Text style={styles.Pomodoro}>NOTIFICATION SOUND</Text>
           </TouchableOpacity>
 
           <TouchableOpacity
-            style={[styles.buttonText, {backgroundColor: '#aee080'}]}
-            onPress={() => changeColor('#aef280')}>
-            <Text style={styles.buttonText} />
-          </TouchableOpacity>
-
-          <TouchableOpacity
-            style={[styles.buttonText, {backgroundColor: '#b6afb0'}]}
-            onPress={() => changeColor('#b6bfb0')}>
-            <Text style={styles.buttonText} />
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={[styles.buttonText, {backgroundColor: '#68d3d9'}]}
-            onPress={() => changeColor('#68d3d9')}>
-            <Text style={styles.buttonText} />
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={[styles.buttonText, {backgroundColor: '#283357'}]}
-            onPress={() => changeColor('#283357')}>
-            <Text style={styles.buttonText} />
+            style={[{backgroundColor: 'bgColor'}]}
+            onPress={() => changeColor('#ebb813')}>
+            <Text style={styles.Pomodoro}>ALARM SOUND</Text>
           </TouchableOpacity>
         </View>
-        <View style={styles.oneView}>
+        <View>
+          <Text style={styles.OFStyle}>OTHER PREFERENCES</Text>
+        </View>
+        
+        <View style={styles.TimerContainerView}>
           <TouchableOpacity
-            style={[styles.buttonText, {backgroundColor: '#ebb813'}]}
-            onPress={() => changeColor('#FF0000')}>
-            <Text style={styles.buttonText} />
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={[styles.buttonText, {backgroundColor: '#ebb813'}]}
-            onPress={() => changeColor('#00FF00')}>
-            <Text style={styles.buttonText} />
+            style={[{backgroundColor: 'bgColor'}]}
+            onPress={() => changeColor('#ebb813')}>
+            <Text style={styles.Pomodoro}>NOTIFICATION SOUND</Text>
           </TouchableOpacity>
 
           <TouchableOpacity
-            style={[styles.buttonText, {backgroundColor: '#ebb813'}]}
-            onPress={() => changeColor('#0000FF')}>
-            <Text style={styles.buttonText} />
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={[styles.buttonText, {backgroundColor: '#ebb813'}]}
-            onPress={() => changeColor('#0000FF')}>
-            <Text style={styles.buttonText} />
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={[styles.buttonText, {backgroundColor: '#ebb813'}]}
-            onPress={() => changeColor('#0000FF')}>
-            <Text style={styles.buttonText} />
+            style={[{backgroundColor: 'bgColor'}]}
+            onPress={() => changeColor('#ebb813')}>
+            <Text style={styles.Pomodoro}>ALARM SOUND</Text>
           </TouchableOpacity>
         </View>
-        <View style={styles.oneView}>
+        <View>
+          <Text style={styles.OFStyle}>VIBRATE</Text>
+        </View>
+        <View style={styles.TimerContainerView}>
           <TouchableOpacity
-            style={[styles.buttonText, {backgroundColor: '#ebb813'}]}
-            onPress={() => changeColor('#FF0000')}>
-            <Text style={styles.buttonText} />
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={[styles.buttonText, {backgroundColor: '#ebb813'}]}
-            onPress={() => changeColor('#00FF00')}>
-            <Text style={styles.buttonText} />
+            style={[{backgroundColor: 'bgColor'}]}
+            onPress={() => changeColor('#ebb813')}>
+            <Text style={styles.Pomodoro}>NOTIFICATION SOUND</Text>
           </TouchableOpacity>
 
           <TouchableOpacity
-            style={[styles.buttonText, {backgroundColor: '#ebb813'}]}
-            onPress={() => changeColor('#0000FF')}>
-            <Text style={styles.buttonText} />
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={[styles.buttonText, {backgroundColor: '#ebb813'}]}
-            onPress={() => changeColor('#0000FF')}>
-            <Text style={styles.buttonText} />
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={[styles.buttonText, {backgroundColor: '#ebb813'}]}
-            onPress={() => changeColor('#0000FF')}>
-            <Text style={styles.buttonText} />
+            style={[{backgroundColor: 'bgColor'}]}
+            onPress={() => changeColor('#ebb813')}>
+            <Text style={styles.Pomodoro}>ALARM SOUND</Text>
           </TouchableOpacity>
         </View>
-        <View style={styles.oneView}>
+        <View>
+          <Text style={styles.OFStyle}>AUTOSTART BREAKS</Text>
+        </View>
+        
+        <View style={styles.TimerContainerView}>
           <TouchableOpacity
-            style={[styles.buttonText, {backgroundColor: '#ebb813'}]}
-            onPress={() => changeColor('#FF0000')}>
-            <Text style={styles.buttonText} />
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={[styles.buttonText, {backgroundColor: '#ebb813'}]}
-            onPress={() => changeColor('#00FF00')}>
-            <Text style={styles.buttonText} />
+            style={[{backgroundColor: 'bgColor'}]}
+            onPress={() => changeColor('#ebb813')}>
+            <Text style={styles.Pomodoro}>NOTIFICATION SOUND</Text>
           </TouchableOpacity>
 
           <TouchableOpacity
-            style={[styles.buttonText, {backgroundColor: '#ebb813'}]}
-            onPress={() => changeColor('#0000FF')}>
-            <Text style={styles.buttonText} />
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={[styles.buttonText, {backgroundColor: '#ebb813'}]}
-            onPress={() => changeColor('#0000FF')}>
-            <Text style={styles.buttonText} />
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={[styles.buttonText, {backgroundColor: '#ebb813'}]}
-            onPress={() => changeColor('#0000FF')}>
-            <Text style={styles.buttonText} />
+            style={[{backgroundColor: 'bgColor'}]}
+            onPress={() => changeColor('#ebb813')}>
+            <Text style={styles.Pomodoro}>ALARM SOUND</Text>
           </TouchableOpacity>
         </View>
-      </View>
+        <View>
+          <Text style={styles.OFStyle}>AUTOSTART POMODOROS</Text>
+        </View>
+        
+        <View style={styles.TimerContainerView}>
+          <TouchableOpacity
+            style={[{backgroundColor: 'bgColor'}]}
+            onPress={() => changeColor('#ebb813')}>
+            <Text style={styles.Pomodoro}>NOTIFICATION SOUND</Text>
+          </TouchableOpacity>
 
-      <View style={styles.TextViewSound}>
-        <Text style={styles.TextSound}>SOUND THEMS</Text>
-      </View>
-      <View style={styles.TimerCon}>
-        <TouchableOpacity
-          style={[{backgroundColor: 'bgColor'}]}
-          onPress={() => changeColor('#ebb813')}>
-          <Text style={styles.Pomodoro}>NOTIFICATION SOUND</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={[{backgroundColor: 'bgColor'}]}
-          onPress={() => changeColor('#ebb813')}>
-          <Text style={styles.Pomodoro}>ALARM SOUND</Text>
-        </TouchableOpacity>
-      </View>
-      <View style={styles.TextViewSound}>
-        <Text style={styles.TextSound}>OTHER PREFERENCES</Text>
-      </View>
-      <View style={styles.TimerCon}>
-        <TouchableOpacity
-          style={[{backgroundColor: 'bgColor'}]}
-          onPress={() => changeColor('#ebb813')}>
-          <Text style={styles.Pomodoro}>POMODORO UNIT LONG BREAK</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={[{backgroundColor: 'bgColor'}]}
-          onPress={() => changeColor('#ebb813')}>
-          <Text style={styles.Pomodoro}>DAILY GOAL</Text>
-        </TouchableOpacity>
-      </View>
-      <View style={styles.TextViewSound}>
-        <Text style={styles.TextSound}>VIBRATE</Text>
-      </View>
-      <View style={styles.TimerCon}>
-        <TouchableOpacity
-          style={[{backgroundColor: 'bgColor'}]}
-          onPress={() => changeColor('#ebb813')}>
-          <Text style={styles.Pomodoro}>OFF</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={[{backgroundColor: 'bgColor'}]}
-          onPress={() => changeColor('#ebb813')}>
-          <Text style={styles.Pomodoro}>ON</Text>
-        </TouchableOpacity>
-      </View>
-      <View style={styles.TextViewSound}>
-        <Text style={styles.TextSound}>AUTOSTART BREAKS</Text>
-      </View>
-      <View style={styles.TimerCon}>
-        <TouchableOpacity
-          style={[{backgroundColor: 'bgColor'}]}
-          onPress={() => changeColor('#ebb813')}>
-          <Text style={styles.Pomodoro}>OFF</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={[{backgroundColor: 'bgColor'}]}
-          onPress={() => changeColor('#ebb813')}>
-          <Text style={styles.Pomodoro}>ON</Text>
-        </TouchableOpacity>
-      </View>
-      <View style={styles.TextViewSound}>
-        <Text style={styles.TextSound}>AUTOSTART POMODOROS</Text>
-      </View>
-      <View style={styles.TimerCon}>
-        <TouchableOpacity
-          style={[{backgroundColor: 'bgColor'}]}
-          onPress={() => changeColor('#ebb813')}>
-          <Text style={styles.Pomodoro}>OFF</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={[{backgroundColor: 'bgColor'}]}
-          onPress={() => changeColor('#ebb813')}>
-          <Text style={styles.Pomodoro}>ON</Text>
-        </TouchableOpacity>
-      </View>
-      <View style={styles.TextViewSound}>
-        <Text style={styles.TextSound}>SHOW NOTIFICATION</Text>
-      </View>
-      <View style={styles.TimerCon}>
-        <TouchableOpacity
-          style={[{backgroundColor: 'bgColor'}]}
-          onPress={() => changeColor('#ebb813')}>
-          <Text style={styles.Pomodoro}>OFF</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={[{backgroundColor: 'bgColor'}]}
-          onPress={() => changeColor('#ebb813')}>
-          <Text style={styles.Pomodoro}>ON</Text>
-        </TouchableOpacity>
-      </View>
-      <View style={styles.TextViewSound}>
-        <Text style={styles.TextSound}>KEEP PHONE AWAKE</Text>
-      </View>
-      <View style={styles.TimerCon}>
-        <TouchableOpacity
-          style={[{backgroundColor: 'bgColor'}]}
-          onPress={() => changeColor('#ebb813')}>
-          <Text style={styles.Pomodoro}>OFF</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={[{backgroundColor: 'bgColor'}]}
-          onPress={() => changeColor('#ebb813')}>
-          <Text style={styles.Pomodoro}>ON</Text>
-        </TouchableOpacity>
-      </View>
-      <View style={styles.TimerContainer}>
-        <TouchableOpacity
-          style={[styles.PomodoroText, {backgroundColor: 'bgColor'}]}
-          onPress={() => changeColor('#ebb813')}>
-          <Text style={styles.PomodoroText}>POMODORO</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={[styles.PomodoroText, {backgroundColor: 'bgColor'}]}
-          onPress={() => changeColor('#ebb813')}>
-          <Text style={styles.PomodoroText}>BREAK</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={[styles.PomodoroText, {backgroundColor: 'bgColor'}]}
-          onPress={() => changeColor('#ebb813')}>
-          <Text style={styles.PomodoroText}>LONG BREAK</Text>
-        </TouchableOpacity>
+          <TouchableOpacity
+            style={[{backgroundColor: 'bgColor'}]}
+            onPress={() => changeColor('#ebb813')}>
+            <Text style={styles.Pomodoro}>ALARM SOUND</Text>
+          </TouchableOpacity>
+        </View>
+        <View>
+          <Text style={styles.OFStyle}>SHOW NOTIFICATION</Text>
+        </View>
+        
+        <View style={styles.TimerContainerView}>
+          <TouchableOpacity
+            style={[{backgroundColor: 'bgColor'}]}
+            onPress={() => changeColor('#ebb813')}>
+            <Text style={styles.Pomodoro}>NOTIFICATION SOUND</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            style={[{backgroundColor: 'bgColor'}]}
+            onPress={() => changeColor('#ebb813')}>
+            <Text style={styles.Pomodoro}>ALARM SOUND</Text>
+          </TouchableOpacity>
+        </View>
+        <View>
+          <Text style={styles.OFStyle}>KEEP PHONE AWAKE</Text>
+        </View>
+       
+        <View style={styles.TimerContainerView}>
+          <TouchableOpacity
+            style={[{backgroundColor: 'bgColor'}]}
+            onPress={() => changeColor('#ebb813')}>
+            <Text style={styles.Pomodoro}>NOTIFICATION SOUND</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            style={[{backgroundColor: 'bgColor'}]}
+            onPress={() => changeColor('#ebb813')}>
+            <Text style={styles.Pomodoro}>ALARM SOUND</Text>
+          </TouchableOpacity>
+        </View>
+        <View style={styles.TimerContainer}>
+          <TouchableOpacity
+            style={[styles.PomodoroText, {backgroundColor: 'bgColor'}]}
+            onPress={() => setTimerDuration(initialPomodoroTime)}>
+            <View style={styles.containerpomodoro}>
+              <Text style={styles.topText}>{pomodoro}</Text>
+              <Text style={styles.bottomText}>POMODORO</Text>
+            </View>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={[styles.PomodoroText, {backgroundColor: 'bgColor'}]}
+            onPress={() => setTimerDuration(initialShortBreakTime)}>
+            <View style={styles.containerpomodoro}>
+              <Text style={styles.topText}>{Break}</Text>
+              <Text style={styles.bottomText}>BREAK</Text>
+            </View>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={[styles.PomodoroText, {backgroundColor: 'bgColor'}]}
+            onPress={() => setTimerDuration(initialLongBreakTime)}>
+            <View style={styles.containerpomodoro}>
+              <Text style={styles.topText}>{longBreak}</Text>
+              <Text style={styles.bottomText}>LONG BREAK</Text>
+            </View>
+          </TouchableOpacity>
+        </View>
       </View>
     </ScrollView>
   );
 };
 
 const styles = StyleSheet.create({
-  buttonText: {
-    borderRadius: 3,
-    width: 62,
-    height: 62,
-    marginLeft: '1%',
-    marginRight: '1%',
-    textAlign: 'center',
+  Main: {
+    flex: 1,
     justifyContent: 'center',
-    alignContent: 'space-between',
-    textAlignVertical: 'center',
+    alignContent: 'center',
+  },
+  BackButtonStyle: {
+    width: responsiveWidth(2),
+    height: responsiveHeight(3),
+    marginLeft: responsiveFontSize(2.5),
+    marginTop: responsiveFontSize(0.4),
+  },
+  DurationText: {
+    color: '#ffffff',
+    fontSize: responsiveFontSize(1.49),
+    justifyContent: 'center',
+    textAlign: 'center',
+    marginTop: responsiveHeight(1),
+    fontWeight: '500',
+  },
+  TimerContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-evenly',
+    marginTop: responsiveHeight(3),
+    marginBottom: 4,
+  },
+  PomodoroText: {
+    width: responsiveWidth(28),
+    height: responsiveHeight(14.8),
+    textAlign: 'center',
+    textAlignVertical: 'bottom',
+  },
+  containerpomodoro: {
+    flex: 1,
+    justifyContent: 'space-between',
+    alignItems: 'center',
+
+    backgroundColor: 30,
+    borderRadius: 3,
+  },
+  topText: {
+    color: '#ffffff',
+    fontSize: responsiveFontSize(4.8),
+    paddingTop: 17,
+    fontWeight: '300',
+  },
+  bottomText: {
+    fontSize: 14,
+    textAlign: 'center',
+    paddingBottom: 10,
+    color: '#ffffff',
+  },
+
+  ColorContainer: {
+    width: responsiveWidth(92),
+    height: responsiveHeight(37),
+    // borderWidth: 0.7,
+    backgroundColor: 30,
+    marginTop: responsiveWidth(6),
+    borderRadius: 5,
+    justifyContent: 'center',
+    alignSelf: 'center',
   },
   oneView: {
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
     verticalAlign: 'middle',
-    marginLeft: '1%',
-    marginRight: '1%',
-    marginTop: '1%',
-    marginBottom: '1%',
-    paddingLeft: 1,
+    marginLeft: '1.8%',
+    marginRight: '1.8%',
+    marginTop: '1.2%',
+    marginBottom: '1.2%',
+    paddingLeft: 1.3,
   },
-  ColorContainer: {
-    borderWidth: 0.3,
-    borderRadius: 4,
-    // marginTop: '2%',
-    paddingBottom: '1%',
-    paddingTop: '1%',
-    marginLeft: '6%',
-    marginRight: '6%',
+  buttonText: {
+    borderRadius: 7,
+    width: 63,
+    height: 61,
+    marginLeft: '1.2%',
+    marginRight: '1.2%',
   },
-  PomodoroText: {
-    // fontSize: 8,
-    width: 100,
-    height: 105,
-    borderWidth: 0.2,
-    borderRadius: 3,
-    // borderWidth: 0.3,
-    fontSize: 12,
-    textAlign: 'center',
-    textAlignVertical: 'bottom',
-    paddingBottom: 10,
+  ColorThemeStyle: {
     color: '#ffffff',
+    fontSize: responsiveFontSize(1.49),
+    justifyContent: 'center',
+    textAlign: 'center',
+    marginTop: responsiveHeight(3),
+    fontWeight: '500',
   },
-  TimerContainer: {
+
+  SoundThemsStyle: {
+    color: '#ffffff',
+    fontSize: responsiveFontSize(1.49),
+    justifyContent: 'center',
+    textAlign: 'center',
+    marginTop: responsiveHeight(3.8),
+    fontWeight: '500',
+  },
+  TimerContainerView: {
+    width: responsiveWidth(92),
+
     flexDirection: 'row',
     justifyContent: 'space-evenly',
-    marginTop: 20,
-    marginBottom: 4,
+    alignContent: 'center',
+
+    alignSelf: 'center',
   },
+
   Pomodoro: {
-    // fontSize: 4,
-    width: 170,
-    height: 111,
-    borderWidth: 1,
+    alignSelf: 'center',
+
+    width: responsiveWidth(44.5),
+    height: responsiveHeight(12.9),
     borderRadius: 5,
-    borderWidth: 0.3,
-    fontSize: 12,
+    marginTop: responsiveHeight(2.8),
+    fontWeight: '500',
     textAlign: 'center',
     textAlignVertical: 'bottom',
+    fontSize: responsiveFontSize(1.49),
     paddingBottom: 10,
     color: '#ffffff',
-    // backgroundColor:'red'
-  },
-  TimerCon: {
-    flexDirection: 'row',
-    justifyContent: 'space-evenly',
+    backgroundColor: 30,
     marginLeft: '3%',
     marginRight: '3%',
-    // marginTop: 10,
   },
-  TextViewSound: {
-    marginTop: 25,
-    marginBottom: 12,
-  },
-  TextSound: {
+  
+  OFStyle:{
     color: '#ffffff',
-    fontSize: 12,
+    fontSize: responsiveFontSize(1.49),
     justifyContent: 'center',
     textAlign: 'center',
-  },
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  switchContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  switchLabel: {
-    marginRight: 10,
-    fontSize: 18,
-  },
-  TextViewSoundDURATIONS: {
-    marginTop: 15,
-  },
-  container: {
-    flex: 1,
-    backgroundColor: '#eba000',
-    // backgroundColor: bgColor,
+    marginTop: responsiveHeight(3),
+    fontWeight: '500',
   },
 
-  TextStyle: {
-    fontSize: 35,
-    fontWeight: '700',
-    color: 'white',
-    //  justifyContent: 'center',
-    //  alignContent: 'center',
-    textAlign: 'center',
-    paddingVertical: '8%',
-  },
-  // buttonText: {
-  //   color: '#dddddd', // Change this to your desired text color
-  //   fontSize: 18,
-  //   height: 90,
-  //   width: 90,
-  // },
-  BtnView: {
-    height: 90,
-    width: 90,
-    color: '#000000',
-  },
-  buttonContainer: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    paddingVertical: '12%',
-  },
-  button: {
-    width: 300, // Adjust the width and height to make it as large as you want
-    height: 300,
-    borderRadius: 150, // Set half of the width or height to make it circular
-    backgroundColor: '#eba000', // Customize the background color
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  // buttonText: {
-  //   color: 'white', // Customize the text color
-  //   fontSize: 20, // Customize the text size
-  //   width: 270, // Adjust the width and height to make it as large as you want
-  //   height: 270,
-  //   borderRadius: 135, // Set half of the width or height to make it circular
-  //   backgroundColor: '#eba000',
-  // },
-  settingIcon: {
-    textAlign: 'center',
-    paddingTop: '10%',
-  },
-  // iconContainer: {
-  //   backgroundColor: 'blue', // Customize the background color of the touchable area
-  //   borderRadius: 50, // Set the border radius to make it circular
-  //   padding: 10, // Adjust padding as needed
-  // },
-  // icon: {
-  //   color: 'white', // Customize the icon color
-  //   fontSize: 30, // Customize the icon size
-  // },
-  resetStyle: {
-    fontSize: 20,
-    textAlign: 'center',
-    // paddingTop: 1,
-    marginTop: 150,
-    width: 90,
-    borderWidth: 1,
-    alignSelf: 'center',
-    borderRadius: 10,
-    color: '#ffffff',
-    borderColor: '#eba000',
-  },
-  buttonContainer: {
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  circularButton: {
-    width: 330, // Adjust the width and height as needed to make it circular
-    height: 330, // Adjust the width and height as needed to make it circular
-    borderRadius: 215, // Half of the width and height to create a circular shape
-    backgroundColor: 'blue', // Change the background color to your desired color
-    alignItems: 'center',
-    justifyContent: 'center',
-    alignContent: 'center',
-    alignSelf: 'center',
-  },
-  buttonTexttime: {
-    color: 'white', // Change the text color to your desired color
-    fontSize: 18,
-    fontWeight: 'bold',
-    fontSize: 28,
-    // fontWeight: 'bold',
-    // backgroundColor: 'blue',
-    justifyContent: 'center',
-    alignContent: 'center',
-    alignItems: 'center',
-    alignSelf: 'center',
-    fontWeight: '700',
-  },
-  buttonContainer: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    // backgroundColor: 'orange',
-    marginTop: 20,
-  },
-  outerCircle: {
-    width: 300, // Adjust the width and height as needed
-    height: 300, // Adjust the width and height as needed
-    borderRadius: 150, // Half of the width and height to create a circular shape
-    // backgroundColor: 'red', // Change the background color to your desired color
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  innerCircle: {
-    width: 270, // Adjust the width and height as needed
-    height: 270, // Adjust the width and height as needed
-    borderRadius: 185, // Half of the width and height to create a circular shape
-    backgroundColor: '#ffffff', // Change the background color to your desired color
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  innerCircle2: {
-    width: 250, // Adjust the width and height as needed
-    height: 250, // Adjust the width and height as needed
-    borderRadius: 225, // Half of the width and height to create a circular shape
-    // backgroundColor: 'black', // Change the background color to your desired color
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-
-  timerText: {
-    fontSize: 60,
-    color: 'white',
-    textAlign: 'center',
-    justifyContent: 'center',
-    alignContent: 'center',
-    alignItems: 'center',
-    alignSelf: 'center',
-  },
-  PlusMinusecontainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  PlusMinuseView: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginLeft: 14,
-    marginRight: 14,
-  },
-
-  plusButton: {
-    backgroundColor: 'lightblue',
-    paddingHorizontal: 18,
-    paddingVertical: 12,
-    borderRadius: 5,
-    // marginHorizontal: 10,
-  },
-  minusButton: {
-    backgroundColor: 'lightcoral',
-    paddingHorizontal: 20,
-    paddingVertical: 12,
-    // paddingTop: 9,
-    borderRadius: 5,
-    // marginHorizontal: 10,
-  },
-
-  containerpomodoro: {
-    flex: 1,
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    width: 105,
-    height: 85,
-  },
-  topText: {
-    color: 'white',
-    fontSize: 40,
-
-    // textAlignVertical: 'bottom',
-    // width: 100,
-    // height: 105,
-    paddingRight: 9,
-  },
-  bottomText: {
-    //  fontSize: 8,
-    // width: 100,
-    // height: 105,
-    // borderWidth: 0.2,
-    // borderRadius: 3,
-    // borderWidth: 0.3,
-    fontSize: 14,
-    textAlign: 'center',
-    textAlignVertical: 'bottom',
-    paddingBottom: 1,
-    // paddingTop: 40,
-    color: '#ffffff',
-  },
+ 
 });
 export default SettingScreen;

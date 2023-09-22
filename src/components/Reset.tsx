@@ -2,10 +2,10 @@ import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import React from 'react';
 import {responsiveFontSize, responsiveHeight} from 'react-native-responsive-dimensions';
 
-const Reset = ({navigation}) => {
+const Reset = () => {
   return (
     <View>
-    <TouchableOpacity onPress={() => navigation.navigate('Setting')} style={styles.button}>
+    <TouchableOpacity onPress={() => {}} style={styles.button}>
       <Text style={styles.buttonText}>Reset</Text>
     </TouchableOpacity>
   </View>
