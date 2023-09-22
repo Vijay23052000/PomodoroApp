@@ -4,7 +4,7 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import DetailsScreen from './src/screens/DetailsScreen';
 import {Provider} from 'react-redux';
 import store from './src/redux';
-import Counter from './src/components/Counter';
+// import Counter from './src/components/Counter';
 import HomeScreen from './src/screens/HomeScreen';
 import SettingScreen from './src/screens/SettingScreen';
 import DropDown from './src/components/DropDown';
@@ -18,16 +18,16 @@ const Stack = createNativeStackNavigator();
 
 function App() {
   return (
-    <NavigationContainer>
-      <Provider store={store}>
+    <Provider store={store}>
+      <NavigationContainer>
         <Stack.Navigator initialRouteName="Home">
-          <Stack.Screen
+          {/* <Stack.Screen
             name="Counter"
             component={Counter}
             options={{headerShown: false}}
-          />
+          /> */}
           <Stack.Screen
-            name="DrowDown"
+            name="DropDown"
             component={DropDown}
             options={{headerShown: false}}
           />
@@ -62,10 +62,14 @@ function App() {
             component={Timer}
             options={{headerShown: false}}
           />
-          
+          <Stack.Screen
+            name="Reset"
+            component={Reset}
+            options={{headerShown: false}}
+          />
         </Stack.Navigator>
-      </Provider>
-    </NavigationContainer>
+      </NavigationContainer>
+    </Provider>
   );
 }
 

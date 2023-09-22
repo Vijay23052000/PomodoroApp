@@ -2,11 +2,11 @@ import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import React from 'react';
 import {responsiveWidth} from 'react-native-responsive-dimensions';
 
-const ProgressBar = () => {
+const ProgressBar = ({navigation}) => {
   return (
     <View style={styles.outerCircle}>
       <View style={styles.innerCircle}>
-        <TouchableOpacity onPress={() => {}}>
+        <TouchableOpacity onPress={() => navigation.navigate('Setting')}>
           <View style={styles.innerCircleTwo}>
             {/* <Text>Hello</Text> */}
           </View>
@@ -20,7 +20,7 @@ export default ProgressBar;
 
 const styles = StyleSheet.create({
   outerCircle: {
-    marginTop: responsiveWidth(20.2),
+    marginTop: responsiveWidth(20.7),
     alignItems: 'center',
     justifyContent: 'center',
     width: 300,

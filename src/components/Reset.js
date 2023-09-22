@@ -2,10 +2,10 @@ import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import React from 'react';
 import {responsiveFontSize, responsiveHeight} from 'react-native-responsive-dimensions';
 
-const Reset = () => {
+const Reset = ({navigation}) => {
   return (
     <View>
-    <TouchableOpacity onPress={() => {}} style={styles.button}>
+    <TouchableOpacity onPress={() => navigation.navigate('Setting')} style={styles.button}>
       <Text style={styles.buttonText}>Reset</Text>
     </TouchableOpacity>
   </View>
@@ -19,7 +19,7 @@ const styles = StyleSheet.create({
       button: {
         padding: 10,
         borderRadius: 5,
-        marginTop: responsiveHeight(17),
+        marginTop: responsiveHeight(18.2),
 
       },
       buttonText: {

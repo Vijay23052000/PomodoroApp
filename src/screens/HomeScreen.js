@@ -8,13 +8,15 @@ import DropDown from '../components/DropDown';
 import SettingIcon from '../components/SettingIcon';
 import ProgressBar from '../components/ProgressBar';
 import Reset from '../components/Reset';
+import Timer from '../components/Timer';
 
-const HomeScreen = ({navigation}) => {
+const HomeScreen = () => {
   return (
     <View style={styles.MainViewContainer}>
      <SettingIcon />
      <ProgressBar />
       <DropDown />
+      <Timer />
       <Reset />
     </View>
   );

@@ -214,7 +214,7 @@ const DropDown = () => {
   }
 
   return (
-    <View style={styles.container}>
+    <View>
       {/* <Text style={styles.valueText}>Value: {value}</Text> */}
       <TouchableOpacity
         style={styles.button }
@@ -235,23 +235,16 @@ const DropDown = () => {
 };
 
 const styles = StyleSheet.create({
-  container: {
-    // flex: 1,
-    // alignItems: 'center',
-    // justifyContent: 'center',
-    // backgroundColor: '#0bc080'
-  },
+ 
   button: {
     width: 200,
-    height: 40,
+    height: 10,
     alignItems: 'center',
     justifyContent: 'center',
     borderRadius: 5,
     backgroundColor: '10',
-    marginTop: responsiveHeight(19),
-    // marginBottom: 100,
+    marginTop: responsiveHeight(19.5),
 
-    // marginTop: 20,
   },
   buttonText: {
     color: 'white',
