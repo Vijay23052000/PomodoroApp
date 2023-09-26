@@ -5,7 +5,7 @@ import { responsiveHeight } from 'react-native-responsive-dimensions'
 const SettingIcon = () => {
   return (
     <View style={styles.iconView}>
-    <TouchableOpacity onPress={() => {} }>
+    <TouchableOpacity onPress={() => {}}>
       <View style={{flexDirection: 'row', alignItems: 'center'}}>
         <Image
           source={require('../images/icon.png')}

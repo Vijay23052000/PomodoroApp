@@ -92,7 +92,6 @@
 //   const [value, setValue] = useState(null);
 //   const [isFocus, setIsFocus] = useState(false);
 
-
 //   return (
 //     <View style={styles.container}>
 //       <Dropdown
@@ -164,9 +163,12 @@
 //   },
 // });
 
-import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, Image } from 'react-native';
-import { responsiveFontSize, responsiveHeight } from 'react-native-responsive-dimensions';
+import React, {useState} from 'react';
+import {View, Text, TouchableOpacity, StyleSheet, Image} from 'react-native';
+import {
+  responsiveFontSize,
+  responsiveHeight,
+} from 'react-native-responsive-dimensions';
 
 const DropDown = () => {
   const [currentState, setCurrentState] = useState(1);
@@ -176,21 +178,21 @@ const DropDown = () => {
     switch (currentState) {
       case 1:
         // Increment the value
-        setValue((prevValue) => prevValue + 2);
+        setValue(prevValue => prevValue + 2);
         break;
       case 2:
         // Decrement the value
-        setValue((prevValue) => prevValue - 1);
+        setValue(prevValue => prevValue - 1);
         break;
       case 3:
         // Multiply the value
-        setValue((prevValue) => prevValue * 2);
+        setValue(prevValue => prevValue * 2);
         break;
       default:
         break;
     }
 
-    setCurrentState((prevState) => (prevState === 3 ? 1 : prevState + 1));
+    setCurrentState(prevState => (prevState === 3 ? 1 : prevState + 1));
   };
 
   let buttonText, buttonColor;
@@ -210,32 +212,27 @@ const DropDown = () => {
       break;
     default:
       buttonText = 'Increment';
-      // buttonColor = 'blue';
+    // buttonColor = 'blue';
   }
 
   return (
     <View>
       {/* <Text style={styles.valueText}>Value: {value}</Text> */}
-      <TouchableOpacity
-        style={styles.button }
-        onPress={toggleState}
-      >
+      <TouchableOpacity style={styles.button} onPress={toggleState}>
         <View style={{flexDirection: 'row', alignItems: 'center'}}>
-        <Image
-          source={require('../images/arrow.png')}
-          style={styles.ImageView}
-          resizeMode="contain"
-        />
-        <Text style={styles.buttonText}>{buttonText}</Text>
-
-      </View>
+          <Image
+            source={require('../images/arrow.png')}
+            style={styles.ImageView}
+            resizeMode="contain"
+          />
+          <Text style={styles.buttonText}>{buttonText}</Text>
+        </View>
       </TouchableOpacity>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
- 
   button: {
     width: 200,
     height: 10,
@@ -244,7 +241,6 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     backgroundColor: '10',
     marginTop: responsiveHeight(19.5),
-
   },
   buttonText: {
     color: 'white',
@@ -258,7 +254,7 @@ const styles = StyleSheet.create({
     width: 13,
     height: 22,
     marginRight: 3,
-    opacity: .8,
+    opacity: 0.8,
   },
 });
 
