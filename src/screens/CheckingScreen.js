@@ -18,21 +18,29 @@ import {
 // import Reset from '../components/Reset';
 // import Timer from '../components/Timer';
 import {CountdownCircleTimer} from 'react-native-countdown-circle-timer';
+import {Sound} from 'react-native-sound';
+import { useRoute } from '@react-navigation/native';
 
-let initialPomodoro = 15;
+let initialPomodoro = 5;
 let initialShortBreak = 3;
 let initialLongBreak = 6;
 let initialCycle = 2;
 
-const CheckingScreen = () => {
+const CheckingScreen = ({navigation}) => {
+const route = useRoute();
+ 
   const [timer, setTimer] = useState(initialPomodoro); // 25 minutes in seconds
-  const [timerType, setTimerType] = useState('pomodoro');
+  const [timerType, setTimerType] = useState('short break');
   const [cycleCount, setCycleCount] = useState(initialCycle);
   const [isRunning, setIsRunning] = useState(false);
 
+  const [Pomodoro, setPomodoro] = useState(initialPomodoro);
+  const [Break, setBreak] = useState(initialShortBreak);
+  const [LongBreak, setLongBreak] = useState(initialLongBreak);
+
   const [currentState, setCurrentState] = useState(1);
   const [value, setValue] = useState(0);
-
+  const backgroundColor = route.params?.backgroundColor || '#3cd689';
   useEffect(() => {
     let interval;
 
@@ -42,6 +50,7 @@ const CheckingScreen = () => {
       }, 1000);
     } else if (timer === 0) {
       clearInterval(interval);
+      playSound();
       setTimerType('break');
       toggleTimer();
 
@@ -65,6 +74,33 @@ const CheckingScreen = () => {
     return () => clearInterval(interval);
   }, [timer, isRunning, timerType, cycleCount]);
 
+  // Sound.setCategory('Playback');
+  const playSound = () => {
+    var Sound = require('react-native-sound');
+    var sound = new Sound('sound.mp3', Sound.MAIN_BUNDLE, error => {
+      if (error) {
+        console.log('failed to load the sound', error);
+        return;
+      }
+      // loaded successfully
+      console.log(
+        'duration in seconds: ' +
+          sound.getDuration() +
+          'number of channels: ' +
+          sound.getNumberOfChannels(),
+      );
+
+      // Play the sound with an onEnd callback
+      sound.play(success => {
+        if (success) {
+          console.log('successfully finished playing');
+        } else {
+          console.log('playback failed due to audio decoding errors');
+        }
+      });
+    });
+  };
+
   const toggleTimer = () => {
     if (isRunning) {
       setIsRunning(false); // Stop the timer if it's running
@@ -84,8 +120,14 @@ const CheckingScreen = () => {
   const resetTimer = () => {
     //  clearInterval(interval);
     setIsRunning(false);
-    setTimerType('pomodoro');
-    setTimer(initialPomodoro); // Reset the timer to the initial position
+    {
+      buttonText === 'POMODORO'
+        ? setTimer(initialPomodoro)
+        : buttonText === 'SHORT BREAK'
+        ? setTimer(initialShortBreak)
+        : setTimer(initialLongBreak);
+    }
+
     setCycleCount(0);
   };
 
@@ -93,15 +135,18 @@ const CheckingScreen = () => {
     switch (currentState) {
       case 1:
         // Increment the value
-        setValue(prevValue => prevValue + 2);
+        setTimer(Break);
+
         break;
       case 2:
         // Decrement the value
-        setValue(prevValue => prevValue - 1);
+        setTimer(LongBreak);
+
         break;
       case 3:
         // Multiply the value
-        setValue(prevValue => prevValue * 2);
+        setTimer(Pomodoro);
+
         break;
       default:
         break;
@@ -114,15 +159,15 @@ const CheckingScreen = () => {
 
   switch (currentState) {
     case 1:
-      buttonText = 'POMODORO 5 MIN';
+      buttonText = 'POMODORO';
       // buttonColor = 'blue';
       break;
     case 2:
-      buttonText = 'SHORT BREAK 2 MIN';
+      buttonText = 'SHORT BREAK';
       // buttonColor = 'green';
       break;
     case 3:
-      buttonText = 'LONG BREAK 3 MIN';
+      buttonText = 'LONG BREAK';
       // buttonColor = 'red';
       break;
     default:
@@ -131,9 +176,9 @@ const CheckingScreen = () => {
   }
 
   return (
-    <View style={styles.MainViewContainer}>
+    <View style={{backgroundColor: backgroundColor, flex: 1, alignItems: 'center',}}>
       <View style={styles.iconView}>
-        <TouchableOpacity onPress={() => {}}>
+        <TouchableOpacity onPress={() => navigation.navigate('Details')}>
           <View style={{flexDirection: 'row', alignItems: 'center'}}>
             <Image
               source={require('../images/icon.png')}
@@ -144,28 +189,34 @@ const CheckingScreen = () => {
         </TouchableOpacity>
       </View>
 
-      <View style={styles.Main}>
-        <CountdownCircleTimer
-          isPlaying={true}
-          duration={timer}
-          size={300}
-          colors={['#42f5e9', '#000000']}
-          colorsTime={[2, 1]}
-          onComplete={() => ({shouldRepeat: true, newInitialRemainingTime: 0})}
-          updateInterval={0}
-          trailColor="#ffffff">
-          {({}) => (
-            <Text style={{color: '#ffffff', fontSize: 50}}>
-              {formatTime(timer)}
-            </Text>
+      <View style={styles.outerCircle}>
+        <View style={[styles.innerCircle, {backgroundColor: backgroundColor}]}>
+          {isRunning ? (
+            <TouchableOpacity onPress={toggleTimer}>
+              <View style={[styles.innerCircleTwo, {backgroundColor: backgroundColor}]}>
+                {/* <Text>Hello</Text> */}
+
+                <View style={styles.ViewText}>
+                  <Text style={styles.TextStyle}>{formatTime(timer)}</Text>
+                  <Text style={styles.buttonText}>PAUSE</Text>
+                </View>
+              </View>
+            </TouchableOpacity>
+          ) : (
+            <TouchableOpacity onPress={toggleTimer}>
+              <View style={[styles.innerCircleTwo, {backgroundColor: backgroundColor}]}>
+                {/* <Text>Hello</Text> */}
+
+                <View style={styles.ViewText}>
+                  <Text style={styles.TextStyle}>{formatTime(timer)}</Text>
+                  <Text style={styles.buttonText}>START</Text>
+                </View>
+              </View>
+            </TouchableOpacity>
           )}
-          {/* <Text >5</Text> */}
-        </CountdownCircleTimer>
+        </View>
       </View>
 
-      {/* <SettingIcon /> */}
-      {/* <ProgressBar /> */}
-      {/* <DropDown /> */}
       <View>
         {/* <Text style={styles.valueText}>Value: {value}</Text> */}
         <TouchableOpacity style={styles.button} onPress={toggleState}>
@@ -175,37 +226,41 @@ const CheckingScreen = () => {
               style={styles.ImageView}
               resizeMode="contain"
             />
-            <Text style={styles.buttonText}>{buttonText}</Text>
+            <Text style={styles.buttonText}>
+              {buttonText}{' '}
+              {buttonText === 'POMODORO'
+                ? initialPomodoro / 1
+                : buttonText === 'SHORT BREAK'
+                ? initialShortBreak / 1
+                : initialLongBreak / 1}{' '}
+              MIN
+            </Text>
           </View>
         </TouchableOpacity>
       </View>
       {/* <Timer />
        */}
       <View style={styles.ViewText}>
-        <Text style={styles.TextStyle}>{formatTime(timer)}</Text>
+        <Text style={styles.TimerTextStyle}>{formatTime(timer)}</Text>
       </View>
 
+      <View></View>
       <View>
-        {isRunning ? (
-          <TouchableOpacity style={styles.startButton} onPress={toggleTimer}>
-            <Text style={styles.buttonText}>Stop</Text>
-          </TouchableOpacity>
-        ) : (
-          <TouchableOpacity style={styles.startButton} onPress={toggleTimer}>
-            <Text style={styles.buttonText}>Start</Text>
-          </TouchableOpacity>
-        )}
         {!isRunning ? (
-          <TouchableOpacity style={styles.startButton} onPress={resetTimer}>
-            <Text style={styles.buttonText}>Reset</Text>
+          <TouchableOpacity
+            style={styles.ResetstartButton}
+            onPress={resetTimer}>
+            <Text style={styles.resetbuttonText}>Reset</Text>
           </TouchableOpacity>
         ) : (
-          <TouchableOpacity onPress={toggleTimer}  />
+          <TouchableOpacity
+            style={styles.ResetstartButton}
+            onPress={toggleTimer}
+          />
         )}
       </View>
 
       {/* <Reset /> */}
-      
     </View>
   );
 };
@@ -213,7 +268,7 @@ const CheckingScreen = () => {
 const styles = StyleSheet.create({
   MainViewContainer: {
     flex: 1,
-    backgroundColor: '#4c9665',
+    backgroundColor: '#3cd689',
     alignItems: 'center',
   },
   iconView: {
@@ -238,11 +293,22 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     borderRadius: 5,
     backgroundColor: '10',
-    marginTop: responsiveHeight(19.5),
+    marginTop: responsiveHeight(20),
   },
   buttonText: {
+    justifyContent: 'center',
+    alignContent: 'center',
+    alignSelf: 'center',
     color: 'white',
     fontSize: responsiveFontSize(1.5),
+  },
+  StartbuttonText: {
+    color: 'white',
+    fontSize: responsiveFontSize(2),
+  },
+  resetbuttonText: {
+    color: 'white',
+    fontSize: responsiveFontSize(1.7),
   },
   // valueText: {
   //   fontSize: 24,
@@ -255,6 +321,10 @@ const styles = StyleSheet.create({
     opacity: 0.8,
   },
   TextStyle: {
+    fontSize: responsiveFontSize(6.5),
+    color: '#ffffff',
+  },
+  TimerTextStyle: {
     fontSize: responsiveFontSize(1.5),
     color: '#ffffff',
   },
@@ -265,14 +335,48 @@ const styles = StyleSheet.create({
   buttonReset: {
     padding: 10,
     borderRadius: 5,
-    marginTop: responsiveHeight(15.2),
+    marginTop: responsiveHeight(1.2),
   },
   buttonTextStyle: {
     color: '#ffffff',
     fontSize: responsiveFontSize(1.7),
   },
   startButton: {
-    backgroundColor: '#4c9665',
+    // backgroundColor: '#000000',
+    marginTop: 16,
+    justifyContent: 'center',
+    alignContent: 'center',
+  },
+  ResetstartButton: {
+    // backgroundColor: '#3cd689',
+    marginTop: 156,
+    // fontSize: 14,
+  },
+  outerCircle: {
+    marginTop: responsiveWidth(20.7),
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: 300,
+    height: 300,
+    backgroundColor: '#ffffff',
+    borderRadius: 150,
+  },
+  innerCircle: {
+    // marginTop: responsiveWidth(26.8),
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: 278,
+    height: 278,
+    backgroundColor: '#3cd689',
+    borderRadius: 139,
+  },
+  innerCircleTwo: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: 254,
+    height: 254,
+    // backgroundColor: '#000000',
+    borderRadius: 127,
   },
 });
 
