@@ -20,6 +20,7 @@ import {
 import {CountdownCircleTimer} from 'react-native-countdown-circle-timer';
 import {Sound} from 'react-native-sound';
 import { useRoute } from '@react-navigation/native';
+import SplashScreen from 'react-native-splash-screen';
 
 let initialPomodoro = 5;
 let initialShortBreak = 3;
@@ -41,6 +42,10 @@ const route = useRoute();
   const [currentState, setCurrentState] = useState(1);
   const [value, setValue] = useState(0);
   const backgroundColor = route.params?.backgroundColor || '#3cd689';
+
+   useEffect(() =>{
+SplashScreen.hide();
+   },[])
   useEffect(() => {
     let interval;
 
