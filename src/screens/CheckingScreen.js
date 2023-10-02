@@ -17,35 +17,46 @@ import {
 // import ProgressBar from '../components/ProgressBar';
 // import Reset from '../components/Reset';
 // import Timer from '../components/Timer';
-import {CountdownCircleTimer} from 'react-native-countdown-circle-timer';
-import {Sound} from 'react-native-sound';
+// import {CountdownCircleTimer} from 'react-native-countdown-circle-timer';
+// import {Sound} from 'react-native-sound';
 import { useRoute } from '@react-navigation/native';
 import SplashScreen from 'react-native-splash-screen';
 
-let initialPomodoro = 5;
-let initialShortBreak = 3;
-let initialLongBreak = 6;
+let initialPomodoro = 1500;
+let initialShortBreak = 300;
+let initialLongBreak = 1800;
 let initialCycle = 2;
 
 const CheckingScreen = ({navigation}) => {
 const route = useRoute();
+const backgroundColor = route.params?.backgroundColor || '#0ca689';
+  const pomodoroTimeR = route.params?.pomodoroTime || initialPomodoro;
+  const breakTimeR = route.params?.breakTime || initialShortBreak;
+  const longBreakTimeR = route.params?.longBreakTime || initialLongBreak;
+
+  useEffect(() => {
+    // timer();
+  },[timer])
+  console.log("pomodoroTime      ----------", pomodoroTimeR)
+  console.log("BreakTime          ---------", breakTimeR)
+  console.log("longBreakTime          -----", longBreakTimeR)
  
-  const [timer, setTimer] = useState(initialPomodoro); // 25 minutes in seconds
-  const [timerType, setTimerType] = useState('short break');
+  const [timer, setTimer] = useState(pomodoroTimeR); // 25 minutes in seconds
+  const [timerType, setTimerType] = useState('pomodoro');
   const [cycleCount, setCycleCount] = useState(initialCycle);
   const [isRunning, setIsRunning] = useState(false);
 
-  const [Pomodoro, setPomodoro] = useState(initialPomodoro);
-  const [Break, setBreak] = useState(initialShortBreak);
-  const [LongBreak, setLongBreak] = useState(initialLongBreak);
+  const [Pomodoro, setPomodoro] = useState(pomodoroTimeR);
+  const [Break, setBreak] = useState(breakTimeR);
+  const [LongBreak, setLongBreak] = useState(longBreakTimeR);
 
   const [currentState, setCurrentState] = useState(1);
   const [value, setValue] = useState(0);
-  const backgroundColor = route.params?.backgroundColor || '#3cd689';
 
-   useEffect(() =>{
+
+   useEffect(() => {
 SplashScreen.hide();
-   },[])
+   },[])   
   useEffect(() => {
     let interval;
 
@@ -181,7 +192,7 @@ SplashScreen.hide();
   }
 
   return (
-    <View style={{backgroundColor: backgroundColor, flex: 1, alignItems: 'center',}}>
+    <View style={{backgroundColor: backgroundColor, flex: 1, alignItems: 'center',  alignContent: 'center'}}>
       <View style={styles.iconView}>
         <TouchableOpacity onPress={() => navigation.navigate('Details')}>
           <View style={{flexDirection: 'row', alignItems: 'center'}}>
@@ -222,7 +233,7 @@ SplashScreen.hide();
         </View>
       </View>
 
-      <View>
+      <View style={styles.toggleStateView}>
         {/* <Text style={styles.valueText}>Value: {value}</Text> */}
         <TouchableOpacity style={styles.button} onPress={toggleState}>
           <View style={{flexDirection: 'row', alignItems: 'center'}}>
@@ -248,18 +259,16 @@ SplashScreen.hide();
       <View style={styles.ViewText}>
         <Text style={styles.TimerTextStyle}>{formatTime(timer)}</Text>
       </View>
-
-      <View></View>
       <View>
         {!isRunning ? (
           <TouchableOpacity
-            style={styles.ResetstartButton}
+            style={styles.ResetButtonView}
             onPress={resetTimer}>
             <Text style={styles.resetbuttonText}>Reset</Text>
           </TouchableOpacity>
         ) : (
           <TouchableOpacity
-            style={styles.ResetstartButton}
+            style={styles.ResetButtonView}
             onPress={toggleTimer}
           />
         )}
@@ -289,7 +298,7 @@ const styles = StyleSheet.create({
     marginRight: 8,
   },
   Main: {
-    marginTop: responsiveWidth(20.7),
+    // marginTop: responsiveWidth(20.7),
   },
   button: {
     width: 200,
@@ -298,7 +307,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     borderRadius: 5,
     backgroundColor: '10',
-    marginTop: responsiveHeight(20),
+    // marginTop: responsiveHeight(20),
   },
   buttonText: {
     justifyContent: 'center',
@@ -330,7 +339,7 @@ const styles = StyleSheet.create({
     color: '#ffffff',
   },
   TimerTextStyle: {
-    fontSize: responsiveFontSize(1.5),
+    // fontSize: responsiveFontSize(1.5),
     color: '#ffffff',
   },
   ViewText: {
@@ -348,15 +357,15 @@ const styles = StyleSheet.create({
   },
   startButton: {
     // backgroundColor: '#000000',
-    marginTop: 16,
+    // marginTop: 16,
     justifyContent: 'center',
     alignContent: 'center',
   },
-  ResetstartButton: {
-    // backgroundColor: '#3cd689',
-    marginTop: 156,
-    // fontSize: 14,
-  },
+  // ResetstartButton: {
+  //   backgroundColor: '#3cd689',
+  //   marginTop: 156,
+  //   fontSize: 14,
+  // },
   outerCircle: {
     marginTop: responsiveWidth(20.7),
     alignItems: 'center',
@@ -383,6 +392,12 @@ const styles = StyleSheet.create({
     // backgroundColor: '#000000',
     borderRadius: 127,
   },
+  toggleStateView: {
+    marginTop: '30%',
+  },
+  ResetButtonView: {
+    marginTop: '20%',
+  }
 });
 
 export default CheckingScreen;

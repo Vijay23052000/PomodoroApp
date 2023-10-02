@@ -12,118 +12,108 @@ import {
   responsiveHeight,
   responsiveWidth,
 } from 'react-native-responsive-dimensions';
-import Icon from 'react-native-vector-icons/AntDesign';
-// import CircularProgress from 'react-native-circular-progress-indicator';
-// import {Sound} from 'react-native-sound';
+import { useNavigation } from '@react-navigation/native';
 
-const DetailsScreen = ({navigation}) => {
+const DetailsScreen = () => {
+  const navigation = useNavigation();
   const [bgColor, setBgColor] = useState('#3cd689');
   const [isEnabled, setIsEnabled] = useState(false);
 
   // const secondsToMinutes = seconds => {
   //   return seconds / 60;
   // };
-  let initialPomodoroTime = 120; // 25 minutes by default for Pomodoro
-  let initialShortBreakTime = 180; // 5 minutes by default for short break
-  let initialLongBreakTime = 120; // 15 minutes by default for long break
-
-  console.log('initialPomodoroTime---->', initialPomodoroTime);
-  let secondtominute = 60;
-
-  const minPomodoro = initialPomodoroTime / secondtominute;
-  const minBreak = initialShortBreakTime / secondtominute;
-  const minLongBreak = initialLongBreakTime / secondtominute;
-  console.log('minPomodoro----------->', minPomodoro);
-
+  let initialPomodoroTime = 180; // 25 minutes by default for Pomodoro
+  let initialShortBreakTime = 240; // 5 minutes by default for short break
+  let initialLongBreakTime = 360; // 15 minutes by default for long break
+  
   const secondsToMinutes = seconds => {
     return seconds / 60;
   };
 
-  const [pomodoro, setPomodoro] = useState(
-    secondsToMinutes(initialPomodoroTime),
-  );
-  const [Break, setBreak] = useState(minBreak);
-  const [longBreak, setLongBreak] = useState(minLongBreak);
+  // const [pomodoro, setPomodoro] = useState(
+  //   secondsToMinutes(initialPomodoroTime),
+  // );
+  // const [BreakTime, setBreakTime] = useState(minBreak);
+  // const [longBreak, setLongBreak] = useState(minLongBreak);
+  const [pomodoro, setPomodoro] = useState(secondsToMinutes(initialPomodoroTime))
+  const [BreakTime, setBreakTime] = useState(secondsToMinutes(initialShortBreakTime))
+  const [longBreak, setLongBreak] = useState(secondsToMinutes(initialLongBreakTime));
+  // console.log('pomodoro-------vijay--->', pomodoro);
 
-  console.log('pomodoro-------vijay--->', pomodoro);
-
-  const [timer, setTimer] = useState(initialPomodoroTime);
-  const [isRunning, setIsRunning] = useState(false);
+  const [timer, setTimer] = useState(pomodoro);
+  // const [isRunning, setIsRunning] = useState(false);
   const [timerType, setTimerType] = useState('Pomodoro');
+  console.log('check timer value --------->',timer)
+  console.log('check pomodoro value --------->',pomodoro)
+  console.log('check BreakTime value --------->',BreakTime)
+  console.log('check LongBreak value --------->',longBreak)
 
-  useEffect(() => {
-    let timerInterval;
 
-    if (isRunning) {
-      timerInterval = setInterval(() => {
-        if (timer <= 0) {
-          clearInterval(timerInterval);
-          // Handle timer completion (e.g., play a sound)
-          setIsRunning(false);
 
-          // Automatically switch to the break time
-          if (timer === 0 && timerType === 'Pomodoro') {
-            switchToBreak();
-            playSound();
-          } else if (timer === 0 && timerType === 'Break') {
-            switchToPomodoro();
-            playSound();
-          }
-        } else {
-          setTimer(timer - 1);
-        }
-      }, 1000);
-    }
-
-    return () => clearInterval(timerInterval);
-  }, [timer, isRunning, timerType]);
-
-  const incrementMinutes = () => {
+  const incrementPomodoro = () => {
     setPomodoro(pomodoro + 1);
+    console.log(pomodoro)
 
-    setTimer(pomodoro * 60);
+    // setTimer(pomodoro * 60);
   };
 
-  const decrementMinutes = () => {
+  const decrementPomodoro = () => {
     if (pomodoro > 0) {
       setPomodoro(pomodoro - 1);
-      setTimer(pomodoro);
+      // setTimer(pomodoro);
     }
   };
 
-  const toggleTimer = () => {
-    setIsRunning(!isRunning);
+  const incrementBreak = () => {
+    setBreakTime(BreakTime + 1);
+    console.log(BreakTime)
+
+    // setTimer(pomodoro * 60);
   };
 
-  const resetTimer = () => {
-    setIsRunning(false); // Stop the timer
-    // clearInterval(timerInterval); // Clear the interval
-    setTimerType('Pomodoro');
-    setTimer(initialPomodoroTime); // Reset to the initial Pomodoro time
+  const decrementBreak = () => {
+    if (BreakTime > 0) {
+      setBreakTime(BreakTime - 1);
+      // setTimer(pomodoro);
+    }
+  };
+  const incrementLongBreak = () => {
+    setLongBreak(longBreak + 1);
+    console.log(longBreak)
+
+    // setTimer(pomodoro * 60);
   };
 
-  const switchToBreak = () => {
-    if (timerType === 'Pomodoro') {
-      setTimer(initialShortBreakTime);
-      setTimerType('Break');
+  const decrementLongBreak = () => {
+    if (longBreak > 0) {
+      setLongBreak(longBreak - 1);
+      // setTimer(pomodoro);
     }
   };
 
-  const switchToPomodoro = () => {
-    if (timerType === 'Break') {
-      setTimer(initialPomodoroTime);
-      setTimerType('Pomodoro');
-    }
-  };
+  // const toggleTimer = () => {
+  //   setIsRunning(!isRunning);
+  // };
 
-  const setTimerDuration = time => {
-    // resetTimer();
-    setTimer(time);
-  };
+  // const resetTimer = () => {
+  //   setIsRunning(false); // Stop the timer
+  //   // clearInterval(timerInterval); // Clear the interval
+  //   setTimerType('Pomodoro');
+  //   setTimer(initialPomodoroTime); // Reset to the initial Pomodoro time
+  // };
 
-  const toggleSwitch = () => {
-    setIsEnabled(previousState => !previousState);
-  };
+ 
+
+ 
+
+  // const setTimerDuration = time => {
+  //   // resetTimer();
+  //   setTimer(time);
+  // };
+
+  // const toggleSwitch = () => {
+  //   setIsEnabled(previousState => !previousState);
+  // };
 
   const changeColor = color => {
     setBgColor(color);
@@ -131,38 +121,14 @@ const DetailsScreen = ({navigation}) => {
   };
   // Sound.setCategory('Playback');
 
-  const playSound = () => {
-    var Sound = require('react-native-sound');
-    var sound = new Sound('sound.mp3', Sound.MAIN_BUNDLE, error => {
-      if (error) {
-        console.log('failed to load the sound', error);
-        return;
-      }
-      // loaded successfully
-      console.log(
-        'duration in seconds: ' +
-          sound.getDuration() +
-          'number of channels: ' +
-          sound.getNumberOfChannels(),
-      );
-
-      // Play the sound with an onEnd callback
-      sound.play(success => {
-        if (success) {
-          console.log('successfully finished playing');
-        } else {
-          console.log('playback failed due to audio decoding errors');
-        }
-      });
-    });
-  };
+  
 
   return (
     <ScrollView style={{backgroundColor: bgColor}}>
       {/* <Text>(timerType==='Pomodoro') </Text> */}
       <View style={styles.Main}>
         <View style={styles.BackButtonStyle}>
-          <TouchableOpacity onPress={() => navigation.navigate('Checking' , {backgroundColor: bgColor})}>
+          <TouchableOpacity onPress={() => navigation.navigate('Checking' , {backgroundColor: bgColor, pomodoroTime: pomodoro, breakTime: BreakTime, longBreakTime: longBreak})}>
             <Text style={{fontSize: 22, color: '#ffffff'}}>{'<'}</Text>
           </TouchableOpacity>
         </View>
@@ -172,7 +138,7 @@ const DetailsScreen = ({navigation}) => {
         <View style={styles.TimerContainer}>
           <TouchableOpacity
             style={[styles.PomodoroText, {backgroundColor: 'bgColor'}]}
-            onPress={() => setTimerDuration(initialPomodoroTime)}>
+            onPress={() => {}}>
             <View style={styles.containerpomodoro}>
               <Text style={styles.topText}>{pomodoro}</Text>
               <Text style={styles.bottomText}>POMODORO</Text>
@@ -180,20 +146,70 @@ const DetailsScreen = ({navigation}) => {
           </TouchableOpacity>
           <TouchableOpacity
             style={[styles.PomodoroText, {backgroundColor: 'bgColor'}]}
-            onPress={() => setTimerDuration(initialShortBreakTime)}>
+            onPress={() => {}}>
             <View style={styles.containerpomodoro}>
-              <Text style={styles.topText}>{Break}</Text>
+              <Text style={styles.topText}>{BreakTime}</Text>
               <Text style={styles.bottomText}>BREAK</Text>
             </View>
           </TouchableOpacity>
           <TouchableOpacity
             style={[styles.PomodoroText, {backgroundColor: 'bgColor'}]}
-            onPress={() => setTimerDuration(initialLongBreakTime)}>
+            onPress={() => {}}>
             <View style={styles.containerpomodoro}>
               <Text style={styles.topText}>{longBreak}</Text>
               <Text style={styles.bottomText}>LONG BREAK</Text>
             </View>
           </TouchableOpacity>
+        </View>
+        <View style={styles.PlusMinusView}>
+        <TouchableOpacity
+            style={[styles.PlusMinusButtonSizeView, {backgroundColor: 'bgColor'}]}
+            onPress={incrementPomodoro}>
+            <View style={styles.PlusMinusbuttonView}>
+              
+              <Text style={styles.PlusMinuseBottomText}>+</Text>
+            </View>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={[styles.PlusMinusButtonSizeView, {backgroundColor: 'bgColor'}]}
+            onPress={decrementPomodoro}>
+            <View style={styles.PlusMinusbuttonView}>
+              
+              <Text style={styles.PlusMinuseBottomText}>-</Text>
+            </View>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={[styles.PlusMinusButtonSizeView, {backgroundColor: 'bgColor'}]}
+            onPress={incrementBreak}>
+            <View style={styles.PlusMinusbuttonView}>
+              
+              <Text style={styles.PlusMinuseBottomText}>+</Text>
+            </View>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={[styles.PlusMinusButtonSizeView, {backgroundColor: 'bgColor'}]}
+            onPress={decrementBreak}>
+            <View style={styles.PlusMinusbuttonView}>
+              
+              <Text style={styles.PlusMinuseBottomText}>-</Text>
+            </View>
+          </TouchableOpacity><TouchableOpacity
+            style={[styles.PlusMinusButtonSizeView, {backgroundColor: 'bgColor'}]}
+            onPress={incrementLongBreak}>
+            <View style={styles.PlusMinusbuttonView}>
+              
+              <Text style={styles.PlusMinuseBottomText}>+</Text>
+            </View>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={[styles.PlusMinusButtonSizeView, {backgroundColor: 'bgColor'}]}
+            onPress={decrementLongBreak}>
+            <View style={styles.PlusMinusbuttonView}>
+              
+              <Text style={styles.PlusMinuseBottomText}>-</Text>
+            </View>
+          </TouchableOpacity>
+         
         </View>
 
         <View>
@@ -324,13 +340,13 @@ const DetailsScreen = ({navigation}) => {
         <View style={styles.TimerContainerView}>
           <TouchableOpacity
             style={[{backgroundColor: 'bgColor'}]}
-            onPress={() => changeColor('#ebb813')}>
+            onPress={() => {}}>
             <Text style={styles.Pomodoro}>NOTIFICATION SOUND</Text>
           </TouchableOpacity>
 
           <TouchableOpacity
             style={[{backgroundColor: 'bgColor'}]}
-            onPress={() => changeColor('#ebb813')}>
+            onPress={() => {}}>
             <Text style={styles.Pomodoro}>ALARM SOUND</Text>
           </TouchableOpacity>
         </View>
@@ -341,123 +357,111 @@ const DetailsScreen = ({navigation}) => {
         <View style={styles.TimerContainerView}>
           <TouchableOpacity
             style={[{backgroundColor: 'bgColor'}]}
-            onPress={() => changeColor('#ebb813')}>
+            onPress={() => {}}>
             <Text style={styles.Pomodoro}>NOTIFICATION SOUND</Text>
           </TouchableOpacity>
 
           <TouchableOpacity
             style={[{backgroundColor: 'bgColor'}]}
-            onPress={() => changeColor('#ebb813')}>
+            onPress={() => {}}>
             <Text style={styles.Pomodoro}>ALARM SOUND</Text>
           </TouchableOpacity>
-        </View>
-        <View>
-          <Text style={styles.OFStyle}>VIBRATE</Text>
-        </View>
-        <View style={styles.TimerContainerView}>
-          <TouchableOpacity
-            style={[{backgroundColor: 'bgColor'}]}
-            onPress={() => changeColor('#ebb813')}>
-            <Text style={styles.Pomodoro}>NOTIFICATION SOUND</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity
-            style={[{backgroundColor: 'bgColor'}]}
-            onPress={() => changeColor('#ebb813')}>
-            <Text style={styles.Pomodoro}>ALARM SOUND</Text>
-          </TouchableOpacity>
-        </View>
-        <View>
-          <Text style={styles.OFStyle}>AUTOSTART BREAKS</Text>
-        </View>
-        
-        <View style={styles.TimerContainerView}>
-          <TouchableOpacity
-            style={[{backgroundColor: 'bgColor'}]}
-            onPress={() => changeColor('#ebb813')}>
-            <Text style={styles.Pomodoro}>NOTIFICATION SOUND</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity
-            style={[{backgroundColor: 'bgColor'}]}
-            onPress={() => changeColor('#ebb813')}>
-            <Text style={styles.Pomodoro}>ALARM SOUND</Text>
-          </TouchableOpacity>
-        </View>
-        <View>
-          <Text style={styles.OFStyle}>AUTOSTART POMODOROS</Text>
-        </View>
-        
-        <View style={styles.TimerContainerView}>
-          <TouchableOpacity
-            style={[{backgroundColor: 'bgColor'}]}
-            onPress={() => changeColor('#ebb813')}>
-            <Text style={styles.Pomodoro}>NOTIFICATION SOUND</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity
-            style={[{backgroundColor: 'bgColor'}]}
-            onPress={() => changeColor('#ebb813')}>
-            <Text style={styles.Pomodoro}>ALARM SOUND</Text>
-          </TouchableOpacity>
-        </View>
-        <View>
-          <Text style={styles.OFStyle}>SHOW NOTIFICATION</Text>
-        </View>
-        
-        <View style={styles.TimerContainerView}>
-          <TouchableOpacity
-            style={[{backgroundColor: 'bgColor'}]}
-            onPress={() => changeColor('#ebb813')}>
-            <Text style={styles.Pomodoro}>NOTIFICATION SOUND</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity
-            style={[{backgroundColor: 'bgColor'}]}
-            onPress={() => changeColor('#ebb813')}>
-            <Text style={styles.Pomodoro}>ALARM SOUND</Text>
-          </TouchableOpacity>
-        </View>
-        <View>
-          <Text style={styles.OFStyle}>KEEP PHONE AWAKE</Text>
         </View>
        
         <View style={styles.TimerContainerView}>
           <TouchableOpacity
             style={[{backgroundColor: 'bgColor'}]}
-            onPress={() => changeColor('#ebb813')}>
-            <Text style={styles.Pomodoro}>NOTIFICATION SOUND</Text>
+            onPress={() => {}}>
+            <Text style={styles.Pomodoro}>VIBRATE ON</Text>
           </TouchableOpacity>
 
           <TouchableOpacity
             style={[{backgroundColor: 'bgColor'}]}
-            onPress={() => changeColor('#ebb813')}>
-            <Text style={styles.Pomodoro}>ALARM SOUND</Text>
+            onPress={() => {}}>
+            <Text style={styles.Pomodoro}>VIBRATE OFF</Text>
           </TouchableOpacity>
         </View>
-        <View style={styles.TimerContainer}>
+       
+        
+        <View style={styles.TimerContainerView}>
+          <TouchableOpacity
+            style={[{backgroundColor: 'bgColor'}]}
+            onPress={() => {}}>
+            <Text style={styles.Pomodoro}>AUTOSTART BREAKS OFF</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            style={[{backgroundColor: 'bgColor'}]}
+            onPress={() => {}}>
+            <Text style={styles.Pomodoro}>AUTOSTART BREAKS OFF</Text>
+          </TouchableOpacity>
+        </View>
+        
+        <View style={styles.TimerContainerView}>
+          <TouchableOpacity
+            style={[{backgroundColor: 'bgColor'}]}
+            onPress={() => {}}>
+            <Text style={styles.Pomodoro}>AUTOSTART POMODOROS ON</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            style={[{backgroundColor: 'bgColor'}]}
+            onPress={() => {}}>
+            <Text style={styles.Pomodoro}>AUTOSTART POMODOROS OFF</Text>
+          </TouchableOpacity>
+        </View>
+     
+        
+        <View style={styles.TimerContainerView}>
+          <TouchableOpacity
+            style={[{backgroundColor: 'bgColor'}]}
+            onPress={() => {}}>
+            <Text style={styles.Pomodoro}>SHOW NOTIFICATION ON</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            style={[{backgroundColor: 'bgColor'}]}
+            onPress={() => {}}>
+            <Text style={styles.Pomodoro}>SHOW NOTIFICATION OFF</Text>
+          </TouchableOpacity>
+        </View>
+  
+        <View style={styles.TimerContainerView}>
+          <TouchableOpacity
+            style={[{backgroundColor: 'bgColor'}]}
+            onPress={() => {}}>
+            <Text style={styles.Pomodoro}>KEEP PHONE AWAKE ON</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            style={[{backgroundColor: 'bgColor'}]}
+            onPress={() => {}}>
+            <Text style={styles.Pomodoro}>KEEP PHONE AWAKE OFF</Text>
+          </TouchableOpacity>
+        </View>
+        <View style={styles.TimerContainerTwo}>
           <TouchableOpacity
             style={[styles.PomodoroText, {backgroundColor: 'bgColor'}]}
-            onPress={() => setTimerDuration(initialPomodoroTime)}>
+            onPress={() => {}}>
             <View style={styles.containerpomodoro}>
-              <Text style={styles.topText}>{pomodoro}</Text>
-              <Text style={styles.bottomText}>POMODORO</Text>
+              <Text style={styles.topText}>{}</Text>
+              <Text style={styles.bottomText}>HOW TO USE?</Text>
             </View>
           </TouchableOpacity>
           <TouchableOpacity
             style={[styles.PomodoroText, {backgroundColor: 'bgColor'}]}
-            onPress={() => setTimerDuration(initialShortBreakTime)}>
+            onPress={() => {}}>
             <View style={styles.containerpomodoro}>
-              <Text style={styles.topText}>{Break}</Text>
-              <Text style={styles.bottomText}>BREAK</Text>
+              <Text style={styles.topText}>{}</Text>
+              <Text style={styles.bottomText}>WRITE US</Text>
             </View>
           </TouchableOpacity>
           <TouchableOpacity
             style={[styles.PomodoroText, {backgroundColor: 'bgColor'}]}
-            onPress={() => setTimerDuration(initialLongBreakTime)}>
+            onPress={() => {}}>
             <View style={styles.containerpomodoro}>
-              <Text style={styles.topText}>{longBreak}</Text>
-              <Text style={styles.bottomText}>LONG BREAK</Text>
+              <Text style={styles.topText}>{}</Text>
+              <Text style={styles.bottomText}>RATE US</Text>
             </View>
           </TouchableOpacity>
         </View>
@@ -473,10 +477,10 @@ const styles = StyleSheet.create({
     alignContent: 'center',
   },
   BackButtonStyle: {
-    width: responsiveWidth(2),
-    height: responsiveHeight(3),
+    width: responsiveWidth(2.5),
+    height: responsiveHeight(3.5),
     marginLeft: responsiveFontSize(2.5),
-    marginTop: responsiveFontSize(0.4),
+    marginTop: responsiveFontSize(0.7),
   },
   DurationText: {
     color: '#ffffff',
@@ -492,17 +496,58 @@ const styles = StyleSheet.create({
     marginTop: responsiveHeight(3),
     marginBottom: 4,
   },
+  PlusMinusView: {
+    flexDirection: 'row',
+    justifyContent: 'space-evenly',
+    marginTop: responsiveHeight(0.5),
+    marginBottom: 4,
+  },
+  TimerContainerTwo: {
+    flexDirection: 'row',
+    justifyContent: 'space-evenly',
+    marginTop: responsiveHeight(3),
+    marginBottom: '9%',
+    // marginBottom: 4,
+  },
   PomodoroText: {
     width: responsiveWidth(28),
     height: responsiveHeight(14.8),
     textAlign: 'center',
     textAlignVertical: 'bottom',
   },
+  PlusMinusButtonSizeView: {
+    // width: '10%',
+    // height: 30,
+    textAlign: 'center',
+    textAlignVertical: 'bottom',
+  },
+  PlusMinuseBottomText: {
+    fontSize: 20,
+    // textAlign: 'center',
+    // paddingBottom: 10,
+    color: '#ffffff',
+    paddingTop: 4,
+    // justifyContent: 'center',
+    // alignContent: 'center',
+    // alignSelf: 'center',
+    // alignItems: 'center',
+    // alignSelf: 'center',
+    // textAlign: 'center'
+  },
   containerpomodoro: {
     flex: 1,
     justifyContent: 'space-between',
     alignItems: 'center',
 
+    backgroundColor: 30,
+    borderRadius: 3,
+  },
+  PlusMinusbuttonView: {
+    flex: 1,
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    width: 45,
+    height: 43,
     backgroundColor: 30,
     borderRadius: 3,
   },
@@ -518,6 +563,7 @@ const styles = StyleSheet.create({
     paddingBottom: 10,
     color: '#ffffff',
   },
+  
 
   ColorContainer: {
     width: responsiveWidth(92),
