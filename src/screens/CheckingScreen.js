@@ -34,19 +34,24 @@ const backgroundColor = route.params?.backgroundColor || '#0ca689';
   const breakTimeR = route.params?.breakTime || initialShortBreak;
   const longBreakTimeR = route.params?.longBreakTime || initialLongBreak;
 
+
+ initialPomodoro =  route.params?.pomodoroTime ??   initialPomodoro;
+ initialShortBreak = route.params?.breakTime ??  initialShortBreak;
+ initialLongBreak = route.params?.longBreakTime ??  initialLongBreak;
+
   useEffect(() => {
     // timer();
   },[timer])
-  console.log("pomodoroTime      ----------", pomodoroTimeR)
+  console.log("pomodoroTime      ----------", initialPomodoro)
   console.log("BreakTime          ---------", breakTimeR)
   console.log("longBreakTime          -----", longBreakTimeR)
  
-  const [timer, setTimer] = useState(pomodoroTimeR); // 25 minutes in seconds
+  const [timer, setTimer] = useState(initialPomodoro); // 25 minutes in seconds
   const [timerType, setTimerType] = useState('pomodoro');
   const [cycleCount, setCycleCount] = useState(initialCycle);
   const [isRunning, setIsRunning] = useState(false);
 
-  const [Pomodoro, setPomodoro] = useState(pomodoroTimeR);
+  const [Pomodoro, setPomodoro] = useState(initialPomodoro);
   const [Break, setBreak] = useState(breakTimeR);
   const [LongBreak, setLongBreak] = useState(longBreakTimeR);
 
