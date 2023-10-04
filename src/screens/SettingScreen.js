@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState} from 'react';
 import {
   View,
   Text,
@@ -11,71 +11,49 @@ import {
   responsiveHeight,
   responsiveWidth,
 } from 'react-native-responsive-dimensions';
-import { useNavigation } from '@react-navigation/native';
+import {useNavigation} from '@react-navigation/native';
 
 const SettingScreen = () => {
   const navigation = useNavigation();
   const [bgColor, setBgColor] = useState('#3cd689');
 
-  let initialPomodoroTime = 180; // 25 minutes by default for Pomodoro
-  let initialShortBreakTime = 240; // 5 minutes by default for short break
-  let initialLongBreakTime = 360; // 15 minutes by default for long break
-  
-  const secondsToMinutes = seconds => {
-    return seconds / 60;
-  };
+  let initialPomodoroTime = 60; // 25 minutes by default for Pomodoro
+  let initialShortBreakTime = 60; // 5 minutes by default for short break
+  let initialLongBreakTime = 60; // 15 minutes by default for long break
 
-  
-  const [pomodoro, setPomodoro] = useState((initialPomodoroTime))
-  const [BreakTime, setBreakTime] = useState((initialShortBreakTime))
-  const [longBreak, setLongBreak] = useState((initialLongBreakTime));
-
-  console.log('check pomodoro value --------->',pomodoro/60)
-  console.log('check BreakTime value --------->',BreakTime/60)
-  console.log('check LongBreak value --------->',longBreak/60)
-
-
+  const [pomodoro, setPomodoro] = useState(initialPomodoroTime);
+  const [BreakTime, setBreakTime] = useState(initialShortBreakTime);
+  const [longBreak, setLongBreak] = useState(initialLongBreakTime);
 
   const incrementPomodoro = () => {
-    setPomodoro((((pomodoro/60) + 1)*60));
-    console.log("after press incrementPomodoro button",(pomodoro/60))
-
-    // setTimer(pomodoro * 60);
+    setPomodoro((pomodoro / 60 + 1) * 60);
+    console.log('after press incrementPomodoro button', pomodoro / 60);
   };
 
   const decrementPomodoro = () => {
     if (pomodoro > 0) {
-      setPomodoro((((pomodoro/60) - 1)*60));
-      // setTimer(pomodoro);
+      setPomodoro((pomodoro / 60 - 1) * 60);
     }
   };
 
   const incrementBreak = () => {
-    setBreakTime((((BreakTime/60) + 1)*60));
-    console.log(BreakTime)
-
-    // setTimer(pomodoro * 60);
+    setBreakTime((BreakTime / 60 + 1) * 60);
+    console.log(BreakTime);
   };
 
   const decrementBreak = () => {
     if (BreakTime > 0) {
-      setBreakTime((((BreakTime/60) - 1)*60));
-
-      // setTimer(pomodoro);
+      setBreakTime((BreakTime / 60 - 1) * 60);
     }
   };
   const incrementLongBreak = () => {
-    setLongBreak((((longBreak/60) + 1)*60));
-    console.log(longBreak)
-
-    // setTimer(pomodoro * 60);
+    setLongBreak((longBreak / 60 + 1) * 60);
+    console.log(longBreak);
   };
 
   const decrementLongBreak = () => {
     if (longBreak > 0) {
-      setLongBreak((((longBreak/60) - 1)*60));
-
-      // setTimer(pomodoro);
+      setLongBreak((longBreak / 60 - 1) * 60);
     }
   };
 
@@ -84,14 +62,19 @@ const SettingScreen = () => {
     navigation.setParams({bgColor: color}); // Pass the selected color as a navigation parameter
   };
 
-
-  
-
   return (
     <ScrollView style={{backgroundColor: bgColor}}>
       <View style={styles.Main}>
         <View style={styles.BackButtonStyle}>
-          <TouchableOpacity onPress={() => navigation.navigate('Home' , {backgroundColor: bgColor, pomodoroTime: pomodoro, breakTime: BreakTime, longBreakTime: longBreak})}>
+          <TouchableOpacity
+            onPress={() =>
+              navigation.navigate('Home', {
+                backgroundColor: bgColor,
+                pomodoroTime: pomodoro,
+                breakTime: BreakTime,
+                longBreakTime: longBreak,
+              })
+            }>
             <Text style={{fontSize: 22, color: '#ffffff'}}>{'<'}</Text>
           </TouchableOpacity>
         </View>
@@ -99,80 +82,68 @@ const SettingScreen = () => {
           <Text style={styles.DurationText}>DURATIONS</Text>
         </View>
         <View style={styles.TimerContainer}>
-          <TouchableOpacity
-            style={[styles.PomodoroText, {backgroundColor: 'bgColor'}]}
-            onPress={() => {}}>
+          <TouchableOpacity style={styles.PomodoroText} onPress={() => {}}>
             <View style={styles.containerpomodoro}>
-              <Text style={styles.topText}>{(pomodoro/60)}</Text>
+              <Text style={styles.topText}>{pomodoro / 60}</Text>
               <Text style={styles.bottomText}>POMODORO</Text>
             </View>
           </TouchableOpacity>
-          <TouchableOpacity
-            style={[styles.PomodoroText, {backgroundColor: 'bgColor'}]}
-            onPress={() => {}}>
+          <TouchableOpacity style={styles.PomodoroText} onPress={() => {}}>
             <View style={styles.containerpomodoro}>
-              <Text style={styles.topText}>{(BreakTime/60)}</Text>
+              <Text style={styles.topText}>{BreakTime / 60}</Text>
               <Text style={styles.bottomText}>BREAK</Text>
             </View>
           </TouchableOpacity>
-          <TouchableOpacity
-            style={[styles.PomodoroText, {backgroundColor: 'bgColor'}]}
-            onPress={() => {}}>
+          <TouchableOpacity style={styles.PomodoroText} onPress={() => {}}>
             <View style={styles.containerpomodoro}>
-              <Text style={styles.topText}>{(longBreak/60)}</Text>
+              <Text style={styles.topText}>{longBreak / 60}</Text>
               <Text style={styles.bottomText}>LONG BREAK</Text>
             </View>
           </TouchableOpacity>
         </View>
         <View style={styles.PlusMinusView}>
-        <TouchableOpacity
-            style={[styles.PlusMinusButtonSizeView, {backgroundColor: 'bgColor'}]}
+          <TouchableOpacity
+            style={styles.PlusMinusButtonSizeView}
             onPress={incrementPomodoro}>
             <View style={styles.PlusMinusbuttonView}>
-              
               <Text style={styles.PlusMinuseBottomText}>+</Text>
             </View>
           </TouchableOpacity>
           <TouchableOpacity
-            style={[styles.PlusMinusButtonSizeView, {backgroundColor: 'bgColor'}]}
+            style={styles.PlusMinusButtonSizeView}
             onPress={decrementPomodoro}>
             <View style={styles.PlusMinusbuttonView}>
-              
               <Text style={styles.PlusMinuseBottomText}>-</Text>
             </View>
           </TouchableOpacity>
           <TouchableOpacity
-            style={[styles.PlusMinusButtonSizeView, {backgroundColor: 'bgColor'}]}
+            style={styles.PlusMinusButtonSizeView}
             onPress={incrementBreak}>
             <View style={styles.PlusMinusbuttonView}>
-              
               <Text style={styles.PlusMinuseBottomText}>+</Text>
             </View>
           </TouchableOpacity>
           <TouchableOpacity
-            style={[styles.PlusMinusButtonSizeView, {backgroundColor: 'bgColor'}]}
+            style={styles.PlusMinusButtonSizeView}
             onPress={decrementBreak}>
             <View style={styles.PlusMinusbuttonView}>
-              
               <Text style={styles.PlusMinuseBottomText}>-</Text>
             </View>
-          </TouchableOpacity><TouchableOpacity
-            style={[styles.PlusMinusButtonSizeView, {backgroundColor: 'bgColor'}]}
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.PlusMinusButtonSizeView}
             onPress={incrementLongBreak}>
             <View style={styles.PlusMinusbuttonView}>
-              
               <Text style={styles.PlusMinuseBottomText}>+</Text>
             </View>
           </TouchableOpacity>
           <TouchableOpacity
-            style={[styles.PlusMinusButtonSizeView, {backgroundColor: 'bgColor'}]}
+            style={styles.PlusMinusButtonSizeView}
             onPress={decrementLongBreak}>
             <View style={styles.PlusMinusbuttonView}>
-              
               <Text style={styles.PlusMinuseBottomText}>-</Text>
             </View>
           </TouchableOpacity>
-         
         </View>
 
         <View>
@@ -301,127 +272,91 @@ const SettingScreen = () => {
           <Text style={styles.SoundThemsStyle}>SOUND THEMS</Text>
         </View>
         <View style={styles.TimerContainerView}>
-          <TouchableOpacity
-            style={[{backgroundColor: 'bgColor'}]}
-            onPress={() => {}}>
+          <TouchableOpacity onPress={() => {}}>
             <Text style={styles.Pomodoro}>NOTIFICATION SOUND</Text>
           </TouchableOpacity>
 
-          <TouchableOpacity
-            style={[{backgroundColor: 'bgColor'}]}
-            onPress={() => {}}>
+          <TouchableOpacity onPress={() => {}}>
             <Text style={styles.Pomodoro}>ALARM SOUND</Text>
           </TouchableOpacity>
         </View>
         <View>
           <Text style={styles.OFStyle}>OTHER PREFERENCES</Text>
         </View>
-        
+
         <View style={styles.TimerContainerView}>
-          <TouchableOpacity
-            style={[{backgroundColor: 'bgColor'}]}
-            onPress={() => {}}>
+          <TouchableOpacity onPress={() => {}}>
             <Text style={styles.Pomodoro}>NOTIFICATION SOUND</Text>
           </TouchableOpacity>
 
-          <TouchableOpacity
-            style={[{backgroundColor: 'bgColor'}]}
-            onPress={() => {}}>
+          <TouchableOpacity onPress={() => {}}>
             <Text style={styles.Pomodoro}>ALARM SOUND</Text>
           </TouchableOpacity>
         </View>
-       
+
         <View style={styles.TimerContainerView}>
-          <TouchableOpacity
-            style={[{backgroundColor: 'bgColor'}]}
-            onPress={() => {}}>
+          <TouchableOpacity onPress={() => {}}>
             <Text style={styles.Pomodoro}>VIBRATE ON</Text>
           </TouchableOpacity>
 
-          <TouchableOpacity
-            style={[{backgroundColor: 'bgColor'}]}
-            onPress={() => {}}>
+          <TouchableOpacity onPress={() => {}}>
             <Text style={styles.Pomodoro}>VIBRATE OFF</Text>
           </TouchableOpacity>
         </View>
-       
-        
+
         <View style={styles.TimerContainerView}>
-          <TouchableOpacity
-            style={[{backgroundColor: 'bgColor'}]}
-            onPress={() => {}}>
+          <TouchableOpacity onPress={() => {}}>
             <Text style={styles.Pomodoro}>AUTOSTART BREAKS OFF</Text>
           </TouchableOpacity>
 
-          <TouchableOpacity
-            style={[{backgroundColor: 'bgColor'}]}
-            onPress={() => {}}>
+          <TouchableOpacity onPress={() => {}}>
             <Text style={styles.Pomodoro}>AUTOSTART BREAKS OFF</Text>
           </TouchableOpacity>
         </View>
-        
+
         <View style={styles.TimerContainerView}>
-          <TouchableOpacity
-            style={[{backgroundColor: 'bgColor'}]}
-            onPress={() => {}}>
+          <TouchableOpacity onPress={() => {}}>
             <Text style={styles.Pomodoro}>AUTOSTART POMODOROS ON</Text>
           </TouchableOpacity>
 
-          <TouchableOpacity
-            style={[{backgroundColor: 'bgColor'}]}
-            onPress={() => {}}>
+          <TouchableOpacity onPress={() => {}}>
             <Text style={styles.Pomodoro}>AUTOSTART POMODOROS OFF</Text>
           </TouchableOpacity>
         </View>
-     
-        
+
         <View style={styles.TimerContainerView}>
-          <TouchableOpacity
-            style={[{backgroundColor: 'bgColor'}]}
-            onPress={() => {}}>
+          <TouchableOpacity onPress={() => {}}>
             <Text style={styles.Pomodoro}>SHOW NOTIFICATION ON</Text>
           </TouchableOpacity>
 
-          <TouchableOpacity
-            style={[{backgroundColor: 'bgColor'}]}
-            onPress={() => {}}>
+          <TouchableOpacity onPress={() => {}}>
             <Text style={styles.Pomodoro}>SHOW NOTIFICATION OFF</Text>
           </TouchableOpacity>
         </View>
-  
+
         <View style={styles.TimerContainerView}>
-          <TouchableOpacity
-            style={[{backgroundColor: 'bgColor'}]}
-            onPress={() => {}}>
+          <TouchableOpacity onPress={() => {}}>
             <Text style={styles.Pomodoro}>KEEP PHONE AWAKE ON</Text>
           </TouchableOpacity>
 
-          <TouchableOpacity
-            style={[{backgroundColor: 'bgColor'}]}
-            onPress={() => {}}>
+          <TouchableOpacity onPress={() => {}}>
             <Text style={styles.Pomodoro}>KEEP PHONE AWAKE OFF</Text>
           </TouchableOpacity>
         </View>
         <View style={styles.TimerContainerTwo}>
-          <TouchableOpacity
-            style={[styles.PomodoroText, {backgroundColor: 'bgColor'}]}
-            onPress={() => {}}>
+          <TouchableOpacity style={styles.PomodoroText} onPress={() => {}}>
             <View style={styles.containerpomodoro}>
               <Text style={styles.topText}>{}</Text>
               <Text style={styles.bottomText}>HOW TO USE?</Text>
             </View>
           </TouchableOpacity>
-          <TouchableOpacity
-            style={[styles.PomodoroText, {backgroundColor: 'bgColor'}]}
-            onPress={() => {}}>
+          <TouchableOpacity style={styles.PomodoroText} onPress={() => {}}>
             <View style={styles.containerpomodoro}>
               <Text style={styles.topText}>{}</Text>
               <Text style={styles.bottomText}>WRITE US</Text>
             </View>
           </TouchableOpacity>
-          <TouchableOpacity
-            style={[styles.PomodoroText, {backgroundColor: 'bgColor'}]}
-            onPress={() => {}}>
+          <TouchableOpacity style={styles.PomodoroText} onPress={() => {}}>
             <View style={styles.containerpomodoro}>
               <Text style={styles.topText}>{}</Text>
               <Text style={styles.bottomText}>RATE US</Text>
@@ -486,10 +421,9 @@ const styles = StyleSheet.create({
   },
   PlusMinuseBottomText: {
     fontSize: 20,
-   
+
     color: '#ffffff',
     paddingTop: 4,
-    
   },
   containerpomodoro: {
     flex: 1,
@@ -520,7 +454,6 @@ const styles = StyleSheet.create({
     paddingBottom: 10,
     color: '#ffffff',
   },
-  
 
   ColorContainer: {
     width: responsiveWidth(92),
@@ -594,8 +527,8 @@ const styles = StyleSheet.create({
     marginLeft: '3%',
     marginRight: '3%',
   },
-  
-  OFStyle:{
+
+  OFStyle: {
     color: '#ffffff',
     fontSize: responsiveFontSize(1.49),
     justifyContent: 'center',
@@ -603,7 +536,5 @@ const styles = StyleSheet.create({
     marginTop: responsiveHeight(3),
     fontWeight: '500',
   },
-
- 
 });
 export default SettingScreen;

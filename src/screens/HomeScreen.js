@@ -1,4 +1,4 @@
-import {View, Image, Text, StyleSheet, TouchableOpacity} from 'react-native';
+import {View, Image, Text, StyleSheet, TouchableOpacity, ScrollView} from 'react-native';
 import React, {useState, useEffect} from 'react';
 import {
   responsiveWidth,
@@ -25,21 +25,18 @@ const HomeScreen = ({navigation}) => {
   console.log('BreakTime         ------check----', initialShortBreak);
   console.log('longBreakTime     ------check----', initialLongBreak);
 
-  // const [Pomodoro, setPomodoro] = useState(initialPomodoro);
-  // const [Break, setBreak] = useState(initialShortBreak);
-  // const [LongBreak, setLongBreak] = useState(initialLongBreak);
-
   const [currentState, setCurrentState] = useState(1);
 
   const [timer, setTimer] = useState(initialPomodoro); // 25 minutes in seconds
   const [timerType, setTimerType] = useState('pomodoro');
-  const [cycleCount, setCycleCount] = useState(initialCycle);
+  const [cycleCount, setCycleCount] = useState(1);
   const [isRunning, setIsRunning] = useState(false);
 
   useEffect(() => {
     SplashScreen.hide();
    
   }, [formatTime]);
+
   useEffect(() => {
     let interval;
 
@@ -51,10 +48,13 @@ const HomeScreen = ({navigation}) => {
       clearInterval(interval);
       playSound();
       setTimerType('break');
+      toggleState();
+
       toggleTimer();
 
       if (timerType === 'pomodoro') {
         setCycleCount(cycleCount + 1);
+        console.log("cycleCount--------------------------- ", cycleCount)
 
         if (cycleCount === initialCycle) {
           setTimerType('long break');
@@ -66,7 +66,7 @@ const HomeScreen = ({navigation}) => {
         }
       } else {
         setTimerType('pomodoro');
-        setTimer(5); // 25 minutes in seconds
+        setTimer(initialPomodoro); // 25 minutes in seconds
       }
     }
 
@@ -282,20 +282,15 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#3cd689',
     alignItems: 'center',
+    width: '100%',
+    height: '100%',
   },
   iconView: {
-    width: 10,
-    height: 10,
-    marginLeft: 346,
-    marginTop: responsiveHeight(1.8),
-    opacity: 0.7,
+    marginLeft: '88%',
+    marginTop: '3%',
   },
   ImageView: {
-    width: 17,
-    height: 24,
     marginRight: 8,
-    backgroundColor: '#ffffff',
-    color: '#ffffff'
   },
   Main: {},
   button: {
