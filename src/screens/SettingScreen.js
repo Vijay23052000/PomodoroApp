@@ -26,32 +26,32 @@ const SettingScreen = () => {
   };
 
   
-  const [pomodoro, setPomodoro] = useState(secondsToMinutes(initialPomodoroTime))
-  const [BreakTime, setBreakTime] = useState(secondsToMinutes(initialShortBreakTime))
-  const [longBreak, setLongBreak] = useState(secondsToMinutes(initialLongBreakTime));
+  const [pomodoro, setPomodoro] = useState((initialPomodoroTime))
+  const [BreakTime, setBreakTime] = useState((initialShortBreakTime))
+  const [longBreak, setLongBreak] = useState((initialLongBreakTime));
 
-  console.log('check pomodoro value --------->',pomodoro)
-  console.log('check BreakTime value --------->',BreakTime)
-  console.log('check LongBreak value --------->',longBreak)
+  console.log('check pomodoro value --------->',pomodoro/60)
+  console.log('check BreakTime value --------->',BreakTime/60)
+  console.log('check LongBreak value --------->',longBreak/60)
 
 
 
   const incrementPomodoro = () => {
-    setPomodoro(pomodoro + 1);
-    console.log(pomodoro)
+    setPomodoro((((pomodoro/60) + 1)*60));
+    console.log("after press incrementPomodoro button",(pomodoro/60))
 
     // setTimer(pomodoro * 60);
   };
 
   const decrementPomodoro = () => {
     if (pomodoro > 0) {
-      setPomodoro(pomodoro - 1);
+      setPomodoro((((pomodoro/60) - 1)*60));
       // setTimer(pomodoro);
     }
   };
 
   const incrementBreak = () => {
-    setBreakTime(BreakTime + 1);
+    setBreakTime((((BreakTime/60) + 1)*60));
     console.log(BreakTime)
 
     // setTimer(pomodoro * 60);
@@ -59,12 +59,13 @@ const SettingScreen = () => {
 
   const decrementBreak = () => {
     if (BreakTime > 0) {
-      setBreakTime(BreakTime - 1);
+      setBreakTime((((BreakTime/60) - 1)*60));
+
       // setTimer(pomodoro);
     }
   };
   const incrementLongBreak = () => {
-    setLongBreak(longBreak + 1);
+    setLongBreak((((longBreak/60) + 1)*60));
     console.log(longBreak)
 
     // setTimer(pomodoro * 60);
@@ -72,7 +73,8 @@ const SettingScreen = () => {
 
   const decrementLongBreak = () => {
     if (longBreak > 0) {
-      setLongBreak(longBreak - 1);
+      setLongBreak((((longBreak/60) - 1)*60));
+
       // setTimer(pomodoro);
     }
   };
@@ -101,7 +103,7 @@ const SettingScreen = () => {
             style={[styles.PomodoroText, {backgroundColor: 'bgColor'}]}
             onPress={() => {}}>
             <View style={styles.containerpomodoro}>
-              <Text style={styles.topText}>{pomodoro}</Text>
+              <Text style={styles.topText}>{(pomodoro/60)}</Text>
               <Text style={styles.bottomText}>POMODORO</Text>
             </View>
           </TouchableOpacity>
@@ -109,7 +111,7 @@ const SettingScreen = () => {
             style={[styles.PomodoroText, {backgroundColor: 'bgColor'}]}
             onPress={() => {}}>
             <View style={styles.containerpomodoro}>
-              <Text style={styles.topText}>{BreakTime}</Text>
+              <Text style={styles.topText}>{(BreakTime/60)}</Text>
               <Text style={styles.bottomText}>BREAK</Text>
             </View>
           </TouchableOpacity>
@@ -117,7 +119,7 @@ const SettingScreen = () => {
             style={[styles.PomodoroText, {backgroundColor: 'bgColor'}]}
             onPress={() => {}}>
             <View style={styles.containerpomodoro}>
-              <Text style={styles.topText}>{longBreak}</Text>
+              <Text style={styles.topText}>{(longBreak/60)}</Text>
               <Text style={styles.bottomText}>LONG BREAK</Text>
             </View>
           </TouchableOpacity>

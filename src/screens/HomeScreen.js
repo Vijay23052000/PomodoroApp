@@ -1,11 +1,4 @@
-import {
-  View,
-  Image,
-  // Button,
-  Text,
-  StyleSheet,
-  TouchableOpacity,
-} from 'react-native';
+import {View, Image, Text, StyleSheet, TouchableOpacity} from 'react-native';
 import React, {useState, useEffect} from 'react';
 import {
   responsiveWidth,
@@ -28,27 +21,25 @@ const HomeScreen = ({navigation}) => {
   initialShortBreak = route.params?.breakTime ?? initialShortBreak;
   initialLongBreak = route.params?.longBreakTime ?? initialLongBreak;
 
-  useEffect(() => {
-    // timer();
-  }, [timer]);
   console.log('pomodoroTime      ------check----', initialPomodoro);
   console.log('BreakTime         ------check----', initialShortBreak);
   console.log('longBreakTime     ------check----', initialLongBreak);
 
-  const [Pomodoro, setPomodoro] = useState(initialPomodoro);
-  const [Break, setBreak] = useState(initialShortBreak);
-  const [LongBreak, setLongBreak] = useState(initialLongBreak);
+  // const [Pomodoro, setPomodoro] = useState(initialPomodoro);
+  // const [Break, setBreak] = useState(initialShortBreak);
+  // const [LongBreak, setLongBreak] = useState(initialLongBreak);
 
   const [currentState, setCurrentState] = useState(1);
 
-  const [timer, setTimer] = useState(Pomodoro); // 25 minutes in seconds
+  const [timer, setTimer] = useState(initialPomodoro); // 25 minutes in seconds
   const [timerType, setTimerType] = useState('pomodoro');
   const [cycleCount, setCycleCount] = useState(initialCycle);
   const [isRunning, setIsRunning] = useState(false);
 
   useEffect(() => {
     SplashScreen.hide();
-  }, []);
+   
+  }, [formatTime]);
   useEffect(() => {
     let interval;
 
@@ -140,15 +131,15 @@ const HomeScreen = ({navigation}) => {
   const toggleState = () => {
     switch (currentState) {
       case 1:
-        setTimer(Break);
+        setTimer(initialShortBreak);
 
         break;
       case 2:
-        setTimer(LongBreak);
+        setTimer(initialLongBreak);
 
         break;
       case 3:
-        setTimer(Pomodoro);
+        setTimer(initialPomodoro);
 
         break;
       default:
@@ -157,8 +148,6 @@ const HomeScreen = ({navigation}) => {
 
     setCurrentState(prevState => (prevState === 3 ? 1 : prevState + 1));
   };
-
-  let buttonText, buttonColor;
 
   switch (currentState) {
     case 1:
@@ -234,25 +223,33 @@ const HomeScreen = ({navigation}) => {
         </View>
       </View>
 
-      <View style={styles.toggleStateView}>
-        <TouchableOpacity style={styles.button} onPress={toggleState}>
-          <View style={{flexDirection: 'row', alignItems: 'center'}}>
-            <Image
-              source={require('../images/arrow.png')}
-              style={styles.ImageView}
-              resizeMode="contain"
-            />
-            <Text style={styles.buttonText}>
-              {buttonText}{' '}
-              {buttonText === 'POMODORO'
-                ? initialPomodoro / 60
-                : buttonText === 'SHORT BREAK'
-                ? initialShortBreak / 60
-                : initialLongBreak / 60}{' '}
-              MIN
-            </Text>
+      <View>
+        {!isRunning ? (
+          <View style={styles.toggleStateView}>
+            <TouchableOpacity style={styles.button} onPress={toggleState}>
+              <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                <Image
+                  source={require('../images/arrow.png')}
+                  style={styles.ImageView}
+                  resizeMode="contain"
+                />
+                <Text style={styles.buttonText}>
+                  {buttonText}{' '}
+                  {buttonText === 'POMODORO'
+                    ? initialPomodoro / 60
+                    : buttonText === 'SHORT BREAK'
+                    ? initialShortBreak / 60
+                    : initialLongBreak / 60}{' '}
+                  MIN
+                </Text>
+              </View>
+            </TouchableOpacity>
           </View>
-        </TouchableOpacity>
+        ) : (
+          <View style={styles.toggleStateView}>
+            <Text style={styles.buttonText}>{buttonText}</Text>
+          </View>
+        )}
       </View>
 
       <View>
@@ -294,9 +291,11 @@ const styles = StyleSheet.create({
     opacity: 0.7,
   },
   ImageView: {
-    width: 15,
-    height: 22,
+    width: 17,
+    height: 24,
     marginRight: 8,
+    backgroundColor: '#ffffff',
+    color: '#ffffff'
   },
   Main: {},
   button: {
