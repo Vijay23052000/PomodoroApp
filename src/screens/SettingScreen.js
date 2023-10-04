@@ -16,7 +16,6 @@ import { useNavigation } from '@react-navigation/native';
 const SettingScreen = () => {
   const navigation = useNavigation();
   const [bgColor, setBgColor] = useState('#3cd689');
-  // const [isEnabled, setIsEnabled] = useState(false);
 
   let initialPomodoroTime = 180; // 25 minutes by default for Pomodoro
   let initialShortBreakTime = 240; // 5 minutes by default for short break
@@ -38,7 +37,7 @@ const SettingScreen = () => {
 
 
   const incrementPomodoro = () => {
-    setPomodoro((pomodoro + 1*60));
+    setPomodoro(pomodoro + 1);
     console.log(pomodoro)
 
     // setTimer(pomodoro * 60);
@@ -46,7 +45,7 @@ const SettingScreen = () => {
 
   const decrementPomodoro = () => {
     if (pomodoro > 0) {
-      setPomodoro((pomodoro - 1*60));
+      setPomodoro(pomodoro - 1);
       // setTimer(pomodoro);
     }
   };
