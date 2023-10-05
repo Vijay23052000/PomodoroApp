@@ -1,4 +1,4 @@
-import {View, Image, Text, StyleSheet, TouchableOpacity, ScrollView} from 'react-native';
+import {View, Image, Text, StyleSheet, TouchableOpacity} from 'react-native';
 import React, {useState, useEffect} from 'react';
 import {
   responsiveWidth,
@@ -8,10 +8,10 @@ import {
 import {useRoute} from '@react-navigation/native';
 import SplashScreen from 'react-native-splash-screen';
 
-let initialPomodoro = 60;
-let initialShortBreak = 120;
-let initialLongBreak = 180;
-let initialCycle = 2;
+let initialPomodoro = 3;
+let initialShortBreak = 2;
+let initialLongBreak = 1;
+let initialCycle = 3;
 
 const HomeScreen = ({navigation}) => {
   const route = useRoute();
@@ -21,21 +21,20 @@ const HomeScreen = ({navigation}) => {
   initialShortBreak = route.params?.breakTime ?? initialShortBreak;
   initialLongBreak = route.params?.longBreakTime ?? initialLongBreak;
 
-  console.log('pomodoroTime      ------check----', initialPomodoro);
-  console.log('BreakTime         ------check----', initialShortBreak);
-  console.log('longBreakTime     ------check----', initialLongBreak);
+  // console.log('pomodoroTime      ------check----', initialPomodoro);
+  // console.log('BreakTime         ------check----', initialShortBreak);
+  // console.log('longBreakTime     ------check----', initialLongBreak);
 
   const [currentState, setCurrentState] = useState(1);
 
   const [timer, setTimer] = useState(initialPomodoro); // 25 minutes in seconds
-  const [timerType, setTimerType] = useState('pomodoro');
+  const [timerType, setTimerType] = useState('POMODORO');
   const [cycleCount, setCycleCount] = useState(1);
   const [isRunning, setIsRunning] = useState(false);
 
   useEffect(() => {
     SplashScreen.hide();
-   
-  }, [formatTime]);
+  }, []);
 
   useEffect(() => {
     let interval;
@@ -47,25 +46,25 @@ const HomeScreen = ({navigation}) => {
     } else if (timer === 0) {
       clearInterval(interval);
       playSound();
-      setTimerType('break');
+      setTimerType('SHORT BREAK');
       toggleState();
 
       toggleTimer();
 
-      if (timerType === 'pomodoro') {
+      if (timerType === 'POMODORO') {
         setCycleCount(cycleCount + 1);
-        console.log("cycleCount--------------------------- ", cycleCount)
+        console.log('cycleCount--------------------------- ', cycleCount);
 
         if (cycleCount === initialCycle) {
-          setTimerType('long break');
+          setTimerType('LONG BREAK');
           setTimer(initialLongBreak); // 30 minutes in seconds
-          setCycleCount(0);
+          setCycleCount(1);
         } else {
-          setTimerType('short break');
+          setTimerType('SHORT BREAK');
           setTimer(initialShortBreak); // 5 minutes in seconds
         }
       } else {
-        setTimerType('pomodoro');
+        setTimerType('POMODORO');
         setTimer(initialPomodoro); // 25 minutes in seconds
       }
     }
@@ -125,7 +124,7 @@ const HomeScreen = ({navigation}) => {
         : setTimer(initialLongBreak);
     }
 
-    setCycleCount(0);
+    setCycleCount(1);
   };
 
   const toggleState = () => {
@@ -145,8 +144,9 @@ const HomeScreen = ({navigation}) => {
       default:
         break;
     }
-
     setCurrentState(prevState => (prevState === 3 ? 1 : prevState + 1));
+
+    // setCurrentState(prevState => (prevState === 3 ? 1 : prevState + 1));
   };
 
   switch (currentState) {
@@ -189,6 +189,9 @@ const HomeScreen = ({navigation}) => {
             <Text></Text>
           </View>
         )}
+      </View>
+      <View>
+        <Text style={styles.buttonText}>{timerType}</Text>
       </View>
 
       <View style={styles.outerCircle}>
@@ -247,7 +250,7 @@ const HomeScreen = ({navigation}) => {
           </View>
         ) : (
           <View style={styles.toggleStateView}>
-            <Text style={styles.buttonText}>{buttonText}</Text>
+            <Text style={styles.buttonText}>{timerType}</Text>
           </View>
         )}
       </View>
@@ -292,7 +295,6 @@ const styles = StyleSheet.create({
   ImageView: {
     marginRight: 8,
   },
-  Main: {},
   button: {
     width: 200,
     height: 10,
