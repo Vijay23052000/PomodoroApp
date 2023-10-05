@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   View,
   Text,
@@ -12,6 +12,7 @@ import {
   responsiveWidth,
 } from 'react-native-responsive-dimensions';
 import {useNavigation} from '@react-navigation/native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const SettingScreen = () => {
   const navigation = useNavigation();
@@ -25,6 +26,55 @@ const SettingScreen = () => {
   const [BreakTime, setBreakTime] = useState(initialShortBreakTime);
   const [longBreak, setLongBreak] = useState(initialLongBreakTime);
 
+  useEffect(() => {
+    AsyncStorage.getItem('pomodoroTime')
+      .then((value) => {
+        if (value !== null) {
+          setPomodoro(parseInt(value));
+        }
+      })
+      .catch((error) => {
+        console.error('Error pomodoroTime', error);
+      });
+
+    AsyncStorage.getItem('shortBreakTime')
+      .then((value) => {
+        if (value !== null) {
+          setBreakTime(parseInt(value));
+        }
+      })
+      .catch((error) => {
+        console.error('Error shortBreakTime: ', error);
+      });
+
+    AsyncStorage.getItem('longBreakTime')
+      .then((value) => {
+        if (value !== null) {
+          setLongBreak(parseInt(value));
+        }
+      })
+      .catch((error) => {
+        console.error('Error longBreakTime: ', error);
+      });
+  }, []);
+
+  useEffect(() => {
+    AsyncStorage.setItem('pomodoroTime', pomodoro.toString())
+      .catch((error) => {
+        console.error('Error pomodoroTime: ', error);
+      });
+
+    AsyncStorage.setItem('shortBreakTime', BreakTime.toString())
+      .catch((error) => {
+        console.error('Error shortBreakTime: ', error);
+      });
+
+    AsyncStorage.setItem('longBreakTime', longBreak.toString())
+      .catch((error) => {
+        console.error('Error longBreakTime: ', error);
+      });
+  }, [pomodoro, BreakTime, longBreak]);
+  
   const incrementPomodoro = () => {
     setPomodoro((pomodoro / 60 + 1) * 60);
     console.log('after press incrementPomodoro button', pomodoro / 60);
