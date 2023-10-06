@@ -8,9 +8,9 @@ import {
 import {useRoute} from '@react-navigation/native';
 import SplashScreen from 'react-native-splash-screen';
 
-let initialPomodoro = 3;
-let initialShortBreak = 2;
-let initialLongBreak = 1;
+let initialPomodoro = 60;
+let initialShortBreak = 120;
+let initialLongBreak = 180;
 let initialCycle = 3;
 
 const HomeScreen = ({navigation}) => {
@@ -20,6 +20,7 @@ const HomeScreen = ({navigation}) => {
   initialPomodoro = route.params?.pomodoroTime ?? initialPomodoro;
   initialShortBreak = route.params?.breakTime ?? initialShortBreak;
   initialLongBreak = route.params?.longBreakTime ?? initialLongBreak;
+  initialCycle = route.params?.cycleCount ?? initialCycle;
 
   // console.log('pomodoroTime      ------check----', initialPomodoro);
   // console.log('BreakTime         ------check----', initialShortBreak);
@@ -131,15 +132,15 @@ const HomeScreen = ({navigation}) => {
     switch (currentState) {
       case 1:
         setTimer(initialShortBreak);
-setTimerType('SHORT BREAK')
+        setTimerType('SHORT BREAK');
         break;
       case 2:
         setTimer(initialLongBreak);
-setTimerType('LONG BREAK')
+        setTimerType('LONG BREAK');
         break;
       case 3:
         setTimer(initialPomodoro);
-setTimerType('POMODORO')
+        setTimerType('POMODORO');
         break;
       default:
         break;
