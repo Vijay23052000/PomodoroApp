@@ -37,6 +37,8 @@ const SettingScreen = () => {
         console.error('Error pomodoroTime', error);
       });
 
+     
+
     AsyncStorage.getItem('shortBreakTime')
       .then((value) => {
         if (value !== null) {
@@ -56,6 +58,16 @@ const SettingScreen = () => {
       .catch((error) => {
         console.error('Error longBreakTime: ', error);
       });
+
+      AsyncStorage.getItem('backgroundColor')
+      .then((value) => {
+        if (value !== null) {
+          setBgColor(value);
+        }
+      })
+      .catch((error) => {
+        console.error('Error backgroundColor', error);
+      });
   }, []);
 
   useEffect(() => {
@@ -73,7 +85,12 @@ const SettingScreen = () => {
       .catch((error) => {
         console.error('Error longBreakTime: ', error);
       });
-  }, [pomodoro, BreakTime, longBreak]);
+
+      AsyncStorage.setItem('backgroundColor', bgColor.toString())
+      .catch((error) => {
+        console.error('Error backgroundColor: ', error);
+      });
+  }, [pomodoro, BreakTime, longBreak, bgColor]);
   
   const incrementPomodoro = () => {
     setPomodoro((pomodoro / 60 + 1) * 60);
