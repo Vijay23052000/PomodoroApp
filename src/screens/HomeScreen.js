@@ -131,15 +131,15 @@ const HomeScreen = ({navigation}) => {
     switch (currentState) {
       case 1:
         setTimer(initialShortBreak);
-
+setTimerType('SHORT BREAK')
         break;
       case 2:
         setTimer(initialLongBreak);
-
+setTimerType('LONG BREAK')
         break;
       case 3:
         setTimer(initialPomodoro);
-
+setTimerType('POMODORO')
         break;
       default:
         break;

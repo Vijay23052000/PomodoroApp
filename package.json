@@ -1,5 +1,5 @@
 {
-  "name": "PomodoroApp",
+  "name": "Pomodoro",
   "version": "0.0.1",
   "private": true,
   "scripts": {
@@ -27,7 +27,6 @@
     "react-native-screens": "^3.25.0",
     "react-native-sound": "^0.11.2",
     "react-native-splash-screen": "^3.3.0",
-    "react-native-svg": "^13.14.0",
     "react-native-vector-icons": "^10.0.0",
     "react-redux": "^8.1.2"
   },
