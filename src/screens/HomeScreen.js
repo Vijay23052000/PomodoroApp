@@ -7,13 +7,14 @@ import {
 } from 'react-native-responsive-dimensions';
 import {useRoute} from '@react-navigation/native';
 import SplashScreen from 'react-native-splash-screen';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 let initialPomodoro = 60;
 let initialShortBreak = 120;
 let initialLongBreak = 180;
 let initialCycle = 3;
 
-const HomeScreen = ({navigation}) => {
+const HomeScreen =  ({navigation}) => {
   const route = useRoute();
   const backgroundColor = route.params?.backgroundColor ?? '#0ca689';
 
@@ -22,9 +23,8 @@ const HomeScreen = ({navigation}) => {
   initialLongBreak = route.params?.longBreakTime ?? initialLongBreak;
   initialCycle = route.params?.cycleCount ?? initialCycle;
 
-  // console.log('pomodoroTime      ------check----', initialPomodoro);
-  // console.log('BreakTime         ------check----', initialShortBreak);
-  // console.log('longBreakTime     ------check----', initialLongBreak);
+
+
 
   const [currentState, setCurrentState] = useState(1);
 
@@ -33,8 +33,71 @@ const HomeScreen = ({navigation}) => {
   const [cycleCount, setCycleCount] = useState(1);
   const [isRunning, setIsRunning] = useState(false);
 
+
+  useEffect(() => {
+    AsyncStorage.getItem('pomodoroTime')
+      .then(value => {
+        if (value !== null) {
+          initialPomodoro = parseInt(value)
+          setTimer(parseInt(value))
+          console.log('pomodoroTime      ---1---check--tttt-initialPomodoro-', initialPomodoro);
+        }
+      })
+      .catch(error => {
+        console.error('Error pomodoroTime', error);
+      });
+
+    // AsyncStorage.getItem('shortBreakTime')
+    //   .then(value => {
+    //     if (value !== null) {
+    //       setBreakTime(parseInt(value));
+    //     }
+    //   })
+    //   .catch(error => {
+    //     console.error('Error shortBreakTime: ', error);
+    //   });
+
+    // AsyncStorage.getItem('longBreakTime')
+    //   .then(value => {
+    //     if (value !== null) {
+    //       setLongBreak(parseInt(value));
+    //     }
+    //   })
+    //   .catch(error => {
+    //     console.error('Error longBreakTime: ', error);
+    //   });
+
+    // AsyncStorage.getItem('backgroundColor')
+    //   .then(value => {
+    //     if (value !== null) {
+    //       setBgColor(value);
+    //     }
+    //   })
+    //   .catch(error => {
+    //     console.error('Error backgroundColor', error);
+    //   });
+
+    //   AsyncStorage.getItem('CycleCount')
+    //   .then(value => {
+    //     if (value !== null) {
+    //       setCycleCount(parseInt(value));
+    //     }
+    //   })
+    //   .catch(error => {
+    //     console.error('Error CycleCount', error);
+    //   });
+
+  }, []);
   useEffect(() => {
     SplashScreen.hide();
+    
+    // setPomodoro(parseInt(longBreakTime));
+    AsyncStorage.setItem('longBreakTime', "120").catch(error => {
+      console.error('Error pomodoroTime: ', error);
+    });
+        
+    console.log('pomodoroTime      ------check--tttt--', AsyncStorage.getItem('longBreakTime'));
+    
   }, []);
 
   useEffect(() => {
@@ -139,7 +202,7 @@ const HomeScreen = ({navigation}) => {
         setTimerType('LONG BREAK');
         break;
       case 3:
-        setTimer(initialPomodoro);
+        setTimer(timer);
         setTimerType('POMODORO');
         break;
       default:
