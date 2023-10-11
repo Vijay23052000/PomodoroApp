@@ -5,7 +5,7 @@ import {
   responsiveHeight,
   responsiveFontSize,
 } from 'react-native-responsive-dimensions';
-import {useRoute} from '@react-navigation/native';
+import {useFocusEffect, useRoute} from '@react-navigation/native';
 import SplashScreen from 'react-native-splash-screen';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -15,89 +15,155 @@ let initialLongBreak = 180;
 let initialCycle = 3;
 
 const HomeScreen =  ({navigation}) => {
+  const [pomodoro, setPomodoro] = useState(initialPomodoro);
+  const [BreakTime, setBreakTime] = useState(initialShortBreak);
+  const [longBreak, setLongBreak] = useState(initialLongBreak);
+  
+const [num, setNum] = useState(true);
+
   const route = useRoute();
   const backgroundColor = route.params?.backgroundColor ?? '#0ca689';
 
-  initialPomodoro = route.params?.pomodoroTime ?? initialPomodoro;
-  initialShortBreak = route.params?.breakTime ?? initialShortBreak;
-  initialLongBreak = route.params?.longBreakTime ?? initialLongBreak;
-  initialCycle = route.params?.cycleCount ?? initialCycle;
-
-
-
-
-  const [currentState, setCurrentState] = useState(1);
-
-  const [timer, setTimer] = useState(initialPomodoro); // 25 minutes in seconds
-  const [timerType, setTimerType] = useState('POMODORO');
-  const [cycleCount, setCycleCount] = useState(1);
-  const [isRunning, setIsRunning] = useState(false);
-
-
-  useEffect(() => {
-    AsyncStorage.getItem('pomodoroTime')
+  const callFuntion = () => {
+    if(currentState === 1){
+      AsyncStorage.getItem('pomodoroTime')
       .then(value => {
         if (value !== null) {
-          initialPomodoro = parseInt(value)
+          setPomodoro(parseInt(value))
           setTimer(parseInt(value))
-          console.log('pomodoroTime      ---1---check--tttt-initialPomodoro-', initialPomodoro);
+          setNum(!!false);
         }
       })
       .catch(error => {
         console.error('Error pomodoroTime', error);
       });
+      AsyncStorage.getItem('shortBreakTime')
+      .then(value => {
+        if (value !== null) {
+          setBreakTime(parseInt(value))
+          // setTimer(parseInt(value))
+          setNum(!!false);
+        }
+      })
+      .catch(error => {
+        console.error('Error shortBreakTime', error);
+      });
+   
+      AsyncStorage.getItem('longBreakTime')
+      .then(value => {
+        if (value !== null) {
+          setLongBreak(parseInt(value))
+          // setTimer(parseInt(value))
+          setNum(!!false);
+        }
+      })
+      .catch(error => {
+        console.error('Error longBreakTime', error);
+      });
+    }
+    else if(currentState === 2){
+        AsyncStorage.getItem('pomodoroTime')
+        .then(value => {
+          if (value !== null) {
+            setPomodoro(parseInt(value))
+            // setTimer(parseInt(value))
+            setNum(!!false);
+          }
+        })
+        .catch(error => {
+          console.error('Error pomodoroTime', error);
+        });
+        AsyncStorage.getItem('shortBreakTime')
+        .then(value => {
+          if (value !== null) {
+            setBreakTime(parseInt(value))
+            setTimer(parseInt(value))
+            setNum(!!false);
+          }
+        })
+        .catch(error => {
+          console.error('Error shortBreakTime', error);
+        });
+     
+        AsyncStorage.getItem('longBreakTime')
+        .then(value => {
+          if (value !== null) {
+            setLongBreak(parseInt(value))
+            // setTimer(parseInt(value))
+            setNum(!!false);
+          }
+        })
+        .catch(error => {
+          console.error('Error longBreakTime', error);
+        });
+    }
+    else if( currentState === 3 ){
+        AsyncStorage.getItem('pomodoroTime')
+        .then(value => {
+          if (value !== null) {
+            setPomodoro(parseInt(value))
+            // setTimer(parseInt(value))
+            setNum(!!false);
+          }
+        })
+        .catch(error => {
+          console.error('Error pomodoroTime', error);
+        });
+        AsyncStorage.getItem('shortBreakTime')
+        .then(value => {
+          if (value !== null) {
+            setBreakTime(parseInt(value))
+            // setTimer(parseInt(value))
+            setNum(!!false);
+          }
+        })
+        .catch(error => {
+          console.error('Error shortBreakTime', error);
+        });
+     
+        AsyncStorage.getItem('longBreakTime')
+        .then(value => {
+          if (value !== null) {
+            setLongBreak(parseInt(value))
+            setTimer(parseInt(value))
+            setNum(!!false);
+          }
+        })
+        .catch(error => {
+          console.error('Error longBreakTime', error);
+        });
+    }
+    
+     
+  }
+    
+   
 
-    // AsyncStorage.getItem('shortBreakTime')
-    //   .then(value => {
-    //     if (value !== null) {
-    //       setBreakTime(parseInt(value));
-    //     }
-    //   })
-    //   .catch(error => {
-    //     console.error('Error shortBreakTime: ', error);
-    //   });
+  //  initialPomodoro = route.params?.pomodoroTime ?? initialPomodoro
+  initialPomodoro = route.params?.pomodoroTime ?? initialPomodoro;
+  initialShortBreak = route.params?.breakTime ?? initialShortBreak;
+  initialLongBreak = route.params?.longBreakTime ?? initialLongBreak;
+  initialCycle = route.params?.cycleCount ?? initialCycle;
 
-    // AsyncStorage.getItem('longBreakTime')
-    //   .then(value => {
-    //     if (value !== null) {
-    //       setLongBreak(parseInt(value));
-    //     }
-    //   })
-    //   .catch(error => {
-    //     console.error('Error longBreakTime: ', error);
-    //   });
+useFocusEffect(() => {
+ if(num==!!true){
+  callFuntion();
+ }
+})
 
-    // AsyncStorage.getItem('backgroundColor')
-    //   .then(value => {
-    //     if (value !== null) {
-    //       setBgColor(value);
-    //     }
-    //   })
-    //   .catch(error => {
-    //     console.error('Error backgroundColor', error);
-    //   });
 
-    //   AsyncStorage.getItem('CycleCount')
-    //   .then(value => {
-    //     if (value !== null) {
-    //       setCycleCount(parseInt(value));
-    //     }
-    //   })
-    //   .catch(error => {
-    //     console.error('Error CycleCount', error);
-    //   });
+  const [currentState, setCurrentState] = useState(1);
 
-  }, []);
+  const [timer, setTimer] = useState(pomodoro); // 25 minutes in seconds
+  const [timerType, setTimerType] = useState('POMODORO');
+  const [cycleCount, setCycleCount] = useState(1);
+  const [isRunning, setIsRunning] = useState(false);
+
+
+
   useEffect(() => {
     SplashScreen.hide();
-    
-    // setPomodoro(parseInt(longBreakTime));
-    AsyncStorage.setItem('longBreakTime', "120").catch(error => {
-      console.error('Error pomodoroTime: ', error);
-    });
-        
-    console.log('pomodoroTime      ------check--tttt--', AsyncStorage.getItem('longBreakTime'));
-    
+   
   }, []);
 
   useEffect(() => {
@@ -121,15 +187,15 @@ const HomeScreen =  ({navigation}) => {
 
         if (cycleCount === initialCycle) {
           setTimerType('LONG BREAK');
-          setTimer(initialLongBreak); // 30 minutes in seconds
+          setTimer(longBreak); // 30 minutes in seconds
           setCycleCount(1);
         } else {
           setTimerType('SHORT BREAK');
-          setTimer(initialShortBreak); // 5 minutes in seconds
+          setTimer(BreakTime); // 5 minutes in seconds
         }
       } else {
         setTimerType('POMODORO');
-        setTimer(initialPomodoro); // 25 minutes in seconds
+        setTimer(pomodoro); // 25 minutes in seconds
       }
     }
 
@@ -164,9 +230,11 @@ const HomeScreen =  ({navigation}) => {
 
   const toggleTimer = () => {
     if (isRunning) {
-      setIsRunning(false); // Stop the timer if it's running
+      setIsRunning(false);  // Stop the timer if it's running
     } else {
       setIsRunning(true); // Start the timer if it's not running
+      // setNum(true) 
+
     }
   };
 
@@ -182,10 +250,10 @@ const HomeScreen =  ({navigation}) => {
     setIsRunning(false);
     {
       buttonText === 'POMODORO'
-        ? setTimer(initialPomodoro)
+        ? setTimer(pomodoro)
         : buttonText === 'SHORT BREAK'
-        ? setTimer(initialShortBreak)
-        : setTimer(initialLongBreak);
+        ? setTimer(BreakTime)
+        : setTimer(longBreak);
     }
 
     setCycleCount(1);
@@ -194,23 +262,24 @@ const HomeScreen =  ({navigation}) => {
   const toggleState = () => {
     switch (currentState) {
       case 1:
-        setTimer(initialShortBreak);
+        // callFuntion();
+        setTimer(BreakTime);
         setTimerType('SHORT BREAK');
         break;
       case 2:
-        setTimer(initialLongBreak);
+        // callFuntion();
+        setTimer(longBreak);
         setTimerType('LONG BREAK');
         break;
       case 3:
-        setTimer(timer);
+        // callFuntion();
+        setTimer(pomodoro);
         setTimerType('POMODORO');
         break;
       default:
         break;
     }
     setCurrentState(prevState => (prevState === 3 ? 1 : prevState + 1));
-
-    // setCurrentState(prevState => (prevState === 3 ? 1 : prevState + 1));
   };
 
   switch (currentState) {
@@ -238,7 +307,10 @@ const HomeScreen =  ({navigation}) => {
       <View>
         {!isRunning ? (
           <View style={styles.iconView}>
-            <TouchableOpacity onPress={() => navigation.navigate('Setting')}>
+            <TouchableOpacity onPress={() => {
+              setNum(!!true),
+              navigation.navigate('Setting')
+              }}>
               <View style={{flexDirection: 'row', alignItems: 'center'}}>
                 <Image
                   source={require('../images/icon.png')}
@@ -303,10 +375,10 @@ const HomeScreen =  ({navigation}) => {
                 <Text style={styles.buttonText}>
                   {buttonText}{' '}
                   {buttonText === 'POMODORO'
-                    ? initialPomodoro / 60
+                    ? pomodoro / 60
                     : buttonText === 'SHORT BREAK'
-                    ? initialShortBreak / 60
-                    : initialLongBreak / 60}{' '}
+                    ? BreakTime / 60
+                    : longBreak / 60}{' '}
                   MIN
                 </Text>
               </View>
