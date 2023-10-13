@@ -16,12 +16,12 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const SettingScreen = () => {
   const navigation = useNavigation();
-  const [bgColor, setBgColor] = useState('#3cd689');
+  const [backgroundColor, setBackgroundColor] = useState('#3cd689');
 
   let initialPomodoroTime = 60; // 25 minutes by default for Pomodoro
   let initialShortBreakTime = 60; // 5 minutes by default for short break
   let initialLongBreakTime = 60; // 15 minutes by default for long break
-  let initialCycleCountValue = 3;
+  let initialCycleCountValue = 2;
 
   const [pomodoro, setPomodoro] = useState(initialPomodoroTime);
   const [BreakTime, setBreakTime] = useState(initialShortBreakTime);
@@ -62,23 +62,26 @@ const SettingScreen = () => {
     AsyncStorage.getItem('backgroundColor')
       .then(value => {
         if (value !== null) {
-          setBgColor(value);
+          setBackgroundColor(value);
         }
       })
       .catch(error => {
         console.error('Error backgroundColor', error);
       });
 
-      AsyncStorage.getItem('CycleCount')
+    AsyncStorage.getItem('CycleCount')
       .then(value => {
         if (value !== null) {
           setCycleCount(parseInt(value));
         }
+        console.log(
+          'CycleCount---AsyncStorage.getItem----Setting Screen',
+          cycleCount,
+        );
       })
       .catch(error => {
         console.error('Error CycleCount', error);
       });
-
   }, []);
 
   useEffect(() => {
@@ -96,18 +99,22 @@ const SettingScreen = () => {
       console.error('Error longBreakTime: ', error);
     });
 
-    AsyncStorage.setItem('backgroundColor', bgColor.toString()).catch(error => {
-      console.error('Error backgroundColor: ', error);
-    });
+    AsyncStorage.setItem('backgroundColor', backgroundColor.toString()).catch(
+      error => {
+        console.error('Error backgroundColor: ', error);
+      },
+    );
     AsyncStorage.setItem('CycleCount', cycleCount.toString()).catch(error => {
       console.error('Error CycleCount: ', error);
     });
-  }, [pomodoro, BreakTime, longBreak, bgColor, cycleCount]);
+  }, [pomodoro, BreakTime, longBreak, backgroundColor, cycleCount]);
 
   const incrementPomodoro = () => {
     setPomodoro((pomodoro / 60 + 1) * 60);
     console.log('after press incrementPomodoro button', pomodoro / 60);
   };
+
+ 
 
   const decrementPomodoro = () => {
     if (pomodoro > 0) {
@@ -137,21 +144,31 @@ const SettingScreen = () => {
   };
 
   const changeColor = color => {
-    setBgColor(color);
-    navigation.setParams({bgColor: color}); // Pass the selected color as a navigation parameter
+    setBackgroundColor(color);
+    navigation.setParams({backgroundColor: color}); // Pass the selected color as a navigation parameter
+  };
+
+  const incrementCycleCount = () => {
+    setCycleCount(cycleCount+1);
+  }
+  const decrementCycleCount = () => {
+    if (cycleCount > 0) {
+      setCycleCount(cycleCount - 1);
+    }
   };
 
   return (
-    <ScrollView style={{backgroundColor: bgColor}}>
+    <ScrollView style={{backgroundColor: backgroundColor}}>
       <View style={styles.Main}>
         <View style={styles.BackButtonStyle}>
           <TouchableOpacity
             onPress={() =>
               navigation.navigate('Home', {
-                backgroundColor: bgColor,
-                pomodoroTime: pomodoro,
-                breakTime: BreakTime,
-                longBreakTime: longBreak,
+                // backgroundColor: backgroundColor,
+                // pomodoroTime: pomodoro,
+                // breakTime: BreakTime,
+                // longBreakTime: longBreak,
+                // CycleCount: cycleCount,
               })
             }>
             <Text style={{fontSize: 22, color: '#ffffff'}}>{'<'}</Text>
@@ -362,16 +379,55 @@ const SettingScreen = () => {
         <View>
           <Text style={styles.OFStyle}>OTHER PREFERENCES</Text>
         </View>
-
-        <View style={styles.TimerContainerView}>
-          <TouchableOpacity onPress={() => {}}>
-            <Text style={styles.Pomodoro}>NOTIFICATION SOUND</Text>
+        <View style={styles.TimerContainerThree}>
+          <TouchableOpacity style={styles.PomodoroTextTwo} onPress={() => {}}>
+            <View style={styles.containerpomodoroTwo}>
+              <Text style={styles.topTextTwo}>{cycleCount}</Text>
+              <Text style={styles.bottomTextTwo}>
+                POMODOROS UNTIL LONG BREAK
+              </Text>
+            </View>
           </TouchableOpacity>
-
-          <TouchableOpacity onPress={() => {}}>
-            <Text style={styles.Pomodoro}>ALARM SOUND</Text>
+          <TouchableOpacity style={styles.PomodoroTextTwo} onPress={() => {}}>
+            <View style={styles.containerpomodoroTwo}>
+              <Text style={styles.topTextTwo}>{BreakTime / 60}</Text>
+              <Text style={styles.bottomTextTwo}>BREAK</Text>
+            </View>
           </TouchableOpacity>
         </View>
+        <View style={styles.PlusMinusView}>
+          <TouchableOpacity
+            style={styles.PlusMinusButtonSizeView}
+            onPress={incrementCycleCount}>
+            <View style={styles.PlusMinusbuttonView}>
+              <Text style={styles.PlusMinuseBottomText}>+</Text>
+            </View>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.PlusMinusButtonSizeView}
+            onPress={decrementCycleCount}>
+            <View style={styles.PlusMinusbuttonView}>
+              <Text style={styles.PlusMinuseBottomText}>-</Text>
+            </View>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.PlusMinusButtonSizeView}
+            onPress={() => {}}>
+            <View style={styles.PlusMinusbuttonView}>
+              <Text style={styles.PlusMinuseBottomText}>+</Text>
+            </View>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.PlusMinusButtonSizeView}
+            onPress={() => {}}>
+            <View style={styles.PlusMinusbuttonView}>
+              <Text style={styles.PlusMinuseBottomText}>-</Text>
+            </View>
+          </TouchableOpacity>
+          
+        </View>
+
+        
 
         <View style={styles.TimerContainerView}>
           <TouchableOpacity onPress={() => {}}>
@@ -473,7 +529,25 @@ const styles = StyleSheet.create({
     marginTop: responsiveHeight(3),
     marginBottom: 4,
   },
+  TimerContainerThree: {
+    flexDirection: 'row',
+    justifyContent: 'space-evenly',
+    marginTop: responsiveHeight(3),
+    marginBottom: 4,
+  },
+  TimerContainerTwo: {
+    flexDirection: 'row',
+    justifyContent: 'space-evenly',
+    marginTop: responsiveHeight(3),
+    marginBottom: 4,
+  },
   PlusMinusView: {
+    flexDirection: 'row',
+    justifyContent: 'space-evenly',
+    marginTop: responsiveHeight(0.5),
+    marginBottom: 4,
+  },
+  PlusMinusViewTwo: {
     flexDirection: 'row',
     justifyContent: 'space-evenly',
     marginTop: responsiveHeight(0.5),
@@ -483,7 +557,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-evenly',
     marginTop: responsiveHeight(3),
-    marginBottom: '9%',
+    // marginBottom: '9%',
     // marginBottom: 4,
   },
   PomodoroText: {
@@ -491,6 +565,14 @@ const styles = StyleSheet.create({
     height: responsiveHeight(14.8),
     textAlign: 'center',
     textAlignVertical: 'bottom',
+  },
+  PomodoroTextTwo: {
+    width: responsiveWidth(43),
+    height: responsiveHeight(14.8),
+    textAlign: 'center',
+    justifyContent: 'space-evenly',
+    // textAlignVertical: 'bottom',
+    
   },
   PlusMinusButtonSizeView: {
     // width: '10%',
@@ -504,6 +586,12 @@ const styles = StyleSheet.create({
     color: '#ffffff',
     paddingTop: 4,
   },
+  PlusMinuseBottomText2: {
+    fontSize: 20,
+
+    color: '#ffffff',
+    paddingTop: 10,
+  },
   containerpomodoro: {
     flex: 1,
     justifyContent: 'space-between',
@@ -512,6 +600,15 @@ const styles = StyleSheet.create({
     backgroundColor: 30,
     borderRadius: 3,
   },
+  containerpomodoroTwo: {
+    flex: 1,
+    justifyContent: 'space-between',
+    alignItems: 'center',
+
+    backgroundColor: 30,
+    borderRadius: 3,
+  },
+
   PlusMinusbuttonView: {
     flex: 1,
     justifyContent: 'space-between',
@@ -521,6 +618,16 @@ const styles = StyleSheet.create({
     backgroundColor: 30,
     borderRadius: 3,
   },
+  PlusMinusbuttonView2: {
+    flex: 1,
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    width: 60,
+    height: 55,
+    backgroundColor: 30,
+    borderRadius: 3,
+    marginTop: 5,
+  },
   topText: {
     color: '#ffffff',
     fontSize: responsiveFontSize(4.8),
@@ -529,9 +636,51 @@ const styles = StyleSheet.create({
   },
   bottomText: {
     fontSize: 14,
+    fontWeight: '500',
+    textAlign: 'center',
+    paddingBottom: 12,
+    color: '#ffffff',
+  },
+  topTextTwo: {
+    color: '#ffffff',
+    fontSize: responsiveFontSize(4.8),
+    paddingTop: 17,
+    fontWeight: '300',
+  },
+  bottomTextTwo: {
+    fontSize: 12,
+    fontWeight: '500',
+    textAlign: 'center',
+    paddingBottom: 12,
+    color: '#ffffff',
+  },
+
+  topText2: {
+    color: '#ffffff',
+    fontSize: responsiveFontSize(4.8),
+    paddingTop: 17,
+    fontWeight: '300',
+  },
+  bottomText2: {
+    fontSize: 14,
     textAlign: 'center',
     paddingBottom: 10,
     color: '#ffffff',
+    alignSelf: 'center',
+
+    width: responsiveWidth(44.5),
+    height: responsiveHeight(14.2),
+    borderRadius: 5,
+    marginTop: responsiveHeight(2.8),
+    fontWeight: '500',
+    textAlign: 'center',
+    textAlignVertical: 'bottom',
+    fontSize: responsiveFontSize(1.49),
+    paddingBottom: 12,
+    color: '#ffffff',
+    backgroundColor: 30,
+    marginLeft: '3%',
+    marginRight: '3%',
   },
 
   ColorContainer: {
@@ -593,15 +742,16 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
 
     width: responsiveWidth(44.5),
-    height: responsiveHeight(12.9),
+    height: responsiveHeight(14.2),
     borderRadius: 5,
     marginTop: responsiveHeight(2.8),
     fontWeight: '500',
+    fontSize: responsiveFontSize(1.49),
+
     textAlign: 'center',
     textAlignVertical: 'bottom',
-    fontSize: responsiveFontSize(1.49),
     paddingBottom: 10,
-    color: '#ffffff',
+    color: '#ffffff', 
     backgroundColor: 30,
     marginLeft: '3%',
     marginRight: '3%',

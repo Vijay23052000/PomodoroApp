@@ -9,86 +9,60 @@ import {useFocusEffect, useRoute} from '@react-navigation/native';
 import SplashScreen from 'react-native-splash-screen';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-let initialPomodoro = 60;
+let initialPomodoro = 600;
 let initialShortBreak = 120;
 let initialLongBreak = 180;
-let initialCycle = 3;
+let initialCycle = 2;
 
-const HomeScreen =  ({navigation}) => {
+const HomeScreen = ({navigation}) => {
   const [pomodoro, setPomodoro] = useState(initialPomodoro);
   const [BreakTime, setBreakTime] = useState(initialShortBreak);
   const [longBreak, setLongBreak] = useState(initialLongBreak);
-  
-const [num, setNum] = useState(true);
+  const [cycleCount, setCycleCount] = useState(1);
+  const [backgroundColor, setBackgroundColor] = useState('#3cd689');
+  console.log('Vijay-----1-----', cycleCount);
 
-  const route = useRoute();
-  const backgroundColor = route.params?.backgroundColor ?? '#0ca689';
+  const [num, setNum] = useState(true);
 
   const callFuntion = () => {
-    if(currentState === 1){
+    AsyncStorage.getItem('backgroundColor')
+      .then(value => {
+        if (value !== null) {
+          setBackgroundColor(value);
+        }
+      })
+      .catch(error => {
+        console.error('Error backgroundColor', error);
+      });
+
+    if (currentState === 1) {
       AsyncStorage.getItem('pomodoroTime')
-      .then(value => {
-        if (value !== null) {
-          setPomodoro(parseInt(value))
-          setTimer(parseInt(value))
-          setNum(!!false);
-        }
-      })
-      .catch(error => {
-        console.error('Error pomodoroTime', error);
-      });
+        .then(value => {
+          if (value !== null) {
+            setPomodoro(parseInt(value));
+            setTimer(parseInt(value));
+            setNum(!!false);
+          }
+        })
+        .catch(error => {
+          console.error('Error pomodoroTime', error);
+        });
       AsyncStorage.getItem('shortBreakTime')
-      .then(value => {
-        if (value !== null) {
-          setBreakTime(parseInt(value))
-          // setTimer(parseInt(value))
-          setNum(!!false);
-        }
-      })
-      .catch(error => {
-        console.error('Error shortBreakTime', error);
-      });
-   
+        .then(value => {
+          if (value !== null) {
+            setBreakTime(parseInt(value));
+            // setTimer(parseInt(value))
+            setNum(!!false);
+          }
+        })
+        .catch(error => {
+          console.error('Error shortBreakTime', error);
+        });
+
       AsyncStorage.getItem('longBreakTime')
-      .then(value => {
-        if (value !== null) {
-          setLongBreak(parseInt(value))
-          // setTimer(parseInt(value))
-          setNum(!!false);
-        }
-      })
-      .catch(error => {
-        console.error('Error longBreakTime', error);
-      });
-    }
-    else if(currentState === 2){
-        AsyncStorage.getItem('pomodoroTime')
         .then(value => {
           if (value !== null) {
-            setPomodoro(parseInt(value))
-            // setTimer(parseInt(value))
-            setNum(!!false);
-          }
-        })
-        .catch(error => {
-          console.error('Error pomodoroTime', error);
-        });
-        AsyncStorage.getItem('shortBreakTime')
-        .then(value => {
-          if (value !== null) {
-            setBreakTime(parseInt(value))
-            setTimer(parseInt(value))
-            setNum(!!false);
-          }
-        })
-        .catch(error => {
-          console.error('Error shortBreakTime', error);
-        });
-     
-        AsyncStorage.getItem('longBreakTime')
-        .then(value => {
-          if (value !== null) {
-            setLongBreak(parseInt(value))
+            setLongBreak(parseInt(value));
             // setTimer(parseInt(value))
             setNum(!!false);
           }
@@ -96,12 +70,11 @@ const [num, setNum] = useState(true);
         .catch(error => {
           console.error('Error longBreakTime', error);
         });
-    }
-    else if( currentState === 3 ){
-        AsyncStorage.getItem('pomodoroTime')
+    } else if (currentState === 2) {
+      AsyncStorage.getItem('pomodoroTime')
         .then(value => {
           if (value !== null) {
-            setPomodoro(parseInt(value))
+            setPomodoro(parseInt(value));
             // setTimer(parseInt(value))
             setNum(!!false);
           }
@@ -109,10 +82,45 @@ const [num, setNum] = useState(true);
         .catch(error => {
           console.error('Error pomodoroTime', error);
         });
-        AsyncStorage.getItem('shortBreakTime')
+      AsyncStorage.getItem('shortBreakTime')
         .then(value => {
           if (value !== null) {
-            setBreakTime(parseInt(value))
+            setBreakTime(parseInt(value));
+            setTimer(parseInt(value));
+            setNum(!!false);
+          }
+        })
+        .catch(error => {
+          console.error('Error shortBreakTime', error);
+        });
+
+      AsyncStorage.getItem('longBreakTime')
+        .then(value => {
+          if (value !== null) {
+            setLongBreak(parseInt(value));
+            // setTimer(parseInt(value))
+            setNum(!!false);
+          }
+        })
+        .catch(error => {
+          console.error('Error longBreakTime', error);
+        });
+    } else if (currentState === 3) {
+      AsyncStorage.getItem('pomodoroTime')
+        .then(value => {
+          if (value !== null) {
+            setPomodoro(parseInt(value));
+            // setTimer(parseInt(value))
+            setNum(!!false);
+          }
+        })
+        .catch(error => {
+          console.error('Error pomodoroTime', error);
+        });
+      AsyncStorage.getItem('shortBreakTime')
+        .then(value => {
+          if (value !== null) {
+            setBreakTime(parseInt(value));
             // setTimer(parseInt(value))
             setNum(!!false);
           }
@@ -120,12 +128,12 @@ const [num, setNum] = useState(true);
         .catch(error => {
           console.error('Error shortBreakTime', error);
         });
-     
-        AsyncStorage.getItem('longBreakTime')
+
+      AsyncStorage.getItem('longBreakTime')
         .then(value => {
           if (value !== null) {
-            setLongBreak(parseInt(value))
-            setTimer(parseInt(value))
+            setLongBreak(parseInt(value));
+            setTimer(parseInt(value));
             setNum(!!false);
           }
         })
@@ -133,37 +141,22 @@ const [num, setNum] = useState(true);
           console.error('Error longBreakTime', error);
         });
     }
-    
-     
-  }
-    
-   
+  };
 
-  //  initialPomodoro = route.params?.pomodoroTime ?? initialPomodoro
-  initialPomodoro = route.params?.pomodoroTime ?? initialPomodoro;
-  initialShortBreak = route.params?.breakTime ?? initialShortBreak;
-  initialLongBreak = route.params?.longBreakTime ?? initialLongBreak;
-  initialCycle = route.params?.cycleCount ?? initialCycle;
-
-useFocusEffect(() => {
- if(num==!!true){
-  callFuntion();
- }
-})
-
+  useFocusEffect(() => {
+    if (num == !!true) {
+      callFuntion();
+    }
+  });
 
   const [currentState, setCurrentState] = useState(1);
 
   const [timer, setTimer] = useState(pomodoro); // 25 minutes in seconds
   const [timerType, setTimerType] = useState('POMODORO');
-  const [cycleCount, setCycleCount] = useState(1);
   const [isRunning, setIsRunning] = useState(false);
-
-
 
   useEffect(() => {
     SplashScreen.hide();
-   
   }, []);
 
   useEffect(() => {
@@ -183,20 +176,24 @@ useFocusEffect(() => {
 
       if (timerType === 'POMODORO') {
         setCycleCount(cycleCount + 1);
-        console.log('cycleCount--------------------------- ', cycleCount);
+        console.log('Vijay----2------', cycleCount);
 
         if (cycleCount === initialCycle) {
           setTimerType('LONG BREAK');
+          setCurrentState(3);
           setTimer(longBreak); // 30 minutes in seconds
           setCycleCount(1);
         } else {
           setTimerType('SHORT BREAK');
+          setCurrentState(2);
           setTimer(BreakTime); // 5 minutes in seconds
         }
       } else {
         setTimerType('POMODORO');
+        setCurrentState(1);
         setTimer(pomodoro); // 25 minutes in seconds
       }
+      console.log('Vijay----3------', cycleCount);
     }
 
     return () => clearInterval(interval);
@@ -230,11 +227,10 @@ useFocusEffect(() => {
 
   const toggleTimer = () => {
     if (isRunning) {
-      setIsRunning(false);  // Stop the timer if it's running
+      setIsRunning(false); // Stop the timer if it's running
     } else {
       setIsRunning(true); // Start the timer if it's not running
-      // setNum(true) 
-
+      // setNum(true)
     }
   };
 
@@ -262,17 +258,14 @@ useFocusEffect(() => {
   const toggleState = () => {
     switch (currentState) {
       case 1:
-        // callFuntion();
         setTimer(BreakTime);
         setTimerType('SHORT BREAK');
         break;
       case 2:
-        // callFuntion();
         setTimer(longBreak);
         setTimerType('LONG BREAK');
         break;
       case 3:
-        // callFuntion();
         setTimer(pomodoro);
         setTimerType('POMODORO');
         break;
@@ -307,9 +300,9 @@ useFocusEffect(() => {
       <View>
         {!isRunning ? (
           <View style={styles.iconView}>
-            <TouchableOpacity onPress={() => {
-              setNum(!!true),
-              navigation.navigate('Setting')
+            <TouchableOpacity
+              onPress={() => {
+                setNum(!!true), navigation.navigate('Setting');
               }}>
               <View style={{flexDirection: 'row', alignItems: 'center'}}>
                 <Image
