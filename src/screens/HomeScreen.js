@@ -19,8 +19,9 @@ const HomeScreen = ({navigation}) => {
   const [BreakTime, setBreakTime] = useState(initialShortBreak);
   const [longBreak, setLongBreak] = useState(initialLongBreak);
   const [cycleCount, setCycleCount] = useState(1);
+  const [cycle, setCycle] = useState(initialCycle);
+  console.log(cycle,cycleCount)
   const [backgroundColor, setBackgroundColor] = useState('#3cd689');
-  console.log('Vijay-----1-----', cycleCount);
 
   const [num, setNum] = useState(true);
 
@@ -34,6 +35,17 @@ const HomeScreen = ({navigation}) => {
       .catch(error => {
         console.error('Error backgroundColor', error);
       });
+
+      AsyncStorage.getItem('Cycle')
+      .then(value => {
+        if (value !== null) {
+          setCycle(value);
+        }
+      })
+      .catch(error => {
+        console.error('Error backgroundColor', error);
+      });
+      
 
     if (currentState === 1) {
       AsyncStorage.getItem('pomodoroTime')
@@ -176,9 +188,8 @@ const HomeScreen = ({navigation}) => {
 
       if (timerType === 'POMODORO') {
         setCycleCount(cycleCount + 1);
-        console.log('Vijay----2------', cycleCount);
 
-        if (cycleCount === initialCycle) {
+        if (cycleCount === cycle) {
           setTimerType('LONG BREAK');
           setCurrentState(3);
           setTimer(longBreak); // 30 minutes in seconds
@@ -193,11 +204,10 @@ const HomeScreen = ({navigation}) => {
         setCurrentState(1);
         setTimer(pomodoro); // 25 minutes in seconds
       }
-      console.log('Vijay----3------', cycleCount);
     }
 
     return () => clearInterval(interval);
-  }, [timer, isRunning, timerType, cycleCount]);
+  }, [timer, isRunning, timerType, cycleCount, cycle]);
 
   const playSound = () => {
     var Sound = require('react-native-sound');
@@ -455,7 +465,7 @@ const styles = StyleSheet.create({
     opacity: 0.8,
   },
   TextStyle: {
-    fontSize: responsiveFontSize(6.5),
+    fontSize: responsiveFontSize(7.5),
     color: '#ffffff',
   },
   TimerTextStyle: {

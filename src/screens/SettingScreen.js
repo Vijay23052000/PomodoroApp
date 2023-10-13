@@ -18,7 +18,7 @@ const SettingScreen = () => {
   const navigation = useNavigation();
   const [backgroundColor, setBackgroundColor] = useState('#3cd689');
 
-  let initialPomodoroTime = 60; // 25 minutes by default for Pomodoro
+  let initialPomodoroTime = 120; // 25 minutes by default for Pomodoro
   let initialShortBreakTime = 60; // 5 minutes by default for short break
   let initialLongBreakTime = 60; // 15 minutes by default for long break
   let initialCycleCountValue = 2;
@@ -26,7 +26,8 @@ const SettingScreen = () => {
   const [pomodoro, setPomodoro] = useState(initialPomodoroTime);
   const [BreakTime, setBreakTime] = useState(initialShortBreakTime);
   const [longBreak, setLongBreak] = useState(initialLongBreakTime);
-  const [cycleCount, setCycleCount] = useState(initialCycleCountValue);
+  const [cycle, setCycle] = useState(initialCycleCountValue);
+
 
   useEffect(() => {
     AsyncStorage.getItem('pomodoroTime')
@@ -69,18 +70,18 @@ const SettingScreen = () => {
         console.error('Error backgroundColor', error);
       });
 
-    AsyncStorage.getItem('CycleCount')
+    AsyncStorage.getItem('Cycle')
       .then(value => {
         if (value !== null) {
-          setCycleCount(parseInt(value));
+          setCycle(parseInt(value));
         }
         console.log(
-          'CycleCount---AsyncStorage.getItem----Setting Screen',
-          cycleCount,
+          'Cycle---AsyncStorage.getItem----Setting Screen',
+          cycle,
         );
       })
       .catch(error => {
-        console.error('Error CycleCount', error);
+        console.error('Error Cycle', error);
       });
   }, []);
 
@@ -104,10 +105,10 @@ const SettingScreen = () => {
         console.error('Error backgroundColor: ', error);
       },
     );
-    AsyncStorage.setItem('CycleCount', cycleCount.toString()).catch(error => {
-      console.error('Error CycleCount: ', error);
+    AsyncStorage.setItem('Cycle', cycle.toString()).catch(error => {
+      console.error('Error Cycle: ', error);
     });
-  }, [pomodoro, BreakTime, longBreak, backgroundColor, cycleCount]);
+  }, [pomodoro, BreakTime, longBreak, backgroundColor, cycle]);
 
   const incrementPomodoro = () => {
     setPomodoro((pomodoro / 60 + 1) * 60);
@@ -117,7 +118,8 @@ const SettingScreen = () => {
  
 
   const decrementPomodoro = () => {
-    if (pomodoro > 0) {
+    console.log("----->", pomodoro)
+    if (pomodoro > 60) {
       setPomodoro((pomodoro / 60 - 1) * 60);
     }
   };
@@ -149,11 +151,11 @@ const SettingScreen = () => {
   };
 
   const incrementCycleCount = () => {
-    setCycleCount(cycleCount+1);
+    setCycle(cycle + 1);
   }
   const decrementCycleCount = () => {
-    if (cycleCount > 0) {
-      setCycleCount(cycleCount - 1);
+    if (cycle > 0) {
+      setCycle(cycle - 1);
     }
   };
 
@@ -168,7 +170,7 @@ const SettingScreen = () => {
                 // pomodoroTime: pomodoro,
                 // breakTime: BreakTime,
                 // longBreakTime: longBreak,
-                // CycleCount: cycleCount,
+                // Cycle: cycle,
               })
             }>
             <Text style={{fontSize: 22, color: '#ffffff'}}>{'<'}</Text>
@@ -382,7 +384,7 @@ const SettingScreen = () => {
         <View style={styles.TimerContainerThree}>
           <TouchableOpacity style={styles.PomodoroTextTwo} onPress={() => {}}>
             <View style={styles.containerpomodoroTwo}>
-              <Text style={styles.topTextTwo}>{cycleCount}</Text>
+              <Text style={styles.topTextTwo}>{cycle}</Text>
               <Text style={styles.bottomTextTwo}>
                 POMODOROS UNTIL LONG BREAK
               </Text>
