@@ -26,7 +26,7 @@ const SettingScreen = () => {
   const [pomodoro, setPomodoro] = useState(initialPomodoroTime);
   const [BreakTime, setBreakTime] = useState(initialShortBreakTime);
   const [longBreak, setLongBreak] = useState(initialLongBreakTime);
-  const [cycleCount, setCycleCount] = useState(initialCycleCountValue);
+  const [cycle, setCycle] = useState(initialCycleCountValue);
 
   useEffect(() => {
     AsyncStorage.getItem('pomodoroTime')
@@ -69,18 +69,18 @@ const SettingScreen = () => {
         console.error('Error backgroundColor', error);
       });
 
-    AsyncStorage.getItem('CycleCount')
+    AsyncStorage.getItem('Cycle')
       .then(value => {
         if (value !== null) {
-          setCycleCount(parseInt(value));
+          setCycle(parseInt(value));
         }
         console.log(
-          'CycleCount---AsyncStorage.getItem----Setting Screen',
-          cycleCount,
+          'Cycle---AsyncStorage.getItem----Setting Screen------>',
+          cycle,
         );
       })
       .catch(error => {
-        console.error('Error CycleCount', error);
+        console.error('Error Cycle', error);
       });
   }, []);
 
@@ -104,10 +104,10 @@ const SettingScreen = () => {
         console.error('Error backgroundColor: ', error);
       },
     );
-    AsyncStorage.setItem('CycleCount', cycleCount.toString()).catch(error => {
-      console.error('Error CycleCount: ', error);
+    AsyncStorage.setItem('Cycle', cycle.toString()).catch(error => {
+      console.error('Error Cycle: ', error);
     });
-  }, [pomodoro, BreakTime, longBreak, backgroundColor, cycleCount]);
+  }, [pomodoro, BreakTime, longBreak, backgroundColor, cycle]);
 
   const incrementPomodoro = () => {
     setPomodoro((pomodoro / 60 + 1) * 60);
@@ -117,7 +117,7 @@ const SettingScreen = () => {
  
 
   const decrementPomodoro = () => {
-    if (pomodoro > 0) {
+    if (pomodoro > 60) {
       setPomodoro((pomodoro / 60 - 1) * 60);
     }
   };
@@ -128,7 +128,7 @@ const SettingScreen = () => {
   };
 
   const decrementBreak = () => {
-    if (BreakTime > 0) {
+    if (BreakTime > 60) {
       setBreakTime((BreakTime / 60 - 1) * 60);
     }
   };
@@ -138,7 +138,7 @@ const SettingScreen = () => {
   };
 
   const decrementLongBreak = () => {
-    if (longBreak > 0) {
+    if (longBreak > 60) {
       setLongBreak((longBreak / 60 - 1) * 60);
     }
   };
@@ -148,12 +148,12 @@ const SettingScreen = () => {
     navigation.setParams({backgroundColor: color}); // Pass the selected color as a navigation parameter
   };
 
-  const incrementCycleCount = () => {
-    setCycleCount(cycleCount+1);
+  const incrementCycle = () => {
+    setCycle(cycle + 1);
   }
-  const decrementCycleCount = () => {
-    if (cycleCount > 0) {
-      setCycleCount(cycleCount - 1);
+  const decrementCycle = () => {
+    if (cycle > 1) {
+      setCycle(cycle - 1);
     }
   };
 
@@ -382,7 +382,7 @@ const SettingScreen = () => {
         <View style={styles.TimerContainerThree}>
           <TouchableOpacity style={styles.PomodoroTextTwo} onPress={() => {}}>
             <View style={styles.containerpomodoroTwo}>
-              <Text style={styles.topTextTwo}>{cycleCount}</Text>
+              <Text style={styles.topTextTwo}>{cycle}</Text>
               <Text style={styles.bottomTextTwo}>
                 POMODOROS UNTIL LONG BREAK
               </Text>
@@ -391,21 +391,21 @@ const SettingScreen = () => {
           <TouchableOpacity style={styles.PomodoroTextTwo} onPress={() => {}}>
             <View style={styles.containerpomodoroTwo}>
               <Text style={styles.topTextTwo}>{BreakTime / 60}</Text>
-              <Text style={styles.bottomTextTwo}>BREAK</Text>
+              <Text style={styles.bottomTextTwo}>DAILY GOAL</Text>
             </View>
           </TouchableOpacity>
         </View>
         <View style={styles.PlusMinusView}>
           <TouchableOpacity
             style={styles.PlusMinusButtonSizeView}
-            onPress={incrementCycleCount}>
+            onPress={incrementCycle}>
             <View style={styles.PlusMinusbuttonView}>
               <Text style={styles.PlusMinuseBottomText}>+</Text>
             </View>
           </TouchableOpacity>
           <TouchableOpacity
             style={styles.PlusMinusButtonSizeView}
-            onPress={decrementCycleCount}>
+            onPress={decrementCycle}>
             <View style={styles.PlusMinusbuttonView}>
               <Text style={styles.PlusMinuseBottomText}>-</Text>
             </View>
