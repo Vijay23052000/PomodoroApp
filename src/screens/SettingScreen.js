@@ -27,6 +27,8 @@ const SettingScreen = () => {
   const [BreakTime, setBreakTime] = useState(initialShortBreakTime);
   const [longBreak, setLongBreak] = useState(initialLongBreakTime);
   const [cycle, setCycle] = useState(initialCycleCountValue);
+  const [Awake, setAwake] = useState(true);
+  const [vibratee, setVibratee] = useState(true);
 
   useEffect(() => {
     AsyncStorage.getItem('pomodoroTime')
@@ -74,13 +76,29 @@ const SettingScreen = () => {
         if (value !== null) {
           setCycle(parseInt(value));
         }
-        console.log(
-          'Cycle---AsyncStorage.getItem----Setting Screen------>',
-          cycle,
-        );
       })
       .catch(error => {
         console.error('Error Cycle', error);
+      });
+
+    AsyncStorage.getItem('Awake')
+      .then(value => {
+        if (value !== null) {
+          setAwake(JSON.parse(value));
+        }
+      })
+      .catch(error => {
+        console.error('Error Awake', error);
+      });
+
+    AsyncStorage.getItem('Vibratee')
+      .then(value => {
+        if (value !== null) {
+          setVibratee(JSON.parse(value));
+        }
+      })
+      .catch(error => {
+        console.error('Error Vibratee', error);
       });
   }, []);
 
@@ -107,14 +125,18 @@ const SettingScreen = () => {
     AsyncStorage.setItem('Cycle', cycle.toString()).catch(error => {
       console.error('Error Cycle: ', error);
     });
-  }, [pomodoro, BreakTime, longBreak, backgroundColor, cycle]);
+    AsyncStorage.setItem('Awake', JSON.stringify(Awake)).catch(error => {
+      console.error('Error Awake: ', error);
+    });
+    AsyncStorage.setItem('Vibratee', JSON.stringify(vibratee)).catch(error => {
+      console.error('Error Vibratee: ', error);
+    });
+  }, [pomodoro, BreakTime, longBreak, backgroundColor, cycle, Awake, vibratee]);
 
   const incrementPomodoro = () => {
     setPomodoro((pomodoro / 60 + 1) * 60);
     console.log('after press incrementPomodoro button', pomodoro / 60);
   };
-
- 
 
   const decrementPomodoro = () => {
     if (pomodoro > 60) {
@@ -124,7 +146,6 @@ const SettingScreen = () => {
 
   const incrementBreak = () => {
     setBreakTime((BreakTime / 60 + 1) * 60);
-    console.log(BreakTime);
   };
 
   const decrementBreak = () => {
@@ -134,7 +155,6 @@ const SettingScreen = () => {
   };
   const incrementLongBreak = () => {
     setLongBreak((longBreak / 60 + 1) * 60);
-    console.log(longBreak);
   };
 
   const decrementLongBreak = () => {
@@ -150,27 +170,36 @@ const SettingScreen = () => {
 
   const incrementCycle = () => {
     setCycle(cycle + 1);
-  }
+  };
   const decrementCycle = () => {
     if (cycle > 1) {
       setCycle(cycle - 1);
     }
   };
 
+  const AwakeOn = () => {
+    setAwake(true);
+    console.log('AwakeOn function call', Awake);
+  };
+  const AwakeOff = () => {
+    setAwake(false);
+    console.log('Awakeoff function call', Awake);
+  };
+
+  const VibrateOn = () => {
+    setVibratee(true);
+    console.log('vibratee function call', vibratee);
+  };
+  const VibrateOff = () => {
+    setVibratee(false);
+    console.log('vibratee function call', vibratee);
+  };
+
   return (
     <ScrollView style={{backgroundColor: backgroundColor}}>
       <View style={styles.Main}>
         <View style={styles.BackButtonStyle}>
-          <TouchableOpacity
-            onPress={() =>
-              navigation.navigate('Home', {
-                // backgroundColor: backgroundColor,
-                // pomodoroTime: pomodoro,
-                // breakTime: BreakTime,
-                // longBreakTime: longBreak,
-                // CycleCount: cycleCount,
-              })
-            }>
+          <TouchableOpacity onPress={() => navigation.navigate('Home')}>
             <Text style={{fontSize: 22, color: '#ffffff'}}>{'<'}</Text>
           </TouchableOpacity>
         </View>
@@ -424,17 +453,14 @@ const SettingScreen = () => {
               <Text style={styles.PlusMinuseBottomText}>-</Text>
             </View>
           </TouchableOpacity>
-          
         </View>
 
-        
-
         <View style={styles.TimerContainerView}>
-          <TouchableOpacity onPress={() => {}}>
+          <TouchableOpacity onPress={VibrateOn}>
             <Text style={styles.Pomodoro}>VIBRATE ON</Text>
           </TouchableOpacity>
 
-          <TouchableOpacity onPress={() => {}}>
+          <TouchableOpacity onPress={VibrateOff}>
             <Text style={styles.Pomodoro}>VIBRATE OFF</Text>
           </TouchableOpacity>
         </View>
@@ -470,11 +496,11 @@ const SettingScreen = () => {
         </View>
 
         <View style={styles.TimerContainerView}>
-          <TouchableOpacity onPress={() => {}}>
+          <TouchableOpacity onPress={AwakeOn}>
             <Text style={styles.Pomodoro}>KEEP PHONE AWAKE ON</Text>
           </TouchableOpacity>
 
-          <TouchableOpacity onPress={() => {}}>
+          <TouchableOpacity onPress={AwakeOff}>
             <Text style={styles.Pomodoro}>KEEP PHONE AWAKE OFF</Text>
           </TouchableOpacity>
         </View>
@@ -572,7 +598,6 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     justifyContent: 'space-evenly',
     // textAlignVertical: 'bottom',
-    
   },
   PlusMinusButtonSizeView: {
     // width: '10%',
@@ -751,7 +776,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     textAlignVertical: 'bottom',
     paddingBottom: 10,
-    color: '#ffffff', 
+    color: '#ffffff',
     backgroundColor: 30,
     marginLeft: '3%',
     marginRight: '3%',

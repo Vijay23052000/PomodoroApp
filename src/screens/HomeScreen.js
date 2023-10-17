@@ -1,4 +1,4 @@
-import {View, Image, Text, StyleSheet, TouchableOpacity} from 'react-native';
+import {View, Image, Text, StyleSheet, TouchableOpacity, Vibration} from 'react-native';
 import React, {useState, useEffect} from 'react';
 import {
   responsiveWidth,
@@ -8,6 +8,8 @@ import {
 import {useFocusEffect} from '@react-navigation/native';
 import SplashScreen from 'react-native-splash-screen';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import KeepAwake from 'react-native-keep-awake';
+
 
 let initialPomodoro = 60;
 let initialShortBreak = 60;
@@ -20,10 +22,10 @@ const HomeScreen = ({navigation}) => {
   const [longBreak, setLongBreak] = useState(initialLongBreak);
   const [cycleCount, setCycleCount] = useState(1);
   const [cycle, setCycle] = useState(initialCycle);
-  
+  const [Awake, setAwake] = useState(true);
+  const [vibratee, setVibratee] = useState(true);
+
   const [backgroundColor, setBackgroundColor] = useState('#3cd689');
-  console.log('Vijay--cycleCount--ln  25------>', cycleCount);
-  console.log('Vijay----cycle--- ln 26-------->', cycle);
 
 
   const [num, setNum] = useState(true);
@@ -39,18 +41,41 @@ const HomeScreen = ({navigation}) => {
         console.error('Error backgroundColor', error);
       });
 
-
-      AsyncStorage.getItem('Cycle')
+    AsyncStorage.getItem('Cycle')
       .then(value => {
         if (value !== null) {
           setCycle(parseInt(value));
-          // setTimerType('LONG BREAK')
-          // setTimer(longBreak);
         }
-        console.log("check cycle value from storage", cycle)
       })
       .catch(error => {
         console.error('Error backgroundColor', error);
+      });
+
+    AsyncStorage.getItem('Awake')
+      .then(value => {
+        if (value !== null) {
+          setAwake(JSON.parse(value));
+        }
+        console.log("awake AsyncStorage.getItem('Awake')--------->", Awake);
+
+        // console.log('Awake --true false---63---->', Awake);
+
+      })
+      .catch(error => {
+        console.error('Error Awake', error);
+      });
+
+      AsyncStorage.getItem('Vibratee')
+      .then(value => {
+        if (value !== null) {
+          setVibratee(JSON.parse(value));
+        }
+        console.log("vibratee AsyncStorag('Vibratee')---------->", vibratee);
+        
+        // console.log("vibratee AsyncStorage.getItem('Vibratee')", vibratee);
+      })
+      .catch(error => {
+        console.error('Error Vibratee', error);
       });
 
     if (currentState === 1) {
@@ -165,6 +190,12 @@ const HomeScreen = ({navigation}) => {
     if (num == !!true) {
       callFuntion();
     }
+
+    if (Awake === true) {
+      KeepAwake.activate();
+    } else if(Awake === false) {
+      KeepAwake.deactivate();
+    }
   });
 
   const [currentState, setCurrentState] = useState(1);
@@ -177,24 +208,31 @@ const HomeScreen = ({navigation}) => {
     SplashScreen.hide();
   }, []);
 
+  const vibrateFunction = () => {
+    if(vibratee === true){
+      Vibration.vibrate();
+    }
+  }
   useEffect(() => {
     let interval;
 
     if (isRunning && timer > 0) {
       interval = setInterval(() => {
         setTimer(timer - 1);
-      }, 1000);
-    } else if (timer === 0 ) {
+      }, 100);
+    } else if (timer === 0) {
+      
       clearInterval(interval);
       playSound();
       setTimerType('SHORT BREAK');
       toggleState();
 
       toggleTimer();
+      vibrateFunction();
+
 
       if (timerType === 'POMODORO') {
         setCycleCount(cycleCount + 1);
-        console.log('Vijay--cycleCount--193------', cycleCount);
 
         if (cycleCount === cycle) {
           setTimerType('LONG BREAK');
@@ -211,7 +249,7 @@ const HomeScreen = ({navigation}) => {
         setCurrentState(1);
         setTimer(pomodoro); // 25 minutes in seconds
       }
-      console.log('Vijay----210------', cycleCount);
+      // console.log('Vijay----210------', cycleCount);
     }
 
     return () => clearInterval(interval);
@@ -248,7 +286,6 @@ const HomeScreen = ({navigation}) => {
       setIsRunning(false); // Stop the timer if it's running
     } else {
       setIsRunning(true); // Start the timer if it's not running
-      // setNum(true)
     }
   };
 
