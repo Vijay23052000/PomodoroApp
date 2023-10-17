@@ -1,4 +1,11 @@
-import {View, Image, Text, StyleSheet, TouchableOpacity, Vibration} from 'react-native';
+import {
+  View,
+  Image,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  Vibration,
+} from 'react-native';
 import React, {useState, useEffect} from 'react';
 import {
   responsiveWidth,
@@ -8,8 +15,7 @@ import {
 import {useFocusEffect} from '@react-navigation/native';
 import SplashScreen from 'react-native-splash-screen';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import KeepAwake from 'react-native-keep-awake';
-
+import KeepAwake from 'react-native-keep-awake';  
 
 let initialPomodoro = 60;
 let initialShortBreak = 60;
@@ -26,7 +32,7 @@ const HomeScreen = ({navigation}) => {
   const [vibratee, setVibratee] = useState(true);
 
   const [backgroundColor, setBackgroundColor] = useState('#3cd689');
-
+  const [autoStartBreak, setAutoStartBreak] = useState(true);
 
   const [num, setNum] = useState(true);
 
@@ -58,24 +64,32 @@ const HomeScreen = ({navigation}) => {
         }
         console.log("awake AsyncStorage.getItem('Awake')--------->", Awake);
 
-        // console.log('Awake --true false---63---->', Awake);
-
       })
       .catch(error => {
         console.error('Error Awake', error);
       });
 
-      AsyncStorage.getItem('Vibratee')
+    AsyncStorage.getItem('Vibratee')
       .then(value => {
         if (value !== null) {
           setVibratee(JSON.parse(value));
         }
         console.log("vibratee AsyncStorag('Vibratee')---------->", vibratee);
-        
-        // console.log("vibratee AsyncStorage.getItem('Vibratee')", vibratee);
+
       })
       .catch(error => {
         console.error('Error Vibratee', error);
+      });
+
+    AsyncStorage.getItem('AutoStartBreak')
+      .then(value => {
+        if (value !== null) {
+          setAutoStartBreak(JSON.parse(value));
+        }
+        console.log('AutoStartBreak---------->', autoStartBreak);
+      })
+      .catch(error => {
+        console.error('Error AutoStartBreak', error);
       });
 
     if (currentState === 1) {
@@ -193,7 +207,7 @@ const HomeScreen = ({navigation}) => {
 
     if (Awake === true) {
       KeepAwake.activate();
-    } else if(Awake === false) {
+    } else if (Awake === false) {
       KeepAwake.deactivate();
     }
   });
@@ -209,33 +223,66 @@ const HomeScreen = ({navigation}) => {
   }, []);
 
   const vibrateFunction = () => {
-    if(vibratee === true){
+    if (vibratee === true) {
       Vibration.vibrate();
     }
-  }
+  };
+
+  const autoStartBreakFunction = () => {
+    if (autoStartBreak === true) {
+      
+      console.log('not timertype ', autoStartBreak,timerType);
+
+
+      if (timerType === 'POMODORO') {
+        console.log("POMODORO",timerType);
+        // toggleTimer();
+      } else if (timerType === 'SHORT BREAK') {
+        console.log("SHORT BREAK",timerType);
+
+        toggleTimer();
+      }
+       else if (timerType === 'LONG BREAK') {
+        toggleTimer();
+        console.log("LONG BREAk",timerType);
+      }
+
+    } else if (autoStartBreak === false) {
+      if (timerType === 'POMODORO') {
+        console.log(timerType);
+        toggleTimer();
+      } else if (timerType === 'SHORT BREAK') {
+        console.log(autoStartBreak);
+
+        toggleTimer();
+      } else if (timerType === 'LONG BREAK') {
+        toggleTimer();
+        console.log(autoStartBreak);
+      }
+    }
+  };
   useEffect(() => {
     let interval;
 
     if (isRunning && timer > 0) {
       interval = setInterval(() => {
         setTimer(timer - 1);
-      }, 100);
+      }, 30);
     } else if (timer === 0) {
-      
       clearInterval(interval);
       playSound();
       setTimerType('SHORT BREAK');
       toggleState();
-
-      toggleTimer();
+      autoStartBreakFunction();
+      // toggleTimer();
       vibrateFunction();
-
 
       if (timerType === 'POMODORO') {
         setCycleCount(cycleCount + 1);
 
         if (cycleCount === cycle) {
           setTimerType('LONG BREAK');
+          toggleTimer();
           setCurrentState(3);
           setTimer(longBreak); // 30 minutes in seconds
           setCycleCount(1);
@@ -246,6 +293,7 @@ const HomeScreen = ({navigation}) => {
         }
       } else {
         setTimerType('POMODORO');
+        // toggleTimer();
         setCurrentState(1);
         setTimer(pomodoro); // 25 minutes in seconds
       }

@@ -29,6 +29,7 @@ const SettingScreen = () => {
   const [cycle, setCycle] = useState(initialCycleCountValue);
   const [Awake, setAwake] = useState(true);
   const [vibratee, setVibratee] = useState(true);
+  const [autoStartBreak, setAutoStartBreak] = useState(true);
 
   useEffect(() => {
     AsyncStorage.getItem('pomodoroTime')
@@ -91,14 +92,14 @@ const SettingScreen = () => {
         console.error('Error Awake', error);
       });
 
-    AsyncStorage.getItem('Vibratee')
+    AsyncStorage.getItem('AutoStartBreak')
       .then(value => {
         if (value !== null) {
-          setVibratee(JSON.parse(value));
+          setAutoStartBreak(JSON.parse(value));
         }
       })
       .catch(error => {
-        console.error('Error Vibratee', error);
+        console.error('Error AutoStartBreak', error);
       });
   }, []);
 
@@ -131,7 +132,19 @@ const SettingScreen = () => {
     AsyncStorage.setItem('Vibratee', JSON.stringify(vibratee)).catch(error => {
       console.error('Error Vibratee: ', error);
     });
-  }, [pomodoro, BreakTime, longBreak, backgroundColor, cycle, Awake, vibratee]);
+    AsyncStorage.setItem('AutoStartBreak', JSON.stringify(autoStartBreak)).catch(error => {
+      console.error('Error AutoStartBreak: ', error);
+    });
+  }, [
+    pomodoro,
+    BreakTime,
+    longBreak,
+    backgroundColor,
+    cycle,
+    Awake,
+    vibratee,
+    autoStartBreak,
+  ]);
 
   const incrementPomodoro = () => {
     setPomodoro((pomodoro / 60 + 1) * 60);
@@ -194,6 +207,13 @@ const SettingScreen = () => {
     setVibratee(false);
     console.log('vibratee function call', vibratee);
   };
+
+  const AutoStartBreakFunctionOn = () => {
+    setAutoStartBreak(true);
+  }
+  const AutoStartBreakFunctionOff = () => {
+    setAutoStartBreak(false);
+  }
 
   return (
     <ScrollView style={{backgroundColor: backgroundColor}}>
@@ -466,11 +486,11 @@ const SettingScreen = () => {
         </View>
 
         <View style={styles.TimerContainerView}>
-          <TouchableOpacity onPress={() => {}}>
-            <Text style={styles.Pomodoro}>AUTOSTART BREAKS OFF</Text>
+          <TouchableOpacity onPress={AutoStartBreakFunctionOn}>
+            <Text style={styles.Pomodoro}>AUTOSTART BREAKS ON</Text>
           </TouchableOpacity>
 
-          <TouchableOpacity onPress={() => {}}>
+          <TouchableOpacity onPress={AutoStartBreakFunctionOff}>
             <Text style={styles.Pomodoro}>AUTOSTART BREAKS OFF</Text>
           </TouchableOpacity>
         </View>
