@@ -30,6 +30,7 @@ const SettingScreen = () => {
   const [Awake, setAwake] = useState(true);
   const [vibratee, setVibratee] = useState(true);
   const [autoStartBreak, setAutoStartBreak] = useState(true);
+  const [signal, setSignal] = useState(false);
 
   useEffect(() => {
     AsyncStorage.getItem('pomodoroTime')
@@ -101,6 +102,16 @@ const SettingScreen = () => {
       .catch(error => {
         console.error('Error AutoStartBreak', error);
       });
+
+      AsyncStorage.getItem('Signal')
+      .then(value => {
+        if (value !== null) {
+          setSignal(JSON.parse(value));
+        }
+      })
+      .catch(error => {
+        console.error('Error Signal', error);
+      });
   }, []);
 
   useEffect(() => {
@@ -132,8 +143,14 @@ const SettingScreen = () => {
     AsyncStorage.setItem('Vibratee', JSON.stringify(vibratee)).catch(error => {
       console.error('Error Vibratee: ', error);
     });
-    AsyncStorage.setItem('AutoStartBreak', JSON.stringify(autoStartBreak)).catch(error => {
+    AsyncStorage.setItem(
+      'AutoStartBreak',
+      JSON.stringify(autoStartBreak),
+    ).catch(error => {
       console.error('Error AutoStartBreak: ', error);
+    });
+    AsyncStorage.setItem('Signal', JSON.stringify(signal)).catch(error => {
+      console.error('Error Signal: ', error);
     });
   }, [
     pomodoro,
@@ -144,11 +161,11 @@ const SettingScreen = () => {
     Awake,
     vibratee,
     autoStartBreak,
+    signal
   ]);
 
   const incrementPomodoro = () => {
     setPomodoro((pomodoro / 60 + 1) * 60);
-    console.log('after press incrementPomodoro button', pomodoro / 60);
   };
 
   const decrementPomodoro = () => {
@@ -192,28 +209,36 @@ const SettingScreen = () => {
 
   const AwakeOn = () => {
     setAwake(true);
-    console.log('AwakeOn function call', Awake);
   };
   const AwakeOff = () => {
     setAwake(false);
-    console.log('Awakeoff function call', Awake);
   };
 
   const VibrateOn = () => {
     setVibratee(true);
-    console.log('vibratee function call', vibratee);
   };
   const VibrateOff = () => {
     setVibratee(false);
-    console.log('vibratee function call', vibratee);
   };
 
   const AutoStartBreakFunctionOn = () => {
     setAutoStartBreak(true);
-  }
+  };
   const AutoStartBreakFunctionOff = () => {
     setAutoStartBreak(false);
+  };
+
+  const NotifiactionSound = () => {
+    setSignal(true);
   }
+
+  const AlarmSound = () => {
+    setSignal(false)
+  }
+
+
+
+
 
   return (
     <ScrollView style={{backgroundColor: backgroundColor}}>
@@ -417,11 +442,11 @@ const SettingScreen = () => {
           <Text style={styles.SoundThemsStyle}>SOUND THEMS</Text>
         </View>
         <View style={styles.TimerContainerView}>
-          <TouchableOpacity onPress={() => {}}>
+          <TouchableOpacity onPress={NotifiactionSound}>
             <Text style={styles.Pomodoro}>NOTIFICATION SOUND</Text>
           </TouchableOpacity>
 
-          <TouchableOpacity onPress={() => {}}>
+          <TouchableOpacity onPress={AlarmSound}>
             <Text style={styles.Pomodoro}>ALARM SOUND</Text>
           </TouchableOpacity>
         </View>
@@ -437,12 +462,12 @@ const SettingScreen = () => {
               </Text>
             </View>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.PomodoroTextTwo} onPress={() => {}}>
+          {/* <TouchableOpacity style={styles.PomodoroTextTwo} onPress={() => {}}>
             <View style={styles.containerpomodoroTwo}>
               <Text style={styles.topTextTwo}>{BreakTime / 60}</Text>
               <Text style={styles.bottomTextTwo}>DAILY GOAL</Text>
             </View>
-          </TouchableOpacity>
+          </TouchableOpacity> */}
         </View>
         <View style={styles.PlusMinusView}>
           <TouchableOpacity
@@ -459,7 +484,7 @@ const SettingScreen = () => {
               <Text style={styles.PlusMinuseBottomText}>-</Text>
             </View>
           </TouchableOpacity>
-          <TouchableOpacity
+          {/* <TouchableOpacity
             style={styles.PlusMinusButtonSizeView}
             onPress={() => {}}>
             <View style={styles.PlusMinusbuttonView}>
@@ -472,7 +497,7 @@ const SettingScreen = () => {
             <View style={styles.PlusMinusbuttonView}>
               <Text style={styles.PlusMinuseBottomText}>-</Text>
             </View>
-          </TouchableOpacity>
+          </TouchableOpacity> */}
         </View>
 
         <View style={styles.TimerContainerView}>
@@ -495,7 +520,7 @@ const SettingScreen = () => {
           </TouchableOpacity>
         </View>
 
-        <View style={styles.TimerContainerView}>
+        {/* <View style={styles.TimerContainerView}>
           <TouchableOpacity onPress={() => {}}>
             <Text style={styles.Pomodoro}>AUTOSTART POMODOROS ON</Text>
           </TouchableOpacity>
@@ -503,9 +528,9 @@ const SettingScreen = () => {
           <TouchableOpacity onPress={() => {}}>
             <Text style={styles.Pomodoro}>AUTOSTART POMODOROS OFF</Text>
           </TouchableOpacity>
-        </View>
+        </View> */}
 
-        <View style={styles.TimerContainerView}>
+        {/* <View style={styles.TimerContainerView}>
           <TouchableOpacity onPress={() => {}}>
             <Text style={styles.Pomodoro}>SHOW NOTIFICATION ON</Text>
           </TouchableOpacity>
@@ -513,7 +538,7 @@ const SettingScreen = () => {
           <TouchableOpacity onPress={() => {}}>
             <Text style={styles.Pomodoro}>SHOW NOTIFICATION OFF</Text>
           </TouchableOpacity>
-        </View>
+        </View> */}
 
         <View style={styles.TimerContainerView}>
           <TouchableOpacity onPress={AwakeOn}>
@@ -526,19 +551,19 @@ const SettingScreen = () => {
         </View>
         <View style={styles.TimerContainerTwo}>
           <TouchableOpacity style={styles.PomodoroText} onPress={() => {}}>
-            <View style={styles.containerpomodoro}>
+            <View style={styles.containerpomodoroThree}>
               <Text style={styles.topText}>{}</Text>
               <Text style={styles.bottomText}>HOW TO USE?</Text>
             </View>
           </TouchableOpacity>
           <TouchableOpacity style={styles.PomodoroText} onPress={() => {}}>
-            <View style={styles.containerpomodoro}>
+            <View style={styles.containerpomodoroThree}>
               <Text style={styles.topText}>{}</Text>
               <Text style={styles.bottomText}>WRITE US</Text>
             </View>
           </TouchableOpacity>
           <TouchableOpacity style={styles.PomodoroText} onPress={() => {}}>
-            <View style={styles.containerpomodoro}>
+            <View style={styles.containerpomodoroThree}>
               <Text style={styles.topText}>{}</Text>
               <Text style={styles.bottomText}>RATE US</Text>
             </View>
@@ -585,12 +610,15 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-evenly',
     marginTop: responsiveHeight(3),
-    marginBottom: 4,
+    marginBottom: 24,
+    
   },
   PlusMinusView: {
     flexDirection: 'row',
     justifyContent: 'space-evenly',
     marginTop: responsiveHeight(0.5),
+    // justifyContent: 'center',
+    
     marginBottom: 4,
   },
   PlusMinusViewTwo: {
@@ -611,9 +639,10 @@ const styles = StyleSheet.create({
     height: responsiveHeight(14.8),
     textAlign: 'center',
     textAlignVertical: 'bottom',
+    marginBottom: 20,
   },
   PomodoroTextTwo: {
-    width: responsiveWidth(43),
+    width: responsiveWidth(93),
     height: responsiveHeight(14.8),
     textAlign: 'center',
     justifyContent: 'space-evenly',
@@ -646,6 +675,15 @@ const styles = StyleSheet.create({
     borderRadius: 3,
   },
   containerpomodoroTwo: {
+    flex: 1,
+    justifyContent: 'space-between',
+    alignItems: 'center',
+
+    backgroundColor: 30,
+    borderRadius: 3,
+  },
+
+  containerpomodoroThree: {
     flex: 1,
     justifyContent: 'space-between',
     alignItems: 'center',

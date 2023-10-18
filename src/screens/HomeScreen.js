@@ -15,7 +15,12 @@ import {
 import {useFocusEffect} from '@react-navigation/native';
 import SplashScreen from 'react-native-splash-screen';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import KeepAwake from 'react-native-keep-awake';  
+import KeepAwake from 'react-native-keep-awake';
+import {
+  InterstitialAd,
+  TestIds,
+  AdEventType,
+} from 'react-native-google-mobile-ads';
 
 let initialPomodoro = 60;
 let initialShortBreak = 60;
@@ -35,6 +40,8 @@ const HomeScreen = ({navigation}) => {
   const [autoStartBreak, setAutoStartBreak] = useState(true);
 
   const [num, setNum] = useState(true);
+  const [interstialAds, setInterstitalAds] = useState(null);
+  const [signal, setSignal] = useState(true);
 
   const callFuntion = () => {
     AsyncStorage.getItem('backgroundColor')
@@ -62,8 +69,6 @@ const HomeScreen = ({navigation}) => {
         if (value !== null) {
           setAwake(JSON.parse(value));
         }
-        console.log("awake AsyncStorage.getItem('Awake')--------->", Awake);
-
       })
       .catch(error => {
         console.error('Error Awake', error);
@@ -74,8 +79,6 @@ const HomeScreen = ({navigation}) => {
         if (value !== null) {
           setVibratee(JSON.parse(value));
         }
-        console.log("vibratee AsyncStorag('Vibratee')---------->", vibratee);
-
       })
       .catch(error => {
         console.error('Error Vibratee', error);
@@ -86,10 +89,19 @@ const HomeScreen = ({navigation}) => {
         if (value !== null) {
           setAutoStartBreak(JSON.parse(value));
         }
-        console.log('AutoStartBreak---------->', autoStartBreak);
       })
       .catch(error => {
         console.error('Error AutoStartBreak', error);
+      });
+
+    AsyncStorage.getItem('Signal')
+      .then(value => {
+        if (value !== null) {
+          setSignal(JSON.parse(value));
+        }
+      })
+      .catch(error => {
+        console.error('Error Signal', error);
       });
 
     if (currentState === 1) {
@@ -220,7 +232,31 @@ const HomeScreen = ({navigation}) => {
 
   useEffect(() => {
     SplashScreen.hide();
+    initInterstitial();
   }, []);
+
+  const initInterstitial = async () => {
+    const interstitalAd = InterstitialAd.createForAdRequest(
+      TestIds.INTERSTITIAL,
+    );
+    interstitalAd.addAdEventListener(AdEventType.LOADED, () => {
+      setInterstitalAds(interstitalAd);
+      console.log('interstitial ad loaded!');
+    });
+
+    interstitalAd.addAdEventListener(AdEventType.CLOSED, () => {
+      console.log('interstitial ad closed!');
+      setInterstitalAds(null);
+      initInterstitial();
+    });
+    interstitalAd.load();
+  };
+
+  const AdMob = async () => {
+    if (!!interstialAds) {
+      interstialAds.show();
+    }
+  };
 
   const vibrateFunction = () => {
     if (vibratee === true) {
@@ -230,59 +266,59 @@ const HomeScreen = ({navigation}) => {
 
   const autoStartBreakFunction = () => {
     if (autoStartBreak === true) {
-      
-      console.log('not timertype ', autoStartBreak,timerType);
-
 
       if (timerType === 'POMODORO') {
-        console.log("POMODORO",timerType);
-        // toggleTimer();
+        console.log( timerType);
       } else if (timerType === 'SHORT BREAK') {
-        console.log("SHORT BREAK",timerType);
 
         toggleTimer();
-      }
-       else if (timerType === 'LONG BREAK') {
-        toggleTimer();
-        console.log("LONG BREAk",timerType);
-      }
-
-    } else if (autoStartBreak === false) {
-      if (timerType === 'POMODORO') {
-        console.log(timerType);
-        toggleTimer();
-      } else if (timerType === 'SHORT BREAK') {
-        console.log(autoStartBreak);
-
-        toggleTimer();
+        AdMob();
       } else if (timerType === 'LONG BREAK') {
         toggleTimer();
-        console.log(autoStartBreak);
+        AdMob();
+      }
+    } else if (autoStartBreak === false) {
+      if (timerType === 'POMODORO') {
+        toggleTimer();
+        AdMob();
+      } else if (timerType === 'SHORT BREAK') {
+        toggleTimer();
+        AdMob();
+      } else if (timerType === 'LONG BREAK') {
+        toggleTimer();
+        AdMob();
       }
     }
   };
+
+  const playSound = () => {
+    if (signal === true) {
+      notificationSound();
+    } else {
+      alarmSound();
+    }
+  };
+
   useEffect(() => {
     let interval;
 
     if (isRunning && timer > 0) {
       interval = setInterval(() => {
         setTimer(timer - 1);
-      }, 30);
+      }, 10);
     } else if (timer === 0) {
       clearInterval(interval);
-      playSound();
       setTimerType('SHORT BREAK');
       toggleState();
       autoStartBreakFunction();
-      // toggleTimer();
+      playSound();
       vibrateFunction();
-
       if (timerType === 'POMODORO') {
         setCycleCount(cycleCount + 1);
-
         if (cycleCount === cycle) {
           setTimerType('LONG BREAK');
           toggleTimer();
+          AdMob();
           setCurrentState(3);
           setTimer(longBreak); // 30 minutes in seconds
           setCycleCount(1);
@@ -293,17 +329,42 @@ const HomeScreen = ({navigation}) => {
         }
       } else {
         setTimerType('POMODORO');
-        // toggleTimer();
         setCurrentState(1);
         setTimer(pomodoro); // 25 minutes in seconds
       }
-      // console.log('Vijay----210------', cycleCount);
     }
 
     return () => clearInterval(interval);
   }, [timer, isRunning, timerType, cycleCount]);
 
-  const playSound = () => {
+  const notificationSound = () => {
+    var Sound = require('react-native-sound');
+
+    var whoosh = new Sound('whoosh.mp3', Sound.MAIN_BUNDLE, error => {
+      if (error) {
+        console.log('failed to load the sound', error);
+        return;
+      }
+      // loaded successfully
+      console.log(
+        'duration in seconds: ' +
+          whoosh.getDuration() +
+          'number of channels: ' +
+          whoosh.getNumberOfChannels(),
+      );
+
+      // Play the sound with an onEnd callback
+      whoosh.play(success => {
+        if (success) {
+          console.log('successfully finished playing');
+        } else {
+          console.log('playback failed due to audio decoding errors');
+        }
+      });
+    });
+  };
+
+  const alarmSound = () => {
     var Sound = require('react-native-sound');
     var sound = new Sound('sound.mp3', Sound.MAIN_BUNDLE, error => {
       if (error) {
@@ -422,10 +483,6 @@ const HomeScreen = ({navigation}) => {
           </View>
         )}
       </View>
-      <View>
-        <Text style={styles.buttonText}>{timerType}</Text>
-      </View>
-
       <View style={styles.outerCircle}>
         <View style={[styles.innerCircle, {backgroundColor: backgroundColor}]}>
           {isRunning ? (
