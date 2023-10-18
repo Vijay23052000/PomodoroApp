@@ -305,7 +305,7 @@ const HomeScreen = ({navigation}) => {
     if (isRunning && timer > 0) {
       interval = setInterval(() => {
         setTimer(timer - 1);
-      }, 10);
+      }, 1000);
     } else if (timer === 0) {
       clearInterval(interval);
       setTimerType('SHORT BREAK');
