@@ -6,11 +6,7 @@ import {
   StyleSheet,
   ScrollView,
 } from 'react-native';
-import {
-  responsiveFontSize,
-  responsiveHeight,
-  responsiveWidth,
-} from 'react-native-responsive-dimensions';
+
 import {useNavigation} from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -93,6 +89,16 @@ const SettingScreen = () => {
         console.error('Error Awake', error);
       });
 
+      AsyncStorage.getItem('Vibratee')
+      .then(value => {
+        if (value !== null) {
+          setVibratee(JSON.parse(value));
+        }
+      })
+      .catch(error => {
+        console.error('Error Vibratee', error);
+      });
+
     AsyncStorage.getItem('AutoStartBreak')
       .then(value => {
         if (value !== null) {
@@ -103,7 +109,7 @@ const SettingScreen = () => {
         console.error('Error AutoStartBreak', error);
       });
 
-      AsyncStorage.getItem('Signal')
+    AsyncStorage.getItem('Signal')
       .then(value => {
         if (value !== null) {
           setSignal(JSON.parse(value));
@@ -161,7 +167,7 @@ const SettingScreen = () => {
     Awake,
     vibratee,
     autoStartBreak,
-    signal
+    signal,
   ]);
 
   const incrementPomodoro = () => {
@@ -230,88 +236,84 @@ const SettingScreen = () => {
 
   const NotifiactionSound = () => {
     setSignal(true);
-  }
+  };
 
   const AlarmSound = () => {
-    setSignal(false)
-  }
-
-
-
-
+    setSignal(false);
+  };
 
   return (
     <ScrollView style={{backgroundColor: backgroundColor}}>
       <View style={styles.Main}>
         <View style={styles.BackButtonStyle}>
           <TouchableOpacity onPress={() => navigation.navigate('Home')}>
-            <Text style={{fontSize: 22, color: '#ffffff'}}>{'<'}</Text>
+            <Text style={{fontSize: 23, color: '#ffffff'}}>{'<'}</Text>
           </TouchableOpacity>
         </View>
         <View>
           <Text style={styles.DurationText}>DURATIONS</Text>
         </View>
-        <View style={styles.TimerContainer}>
-          <TouchableOpacity style={styles.PomodoroText} onPress={() => {}}>
-            <View style={styles.containerpomodoro}>
-              <Text style={styles.topText}>{pomodoro / 60}</Text>
-              <Text style={styles.bottomText}>POMODORO</Text>
+        <View style={styles.TimerMainView}>
+          <TouchableOpacity style={styles.TimerButtonView} onPress={() => {}}>
+            <View style={styles.TimerView}>
+              <Text style={styles.TopText}>{pomodoro / 60}</Text>
+              <Text style={styles.BottomText}>POMODORO</Text>
             </View>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.PomodoroText} onPress={() => {}}>
-            <View style={styles.containerpomodoro}>
-              <Text style={styles.topText}>{BreakTime / 60}</Text>
-              <Text style={styles.bottomText}>BREAK</Text>
+          <TouchableOpacity style={styles.TimerButtonView} onPress={() => {}}>
+            <View style={styles.TimerView}>
+              <Text style={styles.TopText}>{BreakTime / 60}</Text>
+              <Text style={styles.BottomText}>BREAK</Text>
             </View>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.PomodoroText} onPress={() => {}}>
-            <View style={styles.containerpomodoro}>
-              <Text style={styles.topText}>{longBreak / 60}</Text>
-              <Text style={styles.bottomText}>LONG BREAK</Text>
+          <TouchableOpacity style={styles.TimerButtonView} onPress={() => {}}>
+            <View style={styles.TimerView}>
+              <Text style={styles.TopText}>{longBreak / 60}</Text>
+              <Text style={styles.BottomText}>LONG BREAK</Text>
             </View>
           </TouchableOpacity>
         </View>
-        <View style={styles.PlusMinusView}>
+        <View style={styles.PlusMinusMainView}>
           <TouchableOpacity
-            style={styles.PlusMinusButtonSizeView}
+            style={styles.PlusMinusTouchableView}
             onPress={incrementPomodoro}>
-            <View style={styles.PlusMinusbuttonView}>
-              <Text style={styles.PlusMinuseBottomText}>+</Text>
+            <View style={styles.PlusMinusView}>
+              <Text style={styles.PlusMinusText}>+</Text>
             </View>
           </TouchableOpacity>
           <TouchableOpacity
-            style={styles.PlusMinusButtonSizeView}
+            style={styles.PlusMinusTouchableView}
             onPress={decrementPomodoro}>
-            <View style={styles.PlusMinusbuttonView}>
-              <Text style={styles.PlusMinuseBottomText}>-</Text>
+            <View style={styles.PlusMinusView}>
+              <Text style={styles.PlusMinusText}>-</Text>
             </View>
           </TouchableOpacity>
           <TouchableOpacity
-            style={styles.PlusMinusButtonSizeView}
+            style={styles.PlusMinusTouchableView}
             onPress={incrementBreak}>
-            <View style={styles.PlusMinusbuttonView}>
-              <Text style={styles.PlusMinuseBottomText}>+</Text>
+            <View style={styles.PlusMinusView}>
+              <Text style={styles.PlusMinusText}>+</Text>
             </View>
           </TouchableOpacity>
           <TouchableOpacity
-            style={styles.PlusMinusButtonSizeView}
+            style={styles.PlusMinusTouchableView}
             onPress={decrementBreak}>
-            <View style={styles.PlusMinusbuttonView}>
-              <Text style={styles.PlusMinuseBottomText}>-</Text>
+            <View style={styles.PlusMinusView}>
+              <Text style={styles.PlusMinusText}>-</Text>
             </View>
           </TouchableOpacity>
           <TouchableOpacity
-            style={styles.PlusMinusButtonSizeView}
+            style={styles.PlusMinusTouchableView}
             onPress={incrementLongBreak}>
-            <View style={styles.PlusMinusbuttonView}>
-              <Text style={styles.PlusMinuseBottomText}>+</Text>
+            <View style={styles.PlusMinusView}>
+              <Text style={styles.PlusMinusText}>+</Text>
             </View>
           </TouchableOpacity>
           <TouchableOpacity
-            style={styles.PlusMinusButtonSizeView}
+            style={styles.PlusMinusTouchableView}
             onPress={decrementLongBreak}>
-            <View style={styles.PlusMinusbuttonView}>
-              <Text style={styles.PlusMinuseBottomText}>-</Text>
+            <View style={styles.PlusMinusView}>
+              <Text style={styles.PlusMinusText}>-</Text>
             </View>
           </TouchableOpacity>
         </View>
@@ -320,144 +322,200 @@ const SettingScreen = () => {
           <Text style={styles.ColorThemeStyle}>COLOR THEMES</Text>
         </View>
 
-        <View style={styles.ColorContainer}>
-          <View style={styles.oneView}>
+        <View style={styles.ColorMainView}>
+          <View style={styles.ColorColomnView}>
             <TouchableOpacity
-              style={[styles.buttonText, {backgroundColor: '#eba000'}]}
+              style={[styles.ColorButtonStyle, {backgroundColor: '#eba000'}]}
               onPress={() => changeColor('#ebb813')}>
-              <Text style={styles.buttonText} />
+              {backgroundColor === '#ebb813' && (
+                <Text style={styles.ColorText}>✓</Text>
+              )}
             </TouchableOpacity>
 
             <TouchableOpacity
-              style={[styles.buttonText, {backgroundColor: '#aee080'}]}
+              style={[styles.ColorButtonStyle, {backgroundColor: '#aee080'}]}
               onPress={() => changeColor('#aef280')}>
-              <Text style={styles.buttonText} />
+              {backgroundColor === '#aef280' && (
+                <Text style={styles.ColorText}>✓</Text>
+              )}
             </TouchableOpacity>
 
             <TouchableOpacity
-              style={[styles.buttonText, {backgroundColor: '#b6afb0'}]}
+              style={[styles.ColorButtonStyle, {backgroundColor: '#b6afb0'}]}
               onPress={() => changeColor('#b6bfb0')}>
-              <Text style={styles.buttonText} />
+              {backgroundColor === '#b6bfb0' && (
+                <Text style={styles.ColorText}>✓</Text>
+              )}
             </TouchableOpacity>
             <TouchableOpacity
-              style={[styles.buttonText, {backgroundColor: '#68d3d9'}]}
+              style={[styles.ColorButtonStyle, {backgroundColor: '#68d3d9'}]}
               onPress={() => changeColor('#68d3d9')}>
-              <Text style={styles.buttonText} />
+              {backgroundColor === '#68d3d9' && (
+                <Text style={styles.ColorText}>✓</Text>
+              )}
             </TouchableOpacity>
             <TouchableOpacity
-              style={[styles.buttonText, {backgroundColor: '#006357'}]}
+              style={[styles.ColorButtonStyle, {backgroundColor: '#006357'}]}
               onPress={() => changeColor('#006357')}>
-              <Text style={styles.buttonText} />
+              {backgroundColor === '#006357' && (
+                <Text style={styles.ColorText}>✓</Text>
+              )}
             </TouchableOpacity>
           </View>
-          <View style={styles.oneView}>
+          <View style={styles.ColorColomnView}>
             <TouchableOpacity
-              style={[styles.buttonText, {backgroundColor: '#0fd000'}]}
+              style={[styles.ColorButtonStyle, {backgroundColor: '#0fd000'}]}
               onPress={() => changeColor('#0fd000')}>
-              <Text style={styles.buttonText} />
+              {backgroundColor === '#0fd000' && (
+                <Text style={styles.ColorText}>✓</Text>
+              )}
             </TouchableOpacity>
 
             <TouchableOpacity
-              style={[styles.buttonText, {backgroundColor: '#aaa080'}]}
+              style={[styles.ColorButtonStyle, {backgroundColor: '#aaa080'}]}
               onPress={() => changeColor('#aaa080')}>
-              <Text style={styles.buttonText} />
+              {backgroundColor === '#aaa080' && (
+                <Text style={styles.ColorText}>✓</Text>
+              )}
             </TouchableOpacity>
 
             <TouchableOpacity
-              style={[styles.buttonText, {backgroundColor: '#bbbfb0'}]}
+              style={[styles.ColorButtonStyle, {backgroundColor: '#bbbfb0'}]}
               onPress={() => changeColor('#bbbfb0')}>
-              <Text style={styles.buttonText} />
+              {backgroundColor === '#bbbfb0' && (
+                <Text style={styles.ColorText}>✓</Text>
+              )}
             </TouchableOpacity>
             <TouchableOpacity
-              style={[styles.buttonText, {backgroundColor: '#ccc3d9'}]}
+              style={[styles.ColorButtonStyle, {backgroundColor: '#ccc3d9'}]}
               onPress={() => changeColor('#ccc3d9')}>
-              <Text style={styles.buttonText} />
+              {backgroundColor === '#ccc3d9' && (
+                <Text style={styles.ColorText}>✓</Text>
+              )}
             </TouchableOpacity>
             <TouchableOpacity
-              style={[styles.buttonText, {backgroundColor: '#ddd357'}]}
+              style={[styles.ColorButtonStyle, {backgroundColor: '#ddd357'}]}
               onPress={() => changeColor('#ddd357')}>
-              <Text style={styles.buttonText} />
+              {backgroundColor === '#ddd357' && (
+                <Text style={styles.ColorText}>✓</Text>
+              )}
             </TouchableOpacity>
           </View>
-          <View style={styles.oneView}>
+          <View style={styles.ColorColomnView}>
             <TouchableOpacity
-              style={[styles.buttonText, {backgroundColor: '#eee000'}]}
+              style={[styles.ColorButtonStyle, {backgroundColor: '#eee000'}]}
               onPress={() => changeColor('#eee813')}>
-              <Text style={styles.buttonText} />
+              {backgroundColor === '#eee813' && (
+                <Text style={styles.ColorText}>✓</Text>
+              )}
             </TouchableOpacity>
 
             <TouchableOpacity
-              style={[styles.buttonText, {backgroundColor: '#0aa080'}]}
+              style={[styles.ColorButtonStyle, {backgroundColor: '#0aa080'}]}
               onPress={() => changeColor('#0aa280')}>
-              <Text style={styles.buttonText} />
+              {backgroundColor === '#0aa280' && (
+                <Text style={styles.ColorText}>✓</Text>
+              )}
             </TouchableOpacity>
 
             <TouchableOpacity
-              style={[styles.buttonText, {backgroundColor: '#099fb0'}]}
+              style={[styles.ColorButtonStyle, {backgroundColor: '#099fb0'}]}
               onPress={() => changeColor('#099fb0')}>
-              <Text style={styles.buttonText} />
+              {backgroundColor === '#099fb0' && (
+                <Text style={styles.ColorText}>✓</Text>
+              )}
             </TouchableOpacity>
             <TouchableOpacity
-              style={[styles.buttonText, {backgroundColor: '#0cc3d9'}]}
+              style={[styles.ColorButtonStyle, {backgroundColor: '#0cc3d9'}]}
               onPress={() => changeColor('#0cc3d9')}>
-              <Text style={styles.buttonText} />
+              {backgroundColor === '#0cc3d9' && (
+                <Text style={styles.ColorText}>✓</Text>
+              )}
             </TouchableOpacity>
             <TouchableOpacity
-              style={[styles.buttonText, {backgroundColor: '#1aa357'}]}
+              style={[styles.ColorButtonStyle, {backgroundColor: '#1aa357'}]}
               onPress={() => changeColor('#1aa357')}>
-              <Text style={styles.buttonText} />
+              {backgroundColor === '#1aa357' && (
+                <Text style={styles.ColorText}>✓</Text>
+              )}
             </TouchableOpacity>
           </View>
-          <View style={styles.oneView}>
+          <View style={styles.ColorColomnView}>
             <TouchableOpacity
-              style={[styles.buttonText, {backgroundColor: '#0dd000'}]}
+              style={[styles.ColorButtonStyle, {backgroundColor: '#0dd000'}]}
               onPress={() => changeColor('#0dd813')}>
-              <Text style={styles.buttonText} />
+              {backgroundColor === '#0dd813' && (
+                <Text style={styles.ColorText}>✓</Text>
+              )}
             </TouchableOpacity>
 
             <TouchableOpacity
-              style={[styles.buttonText, {backgroundColor: '#0fff80'}]}
+              style={[styles.ColorButtonStyle, {backgroundColor: '#0fff80'}]}
               onPress={() => changeColor('#0fff80')}>
-              <Text style={styles.buttonText} />
+              {backgroundColor === '#0fff80' && (
+                <Text style={styles.ColorText}>✓</Text>
+              )}
             </TouchableOpacity>
 
             <TouchableOpacity
-              style={[styles.buttonText, {backgroundColor: '#3fffb0'}]}
+              style={[styles.ColorButtonStyle, {backgroundColor: '#3fffb0'}]}
               onPress={() => changeColor('#3fffb0')}>
-              <Text style={styles.buttonText} />
+              {backgroundColor === '#3fffb0' && (
+                <Text style={styles.ColorText}>✓</Text>
+              )}
             </TouchableOpacity>
             <TouchableOpacity
-              style={[styles.buttonText, {backgroundColor: '#8ff3d9'}]}
+              style={[styles.ColorButtonStyle, {backgroundColor: '#8ff3d9'}]}
               onPress={() => changeColor('#8ff3d9')}>
-              <Text style={styles.buttonText} />
+              {backgroundColor === '#8ff3d9' && (
+                <Text style={styles.ColorText}>✓</Text>
+              )}
             </TouchableOpacity>
             <TouchableOpacity
-              style={[styles.buttonText, {backgroundColor: '#9bb357'}]}
+              style={[styles.ColorButtonStyle, {backgroundColor: '#9bb357'}]}
               onPress={() => changeColor('#9bb357')}>
-              <Text style={styles.buttonText} />
+              {backgroundColor === '#9bb357' && (
+                <Text style={styles.ColorText}>✓</Text>
+              )}
             </TouchableOpacity>
           </View>
         </View>
         <View>
           <Text style={styles.SoundThemsStyle}>SOUND THEMS</Text>
         </View>
-        <View style={styles.TimerContainerView}>
+        <View style={styles.SoundThemsMainView}>
           <TouchableOpacity onPress={NotifiactionSound}>
-            <Text style={styles.Pomodoro}>NOTIFICATION SOUND</Text>
+            <View style={styles.NotifiactionSoundView}>
+              {signal === true ? (
+                <Text style={styles.NotificationTrue}>✓</Text>
+              ) : (
+                <Text style={styles.NotificationFalse}>✗</Text>
+              )}
+              <Text style={styles.NotificationBottom}>NOTIFICATION SOUND</Text>
+            </View>
           </TouchableOpacity>
 
           <TouchableOpacity onPress={AlarmSound}>
-            <Text style={styles.Pomodoro}>ALARM SOUND</Text>
+            <View style={styles.AlarmSoundView}>
+              {signal === false ? (
+                <Text style={styles.AlarmTure}>✓</Text>
+              ) : (
+                <Text style={styles.AlarmFalse}>✗</Text>
+              )}
+              <Text style={styles.AlarmBottom}>ALARM SOUND</Text>
+            </View>
           </TouchableOpacity>
         </View>
         <View>
-          <Text style={styles.OFStyle}>OTHER PREFERENCES</Text>
+          <Text style={styles.OtherPreferanceText}>OTHER PREFERENCES</Text>
         </View>
-        <View style={styles.TimerContainerThree}>
-          <TouchableOpacity style={styles.PomodoroTextTwo} onPress={() => {}}>
-            <View style={styles.containerpomodoroTwo}>
-              <Text style={styles.topTextTwo}>{cycle}</Text>
-              <Text style={styles.bottomTextTwo}>
+        <View style={styles.PomodoroUnitLongBreakView}>
+          <TouchableOpacity
+            style={styles.PomodoroUnitlLBButton}
+            onPress={() => {}}>
+            <View style={styles.PomodoroUntilLBView}>
+              <Text style={styles.TopTextTwo}>{cycle}</Text>
+              <Text style={styles.BottomTextTwo}>
                 POMODOROS UNTIL LONG BREAK
               </Text>
             </View>
@@ -469,103 +527,113 @@ const SettingScreen = () => {
             </View>
           </TouchableOpacity> */}
         </View>
-        <View style={styles.PlusMinusView}>
+
+        <View style={styles.PlusMinusMainView}>
           <TouchableOpacity
-            style={styles.PlusMinusButtonSizeView}
+            style={styles.PlusMinusTouchableView}
             onPress={incrementCycle}>
-            <View style={styles.PlusMinusbuttonView}>
-              <Text style={styles.PlusMinuseBottomText}>+</Text>
+            <View style={styles.PlusMinusView}>
+              <Text style={styles.PlusMinusText}>+</Text>
             </View>
           </TouchableOpacity>
           <TouchableOpacity
-            style={styles.PlusMinusButtonSizeView}
+            style={styles.PlusMinusTouchableView}
             onPress={decrementCycle}>
-            <View style={styles.PlusMinusbuttonView}>
-              <Text style={styles.PlusMinuseBottomText}>-</Text>
+            <View style={styles.PlusMinusView}>
+              <Text style={styles.PlusMinusText}>-</Text>
             </View>
           </TouchableOpacity>
-          {/* <TouchableOpacity
-            style={styles.PlusMinusButtonSizeView}
-            onPress={() => {}}>
-            <View style={styles.PlusMinusbuttonView}>
-              <Text style={styles.PlusMinuseBottomText}>+</Text>
-            </View>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={styles.PlusMinusButtonSizeView}
-            onPress={() => {}}>
-            <View style={styles.PlusMinusbuttonView}>
-              <Text style={styles.PlusMinuseBottomText}>-</Text>
-            </View>
-          </TouchableOpacity> */}
         </View>
 
-        <View style={styles.TimerContainerView}>
+        <View style={styles.SoundThemsMainView}>
           <TouchableOpacity onPress={VibrateOn}>
-            <Text style={styles.Pomodoro}>VIBRATE ON</Text>
+            <View style={styles.NotifiactionSoundView}>
+              {vibratee === true ? (
+                <Text style={styles.NotificationTrue}>✓</Text>
+              ) : (
+                <Text style={styles.NotificationFalse}>✗</Text>
+              )}
+              <Text style={styles.NotificationBottom}>VIBRATE ON</Text>
+            </View>
           </TouchableOpacity>
 
           <TouchableOpacity onPress={VibrateOff}>
-            <Text style={styles.Pomodoro}>VIBRATE OFF</Text>
+            <View style={styles.AlarmSoundView}>
+              {vibratee === false ? (
+                <Text style={styles.AlarmTure}>✓</Text>
+              ) : (
+                <Text style={styles.AlarmFalse}>✗</Text>
+              )}
+              <Text style={styles.AlarmBottom}>VIBRATE OFF</Text>
+            </View>
           </TouchableOpacity>
         </View>
 
-        <View style={styles.TimerContainerView}>
+        <View style={styles.SoundThemsMainView}>
           <TouchableOpacity onPress={AutoStartBreakFunctionOn}>
-            <Text style={styles.Pomodoro}>AUTOSTART BREAKS ON</Text>
+            <View style={styles.NotifiactionSoundView}>
+              {autoStartBreak === true ? (
+                <Text style={styles.NotificationTrue}>✓</Text>
+              ) : (
+                <Text style={styles.NotificationFalse}>✗</Text>
+              )}
+              <Text style={styles.NotificationBottom}>AUTOSTART BREAKS ON</Text>
+            </View>
           </TouchableOpacity>
 
           <TouchableOpacity onPress={AutoStartBreakFunctionOff}>
-            <Text style={styles.Pomodoro}>AUTOSTART BREAKS OFF</Text>
+            <View style={styles.AlarmSoundView}>
+              {autoStartBreak === false ? (
+                <Text style={styles.AlarmTure}>✓</Text>
+              ) : (
+                <Text style={styles.AlarmFalse}>✗</Text>
+              )}
+              <Text style={styles.AlarmBottom}>AUTOSTART BREAKS OFF</Text>
+            </View>
           </TouchableOpacity>
         </View>
 
-        {/* <View style={styles.TimerContainerView}>
-          <TouchableOpacity onPress={() => {}}>
-            <Text style={styles.Pomodoro}>AUTOSTART POMODOROS ON</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity onPress={() => {}}>
-            <Text style={styles.Pomodoro}>AUTOSTART POMODOROS OFF</Text>
-          </TouchableOpacity>
-        </View> */}
-
-        {/* <View style={styles.TimerContainerView}>
-          <TouchableOpacity onPress={() => {}}>
-            <Text style={styles.Pomodoro}>SHOW NOTIFICATION ON</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity onPress={() => {}}>
-            <Text style={styles.Pomodoro}>SHOW NOTIFICATION OFF</Text>
-          </TouchableOpacity>
-        </View> */}
-
-        <View style={styles.TimerContainerView}>
+        <View style={styles.SoundThemsMainView}>
           <TouchableOpacity onPress={AwakeOn}>
-            <Text style={styles.Pomodoro}>KEEP PHONE AWAKE ON</Text>
+            <View style={styles.NotifiactionSoundView}>
+              {Awake === true ? (
+                <Text style={styles.NotificationTrue}>✓</Text>
+              ) : (
+                <Text style={styles.NotificationFalse}>✗</Text>
+              )}
+              <Text style={styles.NotificationBottom}>KEEP PHONE AWAKE ON</Text>
+            </View>
           </TouchableOpacity>
 
           <TouchableOpacity onPress={AwakeOff}>
-            <Text style={styles.Pomodoro}>KEEP PHONE AWAKE OFF</Text>
+            <View style={styles.AlarmSoundView}>
+              {Awake === false ? (
+                <Text style={styles.AlarmTure}>✓</Text>
+              ) : (
+                <Text style={styles.AlarmFalse}>✗</Text>
+              )}
+              <Text style={styles.AlarmBottom}>KEEP PHONE AWAKE OFF</Text>
+            </View>
           </TouchableOpacity>
         </View>
+
         <View style={styles.TimerContainerTwo}>
-          <TouchableOpacity style={styles.PomodoroText} onPress={() => {}}>
-            <View style={styles.containerpomodoroThree}>
-              <Text style={styles.topText}>{}</Text>
-              <Text style={styles.bottomText}>HOW TO USE?</Text>
+          <TouchableOpacity style={styles.ResponseButton} onPress={() => {}}>
+            <View style={styles.ResponseView}>
+              <Text style={styles.ResponseTopText}>{'?'}</Text>
+              <Text style={styles.ResponseBottomText}>HOW TO USE?</Text>
             </View>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.PomodoroText} onPress={() => {}}>
-            <View style={styles.containerpomodoroThree}>
-              <Text style={styles.topText}>{}</Text>
-              <Text style={styles.bottomText}>WRITE US</Text>
+          <TouchableOpacity style={styles.ResponseButton} onPress={() => {}}>
+            <View style={styles.ResponseView}>
+              <Text style={styles.ResponseTopText}>{'@'}</Text>
+              <Text style={styles.ResponseBottomText}>WRITE US</Text>
             </View>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.PomodoroText} onPress={() => {}}>
-            <View style={styles.containerpomodoroThree}>
-              <Text style={styles.topText}>{}</Text>
-              <Text style={styles.bottomText}>RATE US</Text>
+          <TouchableOpacity style={styles.ResponseButton} onPress={() => {}}>
+            <View style={styles.ResponseView}>
+              <Text style={styles.ResponseTopText}>{'*'}</Text>
+              <Text style={styles.ResponseBottomText}>RATE US</Text>
             </View>
           </TouchableOpacity>
         </View>
@@ -581,202 +649,92 @@ const styles = StyleSheet.create({
     alignContent: 'center',
   },
   BackButtonStyle: {
-    width: responsiveWidth(2.5),
-    height: responsiveHeight(3.5),
-    marginLeft: responsiveFontSize(2.5),
-    marginTop: responsiveFontSize(0.7),
+    marginLeft: '4%',
+    marginTop: '2.3%',
   },
+
   DurationText: {
     color: '#ffffff',
-    fontSize: responsiveFontSize(1.49),
+    fontSize: 13,
     justifyContent: 'center',
     textAlign: 'center',
-    marginTop: responsiveHeight(1),
     fontWeight: '500',
+    marginTop: '2%',
   },
-  TimerContainer: {
+  TimerMainView: {
     flexDirection: 'row',
     justifyContent: 'space-evenly',
-    marginTop: responsiveHeight(3),
-    marginBottom: 4,
+    marginTop: 25,
   },
-  TimerContainerThree: {
+  TimerButtonView: {
+    width: 115,
+    height: 120,
+    textAlign: 'center',
+    textAlignVertical: 'bottom',
+    backgroundColor: 30,
+    borderRadius: 5,
+  },
+  TimerView: {
+    flex: 1,
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  TopText: {
+    color: '#ffffff',
+    fontSize: 38,
+    paddingTop: 20,
+    fontWeight: '300',
+  },
+  BottomText: {
+    fontSize: 14,
+    fontWeight: '400',
+    textAlign: 'center',
+    paddingBottom: 12,
+    color: '#ffffff',
+  },
+  PlusMinusMainView: {
     flexDirection: 'row',
     justifyContent: 'space-evenly',
-    marginTop: responsiveHeight(3),
-    marginBottom: 4,
+    marginTop: 12,
   },
-  TimerContainerTwo: {
-    flexDirection: 'row',
-    justifyContent: 'space-evenly',
-    marginTop: responsiveHeight(3),
-    marginBottom: 24,
-    
+  PlusMinusTouchableView: {
+    width: 45,
+    height: 43,
+    textAlign: 'center',
+    textAlignVertical: 'bottom',
   },
   PlusMinusView: {
-    flexDirection: 'row',
-    justifyContent: 'space-evenly',
-    marginTop: responsiveHeight(0.5),
-    // justifyContent: 'center',
-    
-    marginBottom: 4,
+    flex: 1,
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    backgroundColor: 30,
+    borderRadius: 3,
   },
-  PlusMinusViewTwo: {
-    flexDirection: 'row',
-    justifyContent: 'space-evenly',
-    marginTop: responsiveHeight(0.5),
-    marginBottom: 4,
-  },
-  TimerContainerTwo: {
-    flexDirection: 'row',
-    justifyContent: 'space-evenly',
-    marginTop: responsiveHeight(3),
-    // marginBottom: '9%',
-    // marginBottom: 4,
-  },
-  PomodoroText: {
-    width: responsiveWidth(28),
-    height: responsiveHeight(14.8),
-    textAlign: 'center',
-    textAlignVertical: 'bottom',
-    marginBottom: 20,
-  },
-  PomodoroTextTwo: {
-    width: responsiveWidth(93),
-    height: responsiveHeight(14.8),
-    textAlign: 'center',
-    justifyContent: 'space-evenly',
-    // textAlignVertical: 'bottom',
-  },
-  PlusMinusButtonSizeView: {
-    // width: '10%',
-    // height: 30,
-    textAlign: 'center',
-    textAlignVertical: 'bottom',
-  },
-  PlusMinuseBottomText: {
+  PlusMinusText: {
     fontSize: 20,
-
     color: '#ffffff',
     paddingTop: 4,
   },
-  PlusMinuseBottomText2: {
-    fontSize: 20,
-
+  ColorThemeStyle: {
     color: '#ffffff',
-    paddingTop: 10,
-  },
-  containerpomodoro: {
-    flex: 1,
-    justifyContent: 'space-between',
-    alignItems: 'center',
-
-    backgroundColor: 30,
-    borderRadius: 3,
-  },
-  containerpomodoroTwo: {
-    flex: 1,
-    justifyContent: 'space-between',
-    alignItems: 'center',
-
-    backgroundColor: 30,
-    borderRadius: 3,
-  },
-
-  containerpomodoroThree: {
-    flex: 1,
-    justifyContent: 'space-between',
-    alignItems: 'center',
-
-    backgroundColor: 30,
-    borderRadius: 3,
-  },
-
-  PlusMinusbuttonView: {
-    flex: 1,
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    width: 45,
-    height: 43,
-    backgroundColor: 30,
-    borderRadius: 3,
-  },
-  PlusMinusbuttonView2: {
-    flex: 1,
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    width: 60,
-    height: 55,
-    backgroundColor: 30,
-    borderRadius: 3,
-    marginTop: 5,
-  },
-  topText: {
-    color: '#ffffff',
-    fontSize: responsiveFontSize(4.8),
-    paddingTop: 17,
-    fontWeight: '300',
-  },
-  bottomText: {
-    fontSize: 14,
+    fontSize: 13,
+    justifyContent: 'center',
+    textAlign: 'center',
+    marginTop: '7%',
     fontWeight: '500',
-    textAlign: 'center',
-    paddingBottom: 12,
-    color: '#ffffff',
-  },
-  topTextTwo: {
-    color: '#ffffff',
-    fontSize: responsiveFontSize(4.8),
-    paddingTop: 17,
-    fontWeight: '300',
-  },
-  bottomTextTwo: {
-    fontSize: 12,
-    fontWeight: '500',
-    textAlign: 'center',
-    paddingBottom: 12,
-    color: '#ffffff',
   },
 
-  topText2: {
-    color: '#ffffff',
-    fontSize: responsiveFontSize(4.8),
-    paddingTop: 17,
-    fontWeight: '300',
-  },
-  bottomText2: {
-    fontSize: 14,
-    textAlign: 'center',
-    paddingBottom: 10,
-    color: '#ffffff',
-    alignSelf: 'center',
-
-    width: responsiveWidth(44.5),
-    height: responsiveHeight(14.2),
-    borderRadius: 5,
-    marginTop: responsiveHeight(2.8),
-    fontWeight: '500',
-    textAlign: 'center',
-    textAlignVertical: 'bottom',
-    fontSize: responsiveFontSize(1.49),
-    paddingBottom: 12,
-    color: '#ffffff',
+  ColorMainView: {
+    width: 378,
+    height: 300,
     backgroundColor: 30,
-    marginLeft: '3%',
-    marginRight: '3%',
-  },
-
-  ColorContainer: {
-    width: responsiveWidth(92),
-    height: responsiveHeight(37),
-    // borderWidth: 0.7,
-    backgroundColor: 30,
-    marginTop: responsiveWidth(6),
-    borderRadius: 5,
+    marginTop: '4%',
+    borderRadius: 8,
     justifyContent: 'center',
     alignSelf: 'center',
   },
-  oneView: {
+
+  ColorColomnView: {
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
@@ -787,66 +745,162 @@ const styles = StyleSheet.create({
     marginBottom: '1.2%',
     paddingLeft: 1.3,
   },
-  buttonText: {
+  ColorButtonStyle: {
     borderRadius: 7,
     width: 63,
     height: 61,
     marginLeft: '1.2%',
     marginRight: '1.2%',
   },
-  ColorThemeStyle: {
-    color: '#ffffff',
-    fontSize: responsiveFontSize(1.49),
-    justifyContent: 'center',
-    textAlign: 'center',
-    marginTop: responsiveHeight(3),
-    fontWeight: '500',
+  ColorText: {
+    color: 'white',
+    fontSize: 25,
+    fontWeight: 'bold',
+    alignSelf: 'center',
+    paddingTop: 10,
   },
-
   SoundThemsStyle: {
     color: '#ffffff',
-    fontSize: responsiveFontSize(1.49),
+    fontSize: 13,
     justifyContent: 'center',
     textAlign: 'center',
-    marginTop: responsiveHeight(3.8),
+    marginTop: '7%',
     fontWeight: '500',
   },
-  TimerContainerView: {
-    width: responsiveWidth(92),
+  SoundThemsMainView: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    marginTop: '5.5%',
+  },
 
+  NotifiactionSoundView: {
+    width: 182,
+    height: 115,
+    backgroundColor: 30,
+    marginRight: '3%',
+    borderRadius: 5,
+  },
+  AlarmSoundView: {
+    width: 182,
+    height: 115,
+    backgroundColor: 30,
+    borderRadius: 5,
+  },
+  NotificationTrue: {
+    color: 'white',
+    fontSize: 30,
+    fontWeight: 'bold',
+    alignSelf: 'center',
+    position: 'absolute',
+    paddingTop: '12%',
+  },
+  NotificationFalse: {
+    color: 'white',
+    fontSize: 30,
+    fontWeight: '300',
+    alignSelf: 'center',
+    position: 'absolute',
+    paddingTop: '12%',
+  },
+  NotificationBottom: {
+    fontSize: 13,
+    paddingTop: '45%',
+    position: 'absolute',
+    alignSelf: 'center',
+    fontWeight: '500',
+    color: '#ffffff',
+  },
+  AlarmTure: {
+    color: 'white',
+    fontSize: 30,
+    fontWeight: 'bold',
+    alignSelf: 'center',
+    position: 'absolute',
+    paddingTop: '12%',
+  },
+  AlarmFalse: {
+    color: 'white',
+    fontSize: 30,
+    fontWeight: '300',
+    alignSelf: 'center',
+    position: 'absolute',
+    paddingTop: '12%',
+  },
+  AlarmBottom: {
+    fontSize: 13,
+    paddingTop: '45%',
+    position: 'absolute',
+    alignSelf: 'center',
+    fontWeight: '500',
+    color: '#ffffff',
+  },
+  OtherPreferanceText: {
+    color: '#ffffff',
+    fontSize: 13,
+    justifyContent: 'center',
+    textAlign: 'center',
+    marginTop: '7%',
+    fontWeight: '500',
+  },
+  PomodoroUnitLongBreakView: {
     flexDirection: 'row',
     justifyContent: 'space-evenly',
-    alignContent: 'center',
-
-    alignSelf: 'center',
+    marginTop: '4%',
   },
-
-  Pomodoro: {
-    alignSelf: 'center',
-
-    width: responsiveWidth(44.5),
-    height: responsiveHeight(14.2),
-    borderRadius: 5,
-    marginTop: responsiveHeight(2.8),
+  PomodoroUnitlLBButton: {
+    width: 375,
+    height: 120,
+    textAlign: 'center',
+    justifyContent: 'space-evenly',
+    backgroundColor: 30,
+    borderRadius: 3,
+  },
+  PomodoroUntilLBView: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  TopTextTwo: {
+    color: '#ffffff',
+    fontSize: 37,
+    fontWeight: '300',
+    paddingBottom: 13,
+  },
+  BottomTextTwo: {
+    fontSize: 12,
     fontWeight: '500',
-    fontSize: responsiveFontSize(1.49),
-
     textAlign: 'center',
     textAlignVertical: 'bottom',
-    paddingBottom: 10,
     color: '#ffffff',
-    backgroundColor: 30,
-    marginLeft: '3%',
-    marginRight: '3%',
   },
-
-  OFStyle: {
+  TimerContainerTwo: {
+    flexDirection: 'row',
+    justifyContent: 'space-evenly',
+    marginTop: '5%',
+  },
+  ResponseButton: {
+    width: 112,
+    height: 105,
+    backgroundColor: 30,
+    borderRadius: 5,
+  },
+  ResponseView: {
+    flex: 1,
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  ResponseTopText: {
     color: '#ffffff',
-    fontSize: responsiveFontSize(1.49),
-    justifyContent: 'center',
+    fontSize: 38,
+    paddingTop: 20,
+    fontWeight: '300',
+  },
+  ResponseBottomText: {
+    fontSize: 14,
+    fontWeight: '400',
     textAlign: 'center',
-    marginTop: responsiveHeight(3),
-    fontWeight: '500',
+    paddingBottom: 12,
+    color: '#ffffff',
   },
 });
 export default SettingScreen;

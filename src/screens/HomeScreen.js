@@ -518,7 +518,7 @@ const HomeScreen = ({navigation}) => {
       <View>
         {!isRunning ? (
           <View style={styles.toggleStateView}>
-            <TouchableOpacity style={styles.button} onPress={toggleState}>
+            <TouchableOpacity  onPress={toggleState}>
               <View style={{flexDirection: 'row', alignItems: 'center'}}>
                 <Image
                   source={require('../images/arrow.png')}
@@ -578,34 +578,23 @@ const styles = StyleSheet.create({
     height: '100%',
   },
   iconView: {
-    marginLeft: '88%',
-    marginTop: '3%',
+    marginLeft: '87%',
+    marginTop: '3.5%',
   },
   ImageView: {
     marginRight: 8,
   },
-  button: {
-    width: 200,
-    height: 10,
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderRadius: 5,
-    backgroundColor: '10',
-  },
+  
   buttonText: {
     justifyContent: 'center',
-    alignContent: 'center',
     alignSelf: 'center',
     color: 'white',
-    fontSize: responsiveFontSize(1.5),
+    fontSize: 13,
   },
-  StartbuttonText: {
-    color: 'white',
-    fontSize: responsiveFontSize(2),
-  },
+
   resetbuttonText: {
     color: 'white',
-    fontSize: responsiveFontSize(1.7),
+    fontSize: 16,
   },
 
   ImageView: {
@@ -615,7 +604,7 @@ const styles = StyleSheet.create({
     opacity: 0.8,
   },
   TextStyle: {
-    fontSize: responsiveFontSize(6.5),
+    fontSize: 60,
     color: '#ffffff',
   },
   TimerTextStyle: {
@@ -625,22 +614,10 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
 
-  buttonReset: {
-    padding: 10,
-    borderRadius: 5,
-    marginTop: responsiveHeight(1.2),
-  },
-  buttonTextStyle: {
-    color: '#ffffff',
-    fontSize: responsiveFontSize(1.7),
-  },
-  startButton: {
-    justifyContent: 'center',
-    alignContent: 'center',
-  },
+  
 
   outerCircle: {
-    marginTop: responsiveWidth(20.7),
+    marginTop: '25%',
     alignItems: 'center',
     justifyContent: 'center',
     width: 300,
