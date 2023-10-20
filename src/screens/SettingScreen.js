@@ -6,7 +6,6 @@ import {
   StyleSheet,
   ScrollView,
 } from 'react-native';
-
 import {useNavigation} from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -618,7 +617,7 @@ const SettingScreen = () => {
         </View>
 
         <View style={styles.TimerContainerTwo}>
-          <TouchableOpacity style={styles.ResponseButton} onPress={() => {}}>
+          <TouchableOpacity style={styles.ResponseButton} onPress={() => navigation.navigate('Screen1')}>
             <View style={styles.ResponseView}>
               <Text style={styles.ResponseTopText}>{'?'}</Text>
               <Text style={styles.ResponseBottomText}>HOW TO USE?</Text>
@@ -626,14 +625,14 @@ const SettingScreen = () => {
           </TouchableOpacity>
           <TouchableOpacity style={styles.ResponseButton} onPress={() => {}}>
             <View style={styles.ResponseView}>
-              <Text style={styles.ResponseTopText}>{'@'}</Text>
-              <Text style={styles.ResponseBottomText}>WRITE US</Text>
+              <Text style={styles.ResponseTopTextOne}>{'@'}</Text>
+              <Text style={styles.ResponseBottomTextOne}>WRITE US</Text>
             </View>
           </TouchableOpacity>
           <TouchableOpacity style={styles.ResponseButton} onPress={() => {}}>
             <View style={styles.ResponseView}>
-              <Text style={styles.ResponseTopText}>{'*'}</Text>
-              <Text style={styles.ResponseBottomText}>RATE US</Text>
+              <Text style={styles.ResponseTopTextTwo}>{'*'}</Text>
+              <Text style={styles.ResponseBottomTextTwo}>RATE US</Text>
             </View>
           </TouchableOpacity>
         </View>
@@ -883,6 +882,7 @@ const styles = StyleSheet.create({
     height: 105,
     backgroundColor: 30,
     borderRadius: 5,
+    marginBottom: 20,
   },
   ResponseView: {
     flex: 1,
@@ -892,7 +892,7 @@ const styles = StyleSheet.create({
   ResponseTopText: {
     color: '#ffffff',
     fontSize: 38,
-    paddingTop: 20,
+    paddingTop: 5,
     fontWeight: '300',
   },
   ResponseBottomText: {
@@ -900,6 +900,31 @@ const styles = StyleSheet.create({
     fontWeight: '400',
     textAlign: 'center',
     paddingBottom: 12,
+    color: '#ffffff',
+  },
+  ResponseTopTextOne: {
+    color: '#ffffff',
+    fontSize: 35,
+    paddingTop: 5,
+    fontWeight: '300',
+  },
+  ResponseBottomTextOne: {
+    fontSize: 14,
+    fontWeight: '400',
+    textAlign: 'center',
+    paddingBottom: 12,
+    color: '#ffffff',
+  },ResponseTopTextTwo: {
+    color: '#ffffff',
+    fontSize: 45,
+    paddingTop: 5,
+    fontWeight: '300',
+  },
+  ResponseBottomTextTwo: {
+    fontSize: 14,
+    fontWeight: '400',
+    textAlign: 'center',
+    paddingBottom: 42,
     color: '#ffffff',
   },
 });

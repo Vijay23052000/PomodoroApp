@@ -7,11 +7,7 @@ import {
   Vibration,
 } from 'react-native';
 import React, {useState, useEffect} from 'react';
-import {
-  responsiveWidth,
-  responsiveHeight,
-  responsiveFontSize,
-} from 'react-native-responsive-dimensions';
+
 import {useFocusEffect} from '@react-navigation/native';
 import SplashScreen from 'react-native-splash-screen';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -305,7 +301,7 @@ const HomeScreen = ({navigation}) => {
     if (isRunning && timer > 0) {
       interval = setInterval(() => {
         setTimer(timer - 1);
-      }, 1000);
+      }, 10);
     } else if (timer === 0) {
       clearInterval(interval);
       setTimerType('SHORT BREAK');
