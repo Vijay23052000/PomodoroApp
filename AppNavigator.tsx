@@ -23,6 +23,7 @@ function AppNavigator() {
         component={Screen1}
         options={{headerShown: false}}
       />
+      
     </Stack.Navigator>
   );
 }

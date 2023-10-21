@@ -1,4 +1,4 @@
-import {StyleSheet, ScrollView} from 'react-native';
+import {StyleSheet, View} from 'react-native';
 import React from 'react';
 import {SliderBox} from 'react-native-image-slider-box';
 const Screen1 = () => {
@@ -11,7 +11,7 @@ const Screen1 = () => {
     require('../images/image6.jpg'),
   ];
   return (
-    <ScrollView style={{marginTop: 20}}>
+    <View style={{marginTop: 20}}>
       <SliderBox
         images={images}
         sliderBoxHeight={790}
@@ -19,13 +19,13 @@ const Screen1 = () => {
         inactiveDotColor="black"
         dotStyle={{height: 9, width: 9, borderRadius: 50}}
         imageLoadingColor="black"
-        autoPlay={true}
-        autoplayInterval={1000}
-        circleLoop={true}
+        // autoPlay={true}
+        // autoplayInterval={1000}
+        // circleLoop={true}
         // onCurrentImagePressed={(index) => alert(index+1)}
-        firstItem={0}
+        // firstItem={0}
       />
-    </ScrollView>
+    </View>
   );
 };
 

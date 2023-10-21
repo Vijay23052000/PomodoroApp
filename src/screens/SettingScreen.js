@@ -5,6 +5,7 @@ import {
   TouchableOpacity,
   StyleSheet,
   ScrollView,
+  Linking,
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -88,7 +89,7 @@ const SettingScreen = () => {
         console.error('Error Awake', error);
       });
 
-      AsyncStorage.getItem('Vibratee')
+    AsyncStorage.getItem('Vibratee')
       .then(value => {
         if (value !== null) {
           setVibratee(JSON.parse(value));
@@ -239,6 +240,30 @@ const SettingScreen = () => {
 
   const AlarmSound = () => {
     setSignal(false);
+  };
+
+  const openGmail = () => {
+    const email = 'hr@startupindiabuddy.com';
+    const subject = 'Pomodoro timer support message';
+    const body = 'How are you?';
+    Linking.openURL(`mailto:${email}?subject=${subject}&body=${body}`);
+  };
+
+  const openPlayStoreURL = () => {
+    const url =
+      'https://play.google.com/store/apps/details?id=com.pomodrone.app&hl=en&gl=US&pli=1';
+
+    Linking.canOpenURL(url)
+      .then(supported => {
+        if (supported) {
+          Linking.openURL(url);
+        } else {
+          console.error('Cannot open this URL');
+        }
+      })
+      .catch(error => {
+        console.error(error);
+      });
   };
 
   return (
@@ -617,19 +642,23 @@ const SettingScreen = () => {
         </View>
 
         <View style={styles.TimerContainerTwo}>
-          <TouchableOpacity style={styles.ResponseButton} onPress={() => navigation.navigate('Screen1')}>
+          <TouchableOpacity
+            style={styles.ResponseButton}
+            onPress={() => navigation.navigate('Screen1')}>
             <View style={styles.ResponseView}>
               <Text style={styles.ResponseTopText}>{'?'}</Text>
               <Text style={styles.ResponseBottomText}>HOW TO USE?</Text>
             </View>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.ResponseButton} onPress={() => {}}>
+          <TouchableOpacity style={styles.ResponseButton} onPress={openGmail}>
             <View style={styles.ResponseView}>
               <Text style={styles.ResponseTopTextOne}>{'@'}</Text>
               <Text style={styles.ResponseBottomTextOne}>WRITE US</Text>
             </View>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.ResponseButton} onPress={() => {}}>
+          <TouchableOpacity
+            style={styles.ResponseButton}
+            onPress={openPlayStoreURL}>
             <View style={styles.ResponseView}>
               <Text style={styles.ResponseTopTextTwo}>{'*'}</Text>
               <Text style={styles.ResponseBottomTextTwo}>RATE US</Text>
@@ -892,7 +921,7 @@ const styles = StyleSheet.create({
   ResponseTopText: {
     color: '#ffffff',
     fontSize: 38,
-    paddingTop: 5,
+    paddingTop: 8,
     fontWeight: '300',
   },
   ResponseBottomText: {
@@ -914,7 +943,8 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     paddingBottom: 12,
     color: '#ffffff',
-  },ResponseTopTextTwo: {
+  },
+  ResponseTopTextTwo: {
     color: '#ffffff',
     fontSize: 45,
     paddingTop: 5,
