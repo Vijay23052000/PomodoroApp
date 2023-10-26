@@ -349,17 +349,17 @@ const SettingScreen = () => {
         <View style={styles.ColorMainView}>
           <View style={styles.ColorColomnView}>
             <TouchableOpacity
-              style={[styles.ColorButtonStyle, {backgroundColor: '#eba000'}]}
-              onPress={() => changeColor('#ebb813')}>
-              {backgroundColor === '#ebb813' && (
+              style={[styles.ColorButtonStyle, {backgroundColor: '#00b813'}]}
+              onPress={() => changeColor('#00b813')}>
+              {backgroundColor === '#00b813' && (
                 <Text style={styles.ColorText}>✓</Text>
               )}
             </TouchableOpacity>
 
             <TouchableOpacity
-              style={[styles.ColorButtonStyle, {backgroundColor: '#aee080'}]}
-              onPress={() => changeColor('#aef280')}>
-              {backgroundColor === '#aef280' && (
+              style={[styles.ColorButtonStyle, {backgroundColor: '#0ef280'}]}
+              onPress={() => changeColor('#0ef280')}>
+              {backgroundColor === '#0ef280' && (
                 <Text style={styles.ColorText}>✓</Text>
               )}
             </TouchableOpacity>
@@ -427,9 +427,9 @@ const SettingScreen = () => {
           </View>
           <View style={styles.ColorColomnView}>
             <TouchableOpacity
-              style={[styles.ColorButtonStyle, {backgroundColor: '#eee000'}]}
-              onPress={() => changeColor('#eee813')}>
-              {backgroundColor === '#eee813' && (
+              style={[styles.ColorButtonStyle, {backgroundColor: '#345daf'}]}
+              onPress={() => changeColor('#345daf')}>
+              {backgroundColor === '#345daf' && (
                 <Text style={styles.ColorText}>✓</Text>
               )}
             </TouchableOpacity>
@@ -741,7 +741,7 @@ const styles = StyleSheet.create({
   PlusMinusText: {
     fontSize: 20,
     color: '#ffffff',
-    paddingTop: 4,
+    paddingTop: 7,
   },
   ColorThemeStyle: {
     color: '#ffffff',

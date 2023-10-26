@@ -40,7 +40,46 @@ const HomeScreen = ({navigation}) => {
   const [signal, setSignal] = useState(true);
 
   const callFuntion = () => {
-    AsyncStorage.getItem('backgroundColor')
+    
+
+    if (currentState === 1) {
+      console.log("(currentState === 1)");
+      AsyncStorage.getItem('pomodoroTime')
+        .then(value => {
+          if (value !== null) {
+            setPomodoro(parseInt(value));
+            setTimer(parseInt(value));
+            setNum(!!false);
+          }
+        })
+        .catch(error => {
+          console.error('Error pomodoroTime', error);
+        });
+      AsyncStorage.getItem('shortBreakTime')
+        .then(value => {
+          if (value !== null) {
+            setBreakTime(parseInt(value));
+            // setTimer(parseInt(value))
+            setNum(!!false);
+          }
+        })
+        .catch(error => {
+          console.error('Error shortBreakTime', error);
+        });
+
+      AsyncStorage.getItem('longBreakTime')
+        .then(value => {
+          if (value !== null) {
+            setLongBreak(parseInt(value));
+            // setTimer(parseInt(value))
+            setNum(!!false);
+          }
+        })
+        .catch(error => {
+          console.error('Error longBreakTime', error);
+        });
+
+        AsyncStorage.getItem('backgroundColor')
       .then(value => {
         if (value !== null) {
           setBackgroundColor(value);
@@ -99,43 +138,8 @@ const HomeScreen = ({navigation}) => {
       .catch(error => {
         console.error('Error Signal', error);
       });
-
-    if (currentState === 1) {
-      AsyncStorage.getItem('pomodoroTime')
-        .then(value => {
-          if (value !== null) {
-            setPomodoro(parseInt(value));
-            setTimer(parseInt(value));
-            setNum(!!false);
-          }
-        })
-        .catch(error => {
-          console.error('Error pomodoroTime', error);
-        });
-      AsyncStorage.getItem('shortBreakTime')
-        .then(value => {
-          if (value !== null) {
-            setBreakTime(parseInt(value));
-            // setTimer(parseInt(value))
-            setNum(!!false);
-          }
-        })
-        .catch(error => {
-          console.error('Error shortBreakTime', error);
-        });
-
-      AsyncStorage.getItem('longBreakTime')
-        .then(value => {
-          if (value !== null) {
-            setLongBreak(parseInt(value));
-            // setTimer(parseInt(value))
-            setNum(!!false);
-          }
-        })
-        .catch(error => {
-          console.error('Error longBreakTime', error);
-        });
     } else if (currentState === 2) {
+      console.log("(currentState === 2)");
       AsyncStorage.getItem('pomodoroTime')
         .then(value => {
           if (value !== null) {
@@ -170,7 +174,68 @@ const HomeScreen = ({navigation}) => {
         .catch(error => {
           console.error('Error longBreakTime', error);
         });
+
+        AsyncStorage.getItem('backgroundColor')
+      .then(value => {
+        if (value !== null) {
+          setBackgroundColor(value);
+        }
+      })
+      .catch(error => {
+        console.error('Error backgroundColor', error);
+      });
+
+    AsyncStorage.getItem('Cycle')
+      .then(value => {
+        if (value !== null) {
+          setCycle(parseInt(value));
+        }
+      })
+      .catch(error => {
+        console.error('Error backgroundColor', error);
+      });
+
+    AsyncStorage.getItem('Awake')
+      .then(value => {
+        if (value !== null) {
+          setAwake(JSON.parse(value));
+        }
+      })
+      .catch(error => {
+        console.error('Error Awake', error);
+      });
+
+    AsyncStorage.getItem('Vibratee')
+      .then(value => {
+        if (value !== null) {
+          setVibratee(JSON.parse(value));
+        }
+      })
+      .catch(error => {
+        console.error('Error Vibratee', error);
+      });
+
+    AsyncStorage.getItem('AutoStartBreak')
+      .then(value => {
+        if (value !== null) {
+          setAutoStartBreak(JSON.parse(value));
+        }
+      })
+      .catch(error => {
+        console.error('Error AutoStartBreak', error);
+      });
+
+    AsyncStorage.getItem('Signal')
+      .then(value => {
+        if (value !== null) {
+          setSignal(JSON.parse(value));
+        }
+      })
+      .catch(error => {
+        console.error('Error Signal', error);
+      });
     } else if (currentState === 3) {
+      console.log("(currentState === 3)");
       AsyncStorage.getItem('pomodoroTime')
         .then(value => {
           if (value !== null) {
@@ -205,6 +270,65 @@ const HomeScreen = ({navigation}) => {
         .catch(error => {
           console.error('Error longBreakTime', error);
         });
+        AsyncStorage.getItem('backgroundColor')
+      .then(value => {
+        if (value !== null) {
+          setBackgroundColor(value);
+        }
+      })
+      .catch(error => {
+        console.error('Error backgroundColor', error);
+      });
+
+    AsyncStorage.getItem('Cycle')
+      .then(value => {
+        if (value !== null) {
+          setCycle(parseInt(value));
+        }
+      })
+      .catch(error => {
+        console.error('Error backgroundColor', error);
+      });
+
+    AsyncStorage.getItem('Awake')
+      .then(value => {
+        if (value !== null) {
+          setAwake(JSON.parse(value));
+        }
+      })
+      .catch(error => {
+        console.error('Error Awake', error);
+      });
+
+    AsyncStorage.getItem('Vibratee')
+      .then(value => {
+        if (value !== null) {
+          setVibratee(JSON.parse(value));
+        }
+      })
+      .catch(error => {
+        console.error('Error Vibratee', error);
+      });
+
+    AsyncStorage.getItem('AutoStartBreak')
+      .then(value => {
+        if (value !== null) {
+          setAutoStartBreak(JSON.parse(value));
+        }
+      })
+      .catch(error => {
+        console.error('Error AutoStartBreak', error);
+      });
+
+    AsyncStorage.getItem('Signal')
+      .then(value => {
+        if (value !== null) {
+          setSignal(JSON.parse(value));
+        }
+      })
+      .catch(error => {
+        console.error('Error Signal', error);
+      });
     }
   };
 
@@ -301,7 +425,7 @@ const HomeScreen = ({navigation}) => {
     if (isRunning && timer > 0) {
       interval = setInterval(() => {
         setTimer(timer - 1);
-      }, 10);
+      }, 1000);
     } else if (timer === 0) {
       clearInterval(interval);
       setTimerType('SHORT BREAK');
@@ -576,6 +700,8 @@ const styles = StyleSheet.create({
   iconView: {
     marginLeft: '87%',
     marginTop: '3.5%',
+    width: 20,
+    height: 20,
   },
   ImageView: {
     marginRight: 8,
