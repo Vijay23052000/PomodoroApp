@@ -17,6 +17,7 @@ import {
   TestIds,
   AdEventType,
 } from 'react-native-google-mobile-ads';
+import * as Progress from 'react-native-progress';
 
 let initialPomodoro = 60;
 let initialShortBreak = 60;
@@ -40,10 +41,7 @@ const HomeScreen = ({navigation}) => {
   const [signal, setSignal] = useState(true);
 
   const callFuntion = () => {
-    
-
     if (currentState === 1) {
-      console.log("(currentState === 1)");
       AsyncStorage.getItem('pomodoroTime')
         .then(value => {
           if (value !== null) {
@@ -79,67 +77,67 @@ const HomeScreen = ({navigation}) => {
           console.error('Error longBreakTime', error);
         });
 
-        AsyncStorage.getItem('backgroundColor')
-      .then(value => {
-        if (value !== null) {
-          setBackgroundColor(value);
-        }
-      })
-      .catch(error => {
-        console.error('Error backgroundColor', error);
-      });
+      AsyncStorage.getItem('backgroundColor')
+        .then(value => {
+          if (value !== null) {
+            setBackgroundColor(value);
+          }
+        })
+        .catch(error => {
+          console.error('Error backgroundColor', error);
+        });
 
-    AsyncStorage.getItem('Cycle')
-      .then(value => {
-        if (value !== null) {
-          setCycle(parseInt(value));
-        }
-      })
-      .catch(error => {
-        console.error('Error backgroundColor', error);
-      });
+      AsyncStorage.getItem('Cycle')
+        .then(value => {
+          if (value !== null) {
+            setCycle(parseInt(value));
+          }
+        })
+        .catch(error => {
+          console.error('Error backgroundColor', error);
+        });
 
-    AsyncStorage.getItem('Awake')
-      .then(value => {
-        if (value !== null) {
-          setAwake(JSON.parse(value));
-        }
-      })
-      .catch(error => {
-        console.error('Error Awake', error);
-      });
+      AsyncStorage.getItem('Awake')
+        .then(value => {
+          if (value !== null) {
+            setAwake(JSON.parse(value));
+          }
+        })
+        .catch(error => {
+          console.error('Error Awake', error);
+        });
 
-    AsyncStorage.getItem('Vibratee')
-      .then(value => {
-        if (value !== null) {
-          setVibratee(JSON.parse(value));
-        }
-      })
-      .catch(error => {
-        console.error('Error Vibratee', error);
-      });
+      AsyncStorage.getItem('Vibratee')
+        .then(value => {
+          if (value !== null) {
+            setVibratee(JSON.parse(value));
+          }
+        })
+        .catch(error => {
+          console.error('Error Vibratee', error);
+        });
 
-    AsyncStorage.getItem('AutoStartBreak')
-      .then(value => {
-        if (value !== null) {
-          setAutoStartBreak(JSON.parse(value));
-        }
-      })
-      .catch(error => {
-        console.error('Error AutoStartBreak', error);
-      });
+      AsyncStorage.getItem('AutoStartBreak')
+        .then(value => {
+          if (value !== null) {
+            setAutoStartBreak(JSON.parse(value));
+          }
+        })
+        .catch(error => {
+          console.error('Error AutoStartBreak', error);
+        });
 
-    AsyncStorage.getItem('Signal')
-      .then(value => {
-        if (value !== null) {
-          setSignal(JSON.parse(value));
-        }
-      })
-      .catch(error => {
-        console.error('Error Signal', error);
-      });
+      AsyncStorage.getItem('Signal')
+        .then(value => {
+          if (value !== null) {
+            setSignal(JSON.parse(value));
+          }
+        })
+        .catch(error => {
+          console.error('Error Signal', error);
+        });
     } else if (currentState === 2) {
-      console.log("(currentState === 2)");
+      console.log('(currentState === 2)');
       AsyncStorage.getItem('pomodoroTime')
         .then(value => {
           if (value !== null) {
@@ -175,67 +173,67 @@ const HomeScreen = ({navigation}) => {
           console.error('Error longBreakTime', error);
         });
 
-        AsyncStorage.getItem('backgroundColor')
-      .then(value => {
-        if (value !== null) {
-          setBackgroundColor(value);
-        }
-      })
-      .catch(error => {
-        console.error('Error backgroundColor', error);
-      });
+      AsyncStorage.getItem('backgroundColor')
+        .then(value => {
+          if (value !== null) {
+            setBackgroundColor(value);
+          }
+        })
+        .catch(error => {
+          console.error('Error backgroundColor', error);
+        });
 
-    AsyncStorage.getItem('Cycle')
-      .then(value => {
-        if (value !== null) {
-          setCycle(parseInt(value));
-        }
-      })
-      .catch(error => {
-        console.error('Error backgroundColor', error);
-      });
+      AsyncStorage.getItem('Cycle')
+        .then(value => {
+          if (value !== null) {
+            setCycle(parseInt(value));
+          }
+        })
+        .catch(error => {
+          console.error('Error backgroundColor', error);
+        });
 
-    AsyncStorage.getItem('Awake')
-      .then(value => {
-        if (value !== null) {
-          setAwake(JSON.parse(value));
-        }
-      })
-      .catch(error => {
-        console.error('Error Awake', error);
-      });
+      AsyncStorage.getItem('Awake')
+        .then(value => {
+          if (value !== null) {
+            setAwake(JSON.parse(value));
+          }
+        })
+        .catch(error => {
+          console.error('Error Awake', error);
+        });
 
-    AsyncStorage.getItem('Vibratee')
-      .then(value => {
-        if (value !== null) {
-          setVibratee(JSON.parse(value));
-        }
-      })
-      .catch(error => {
-        console.error('Error Vibratee', error);
-      });
+      AsyncStorage.getItem('Vibratee')
+        .then(value => {
+          if (value !== null) {
+            setVibratee(JSON.parse(value));
+          }
+        })
+        .catch(error => {
+          console.error('Error Vibratee', error);
+        });
 
-    AsyncStorage.getItem('AutoStartBreak')
-      .then(value => {
-        if (value !== null) {
-          setAutoStartBreak(JSON.parse(value));
-        }
-      })
-      .catch(error => {
-        console.error('Error AutoStartBreak', error);
-      });
+      AsyncStorage.getItem('AutoStartBreak')
+        .then(value => {
+          if (value !== null) {
+            setAutoStartBreak(JSON.parse(value));
+          }
+        })
+        .catch(error => {
+          console.error('Error AutoStartBreak', error);
+        });
 
-    AsyncStorage.getItem('Signal')
-      .then(value => {
-        if (value !== null) {
-          setSignal(JSON.parse(value));
-        }
-      })
-      .catch(error => {
-        console.error('Error Signal', error);
-      });
+      AsyncStorage.getItem('Signal')
+        .then(value => {
+          if (value !== null) {
+            setSignal(JSON.parse(value));
+          }
+        })
+        .catch(error => {
+          console.error('Error Signal', error);
+        });
     } else if (currentState === 3) {
-      console.log("(currentState === 3)");
+      console.log('(currentState === 3)');
       AsyncStorage.getItem('pomodoroTime')
         .then(value => {
           if (value !== null) {
@@ -270,65 +268,65 @@ const HomeScreen = ({navigation}) => {
         .catch(error => {
           console.error('Error longBreakTime', error);
         });
-        AsyncStorage.getItem('backgroundColor')
-      .then(value => {
-        if (value !== null) {
-          setBackgroundColor(value);
-        }
-      })
-      .catch(error => {
-        console.error('Error backgroundColor', error);
-      });
+      AsyncStorage.getItem('backgroundColor')
+        .then(value => {
+          if (value !== null) {
+            setBackgroundColor(value);
+          }
+        })
+        .catch(error => {
+          console.error('Error backgroundColor', error);
+        });
 
-    AsyncStorage.getItem('Cycle')
-      .then(value => {
-        if (value !== null) {
-          setCycle(parseInt(value));
-        }
-      })
-      .catch(error => {
-        console.error('Error backgroundColor', error);
-      });
+      AsyncStorage.getItem('Cycle')
+        .then(value => {
+          if (value !== null) {
+            setCycle(parseInt(value));
+          }
+        })
+        .catch(error => {
+          console.error('Error backgroundColor', error);
+        });
 
-    AsyncStorage.getItem('Awake')
-      .then(value => {
-        if (value !== null) {
-          setAwake(JSON.parse(value));
-        }
-      })
-      .catch(error => {
-        console.error('Error Awake', error);
-      });
+      AsyncStorage.getItem('Awake')
+        .then(value => {
+          if (value !== null) {
+            setAwake(JSON.parse(value));
+          }
+        })
+        .catch(error => {
+          console.error('Error Awake', error);
+        });
 
-    AsyncStorage.getItem('Vibratee')
-      .then(value => {
-        if (value !== null) {
-          setVibratee(JSON.parse(value));
-        }
-      })
-      .catch(error => {
-        console.error('Error Vibratee', error);
-      });
+      AsyncStorage.getItem('Vibratee')
+        .then(value => {
+          if (value !== null) {
+            setVibratee(JSON.parse(value));
+          }
+        })
+        .catch(error => {
+          console.error('Error Vibratee', error);
+        });
 
-    AsyncStorage.getItem('AutoStartBreak')
-      .then(value => {
-        if (value !== null) {
-          setAutoStartBreak(JSON.parse(value));
-        }
-      })
-      .catch(error => {
-        console.error('Error AutoStartBreak', error);
-      });
+      AsyncStorage.getItem('AutoStartBreak')
+        .then(value => {
+          if (value !== null) {
+            setAutoStartBreak(JSON.parse(value));
+          }
+        })
+        .catch(error => {
+          console.error('Error AutoStartBreak', error);
+        });
 
-    AsyncStorage.getItem('Signal')
-      .then(value => {
-        if (value !== null) {
-          setSignal(JSON.parse(value));
-        }
-      })
-      .catch(error => {
-        console.error('Error Signal', error);
-      });
+      AsyncStorage.getItem('Signal')
+        .then(value => {
+          if (value !== null) {
+            setSignal(JSON.parse(value));
+          }
+        })
+        .catch(error => {
+          console.error('Error Signal', error);
+        });
     }
   };
 
@@ -386,11 +384,9 @@ const HomeScreen = ({navigation}) => {
 
   const autoStartBreakFunction = () => {
     if (autoStartBreak === true) {
-
       if (timerType === 'POMODORO') {
-        console.log( timerType);
+        console.log(timerType);
       } else if (timerType === 'SHORT BREAK') {
-
         toggleTimer();
         AdMob();
       } else if (timerType === 'LONG BREAK') {
@@ -425,7 +421,7 @@ const HomeScreen = ({navigation}) => {
     if (isRunning && timer > 0) {
       interval = setInterval(() => {
         setTimer(timer - 1);
-      }, 1000);
+      }, 100);
     } else if (timer === 0) {
       clearInterval(interval);
       setTimerType('SHORT BREAK');
@@ -581,6 +577,11 @@ const HomeScreen = ({navigation}) => {
         alignItems: 'center',
         alignContent: 'center',
       }}>
+      {/* <View>
+      <Progress.Bar progress={0.3} width={200} />
+          <Progress.Pie progress={0.4} size={50} />
+          <Progress.Circle size={30} indeterminate={true} />
+      </View> */}
       <View>
         {!isRunning ? (
           <View style={styles.iconView}>
@@ -638,7 +639,7 @@ const HomeScreen = ({navigation}) => {
       <View>
         {!isRunning ? (
           <View style={styles.toggleStateView}>
-            <TouchableOpacity  onPress={toggleState}>
+            <TouchableOpacity onPress={toggleState}>
               <View style={{flexDirection: 'row', alignItems: 'center'}}>
                 <Image
                   source={require('../images/arrow.png')}
@@ -706,7 +707,7 @@ const styles = StyleSheet.create({
   ImageView: {
     marginRight: 8,
   },
-  
+
   buttonText: {
     justifyContent: 'center',
     alignSelf: 'center',
@@ -735,8 +736,6 @@ const styles = StyleSheet.create({
   ViewText: {
     marginTop: 10,
   },
-
-  
 
   outerCircle: {
     marginTop: '25%',
