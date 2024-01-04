@@ -1,173 +1,27 @@
-// // import {View, Text} from 'react-native';
-// // import React from 'react';
-// // import {CountdownCircleTimer} from 'react-native-countdown-circle-timer';
 
-// // const Practice = () => {
-// //   return (
-// //     <View>
-// //       <Text style={{color: '#000000'}}>Sajid</Text>
-// //       <Text style={{color: '#000000'}}>Sajid</Text>
-// //       <View>
-// //         <CountdownCircleTimer
-// //           isPlaying={true}
-// //           duration={120}
-// //           colors={['#004777', '#F7B801', '#A30000', '#A30000']}
-// //           colorsTime={[7, 5, 2, 0]}>
-// //           {({remainingTime}) => <Text>{remainingTime}</Text>}
-// //         </CountdownCircleTimer>
-// //       </View>
-// //     </View>
-// //   );
-// // };
-
-// // export default Practice;
-
-// import React, { useState, useEffect } from 'react';
-// import { View, Text, Button, StyleSheet } from 'react-native';
-// import {CountdownCircleTimer} from 'react-native-countdown-circle-timer';
-
-// const Practice = () => {
-//   const [workTime, setWorkTime] = useState(15); // 25 minutes for work
-//   const [breakTime, setBreakTime] = useState( 15); // 5 minutes for break
-//   const [currentTimer, setCurrentTimer] = useState('Work');
-//   const [isActive, setIsActive] = useState(false);
-//   const [seconds, setSeconds] = useState(workTime);
-//   const [equal, setEqual] = useState(seconds);
-
-//   useEffect(() => {
-//     let interval;
-
-//     if (isActive && seconds > 0) {
-//       interval = setInterval(() => {
-//         setSeconds((prevSeconds) => prevSeconds - 1);
-//       }, 1000);
-//     } else if (isActive && seconds === 0) {
-//       clearInterval(interval);
-//       toggleTimer();
-//       setCurrentTimer(currentTimer === 'Work' ? 'Break' : 'Work');
-//       setSeconds(currentTimer === 'Work' ? breakTime : workTime);
-//     } else {
-//       clearInterval(interval);
-//     }
-
-//     return () => clearInterval(interval);
-//   }, [isActive, seconds, breakTime, workTime, currentTimer]);
-
-//   const toggleTimer = () => {
-//     setIsActive(!isActive);
-//   };
-
-//   const resetTimer = () => {
-//     setIsActive(false);
-//     setCurrentTimer('Work');
-//     setSeconds(workTime);
-//   };
-
-//   const calculateProgress = () => {
-//     const totalDuration = currentTimer === 'Work' ? workTime : breakTime;
-//     const remainingPercentage = ((totalDuration - seconds) / totalDuration) * 100;
-//     return remainingPercentage;
-//   };
-//   const children = ({ remainingTime }) => {
-//     const hours = Math.floor(remainingTime / 3600)
-//     const minutes = Math.floor((remainingTime % 3600) / 60)
-//     const seconds = remainingTime % 60
-  
-//     return `${hours}:${minutes}:${seconds}`
-//   }
-
-//   return (
-//     <View style={styles.container}>
-//       <Text style={styles.timerLabel}>{currentTimer === 'Work' ? 'Work Time' : 'Break Time'}</Text>
-//       <Text style={styles.timer}>{seconds}</Text>
-//       <View style={styles.buttonContainer}>
-//         <Button title={isActive ? 'Pause' : 'Start'} onPress={toggleTimer} />
-//         <Button title="Reset" onPress={resetTimer} />
-//       </View>
-//       <View style={styles.progressBarContainer}>
-//       <CountdownCircleTimer
-//           isPlaying={isActive}
-//           // rotation={clockwise}
-//           duration={equal}
-//           colors={['#004777', '#F7B801', '#A30000', '#A30000']}
-//           colorsTime={[7, 5, 2, 0]}>
-//           {({remainingTime}) => <Text style={{color: '#000000', fontSize: 20}}>{seconds}</Text>}
-//         </CountdownCircleTimer> 
-//       </View>
-//     </View>
-//   );
-// };
-
-// const styles = StyleSheet.create({
-//   container: {
-//     flex: 1,
-//     justifyContent: 'center',
-//     alignItems: 'center',
-//   },
-//   timerLabel: {
-//     fontSize: 24,
-//     marginBottom: 10,
-//   },
-//   timer: {
-//     fontSize: 40,
-//     marginBottom: 20,
-//   },
-//   buttonContainer: {
-//     flexDirection: 'row',
-//     justifyContent: 'space-around',
-//     width: '80%',
-//   },
-//   progressBarContainer: {
-//     marginTop: 30,
-//   },
-// });
-
-// export default Practice;
-
-
-import React, { useState, useEffect } from 'react';
-import {useFocusEffect} from '@react-navigation/native';
-import { View, Text, Button, StyleSheet } from 'react-native';
-import {CountdownCircleTimer} from 'react-native-countdown-circle-timer';
-import { useCountdown } from 'react-native-countdown-circle-timer'
+import React, {useState, useEffect} from 'react';
+import {View, Text, Button, StyleSheet, TouchableOpacity, SectionList} from 'react-native';
+import {AnimatedCircularProgress} from 'react-native-circular-progress';
 
 const PomodoroTimer = () => {
-  const [workTime, setWorkTime] = useState( 6); // 25 minutes for work
-  const [breakTime, setBreakTime] = useState( 6); // 5 minutes for break
+  const [workTime, setWorkTime] = useState(12); // 25 minutes for work
+  const [breakTime, setBreakTime] = useState(60); // 5 minutes for break
   const [currentTimer, setCurrentTimer] = useState('Work');
   const [isActive, setIsActive] = useState(false);
   const [seconds, setSeconds] = useState(workTime);
-  const [equal, setEqual] = useState(seconds);
-  // const [timeEqual, setTimeEqual] = useState(equal)
-
-
-  const {
-    round,
-    // rotation,
-    path,
-    pathLength,
-    stroke,
-    strokeDashoffset,
-    remainingTime,
-    elapsedTime,
-    clockwise,
-    size,
-    strokeWidth,
-  } = useCountdown({ isPlaying: true, duration: 7, colors: '#abc' })
-
+  
   useEffect(() => {
     let interval;
 
     if (isActive && seconds > 0) {
       interval = setInterval(() => {
-        setSeconds((prevSeconds) => prevSeconds - 1);
+        setSeconds(prevSeconds => prevSeconds - 1);
       }, 1000);
     } else if (isActive && seconds === 0) {
       clearInterval(interval);
       toggleTimer();
       setCurrentTimer(currentTimer === 'Work' ? 'Break' : 'Work');
       setSeconds(currentTimer === 'Work' ? breakTime : workTime);
-
     } else {
       clearInterval(interval);
     }
@@ -175,16 +29,9 @@ const PomodoroTimer = () => {
     return () => clearInterval(interval);
   }, [isActive, seconds, breakTime, workTime, currentTimer]);
 
-  useFocusEffect(() => {
-    if (isActive && seconds === 0) {
-    setEqual(equal);
-    }
-  });
-
+ 
   const toggleTimer = () => {
     setIsActive(!isActive);
-    setEqual(equal);
-
   };
 
   const resetTimer = () => {
@@ -193,37 +40,73 @@ const PomodoroTimer = () => {
     setSeconds(workTime);
   };
 
-  const formatTime = (time) => {
+  const formatTime = time => {
     const minutes = Math.floor(time / 60);
     const remainingSeconds = time % 60;
-    return `${minutes.toString().padStart(2, '0')}:${remainingSeconds.toString().padStart(2, '0')}`;
+    return `${minutes.toString().padStart(2, '0')}:${remainingSeconds
+      .toString()
+      .padStart(2, '0')}`;
   };
 
+  const funtionCall = () => {
+    return ((currentTimer === 'Work') ? ((seconds/workTime)*100) : ((seconds/breakTime)*100))
+  }
   return (
     <View style={styles.container}>
-      <Text style={styles.timerLabel}>{currentTimer === 'Work' ? 'Work Time' : 'Break Time'}</Text>
+      <Text style={styles.timerLabel}>
+        {currentTimer === 'Work' ? 'Work Time' : 'Break Time'}
+      </Text>
       <Text style={styles.timer}>{formatTime(seconds)}</Text>
       <View style={styles.buttonContainer}>
         <Button title={isActive ? 'Pause' : 'Start'} onPress={toggleTimer} />
         <Button title="Reset" onPress={resetTimer} />
       </View>
       <View>
-      <CountdownCircleTimer
-          isPlaying={isActive}
-          rotation={clockwise}
-          strokeLinecap={round}
-          duration={equal}
-          updateInterval={0}
-          size={300}
-          strokeWidth={13}
-          colors={['#004777', '#F7B801', '#A30000', '#A30000']}
-          colorsTime={[7, 5, 2, 0]}>
-          {({remainingTime}) => <Text style={{color: '#000000', fontSize: 20}}>{formatTime(seconds)}</Text>}
-          {/* onComplete={() => {
-      // do your stuff here
-      return { shouldRepeat: true, delay: 1.5 } // repeat animation in 1.5 seconds
-    }} */}
-        </CountdownCircleTimer> 
+        <AnimatedCircularProgress
+          size={300} 
+          width={12}
+          fill={funtionCall()}
+          rotation={0}
+          duration={500}
+          tintColor="#00e0ff"
+          delay={0}
+          backgroundColor="#3d5875">
+          {() =>
+            (isActive) ? (
+              <TouchableOpacity
+                style={{
+                  width: 280,
+                  height: 280,
+                  backgroundColor: '#00ff00',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  borderRadius: 140,
+                }}
+                onPress={toggleTimer}>
+                <Text style={{fontSize: 50, color: '#000000'}}>
+                  {formatTime(seconds)}
+                </Text>
+                <Text style={{fontSize: 40, color: '#000000'}}>PAUSE</Text>
+              </TouchableOpacity>
+            ) : (
+              <TouchableOpacity 
+                style={{
+                  width: 280,
+                  height: 280,
+                  backgroundColor: '#00ff00',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  borderRadius: 140,
+                }}
+                onPress={toggleTimer}>
+                <Text style={{fontSize: 50, color: '#000000'}}>
+                  {formatTime(seconds)}
+                </Text>
+                <Text style={{fontSize: 40, color: '#000000'}}>START</Text>
+              </TouchableOpacity>
+            )
+          }
+        </AnimatedCircularProgress>
       </View>
     </View>
   );
@@ -238,10 +121,12 @@ const styles = StyleSheet.create({
   timerLabel: {
     fontSize: 24,
     marginBottom: 10,
+    color: '#000000',
   },
   timer: {
     fontSize: 40,
     marginBottom: 20,
+    color: '#000000',
   },
   buttonContainer: {
     flexDirection: 'row',
