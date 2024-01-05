@@ -5,8 +5,6 @@ import {
   StyleSheet,
   TouchableOpacity,
   Vibration,
-  ScrollView,
-  LogBox,
 } from 'react-native';
 import React, {useState, useEffect} from 'react';
 
@@ -20,7 +18,6 @@ import {
   AdEventType,
 } from 'react-native-google-mobile-ads';
 import {AnimatedCircularProgress} from 'react-native-circular-progress';
-
 
 let initialPomodoro = 60;
 let initialShortBreak = 60;
@@ -387,12 +384,9 @@ const HomeScreen = ({navigation}) => {
 
   const autoStartBreakFunction = () => {
     if (autoStartBreak === true) {
-      setTimeout(() => {
-        console.log("vijay")
-        // secondFunction();
-      }, 3000); // 3000 milliseconds = 3 seconds
+      setTimeout(() => {}, 3000); // 3000 milliseconds = 3 seconds
       if (timerType === 'POMODORO') {
-        console.log(timerType, "check timertype");
+        console.log(timerType, 'check timertype');
       } else if (timerType === 'SHORT BREAK') {
         toggleTimer();
         AdMob();
@@ -575,14 +569,14 @@ const HomeScreen = ({navigation}) => {
     default:
       buttonText = 'Increment';
   }
-
   const funtionCall = () => {
-    return timerType === 'POMODORO' ? ((timer/pomodoro)*100) : timerType === 'SHORT BREAK' ?  ((timer/BreakTime)*100) : ((timer/longBreak)*100)
-    //  (((timerType === 'POMODORO')) ? ((timer/pomodoro)*100) : ((timer/BreakTime)*100))
-  }
-
+    return timerType === 'POMODORO'
+      ? (timer / pomodoro) * 100
+      : timerType === 'SHORT BREAK'
+      ? (timer / BreakTime) * 100
+      : (timer / longBreak) * 100;
+  };
   return (
-   
     <View
       style={{
         backgroundColor: backgroundColor,
@@ -590,11 +584,6 @@ const HomeScreen = ({navigation}) => {
         alignItems: 'center',
         alignContent: 'center',
       }}>
-      {/* <View>
-      <Progress.Bar progress={0.3} width={200} />
-          <Progress.Pie progress={0.4} size={50} />
-          <Progress.Circle size={30} indeterminate={true} />
-      </View> */}
       <View>
         {!isRunning ? (
           <View style={styles.iconView}>
@@ -617,51 +606,18 @@ const HomeScreen = ({navigation}) => {
           </View>
         )}
       </View>
-      {/* <View style={styles.outerCircle}>
-        <View style={[styles.innerCircle, {backgroundColor: backgroundColor}]}>
-          {isRunning ? (
-            <TouchableOpacity onPress={toggleTimer}>
-              <View
-                style={[
-                  styles.innerCircleTwo,
-                  {backgroundColor: backgroundColor},
-                ]}>
-                <View style={styles.ViewText}>
-                  <Text style={styles.TextStyle}>{formatTime(timer)}</Text>
-                  <Text style={styles.buttonText}>PAUSE</Text>
-                </View>
-              </View>
-            </TouchableOpacity>
-          ) : (
-            <TouchableOpacity onPress={toggleTimer}>
-              <View
-                style={[
-                  styles.innerCircleTwo,
-                  {backgroundColor: backgroundColor},
-                ]}>
-                <View style={styles.ViewText}>
-                  <Text style={styles.TextStyle}>{formatTime(timer)}</Text>
-                  <Text style={styles.buttonText}>START</Text>
-                </View>
-              </View>
-            </TouchableOpacity>
-          )}
-        </View>
-      </View> */}
-<View>
+      <View>
         <AnimatedCircularProgress
-          size={310} 
+          size={310}
           width={12}
           fill={funtionCall()}
           rotation={0}
           duration={500}
           tintColor="#ffffff"
-          // tintTransparency={false}
           delay={0}
-          backgroundColor='#4f6269'>
-           
+          backgroundColor="#4f6269">
           {() =>
-            (isRunning) ? (
+            isRunning ? (
               <TouchableOpacity
                 style={{
                   width: 280,
@@ -671,16 +627,13 @@ const HomeScreen = ({navigation}) => {
                   alignItems: 'center',
                   borderRadius: 140,
                   backgroundColor: backgroundColor,
-               
                 }}
                 onPress={toggleTimer}>
-                <Text style={styles.TextStyle}>
-                  {formatTime(timer)}
-                </Text>
+                <Text style={styles.TextStyle}>{formatTime(timer)}</Text>
                 <Text style={styles.buttonText}>PAUSE</Text>
               </TouchableOpacity>
             ) : (
-              <TouchableOpacity 
+              <TouchableOpacity
                 style={{
                   width: 280,
                   height: 280,
@@ -691,9 +644,7 @@ const HomeScreen = ({navigation}) => {
                   backgroundColor: backgroundColor,
                 }}
                 onPress={toggleTimer}>
-                <Text style={styles.TextStyle}>
-                  {formatTime(timer)}
-                </Text>
+                <Text style={styles.TextStyle}>{formatTime(timer)}</Text>
                 <Text style={styles.buttonText}>START</Text>
               </TouchableOpacity>
             )
@@ -766,29 +717,23 @@ const styles = StyleSheet.create({
   iconView: {
     marginLeft: '87%',
     marginTop: '3.5%',
-    width: 20,
-    height: 20,
+    width: 22,
+    height: 22,
     marginBottom: 80,
   },
-  ImageView: {
-    marginRight: 8,
-  },
-
   buttonText: {
     justifyContent: 'center',
     alignSelf: 'center',
     color: 'white',
     fontSize: 13,
   },
-
   resetbuttonText: {
     color: 'white',
     fontSize: 16,
   },
-
   ImageView: {
-    width: 13,
-    height: 22,
+    width: 15,
+    height: 25,
     marginRight: 3,
     opacity: 0.8,
   },
@@ -802,7 +747,6 @@ const styles = StyleSheet.create({
   ViewText: {
     marginTop: 10,
   },
-
   outerCircle: {
     marginTop: '25%',
     alignItems: 'center',

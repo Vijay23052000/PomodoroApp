@@ -25,7 +25,7 @@ const SettingScreen = () => {
   const [cycle, setCycle] = useState(initialCycleCountValue);
   const [Awake, setAwake] = useState(true);
   const [vibratee, setVibratee] = useState(true);
-  const [autoStartBreak, setAutoStartBreak] = useState(true);
+  const [autoStartBreak, setAutoStartBreak] = useState(false);
   const [signal, setSignal] = useState(false);
 
   useEffect(() => {
@@ -349,9 +349,9 @@ const SettingScreen = () => {
         <View style={styles.ColorMainView}>
           <View style={styles.ColorColomnView}>
             <TouchableOpacity
-              style={[styles.ColorButtonStyle, {backgroundColor: '#00b813'}]}
-              onPress={() => changeColor('#00b813')}>
-              {backgroundColor === '#00b813' && (
+              style={[styles.ColorButtonStyle, {backgroundColor: '#3cd689'}]}
+              onPress={() => changeColor('#3cd689')}>
+              {backgroundColor === '#3cd689' && (
                 <Text style={styles.ColorText}>✓</Text>
               )}
             </TouchableOpacity>
@@ -544,14 +544,7 @@ const SettingScreen = () => {
               </Text>
             </View>
           </TouchableOpacity>
-          {/* <TouchableOpacity style={styles.PomodoroTextTwo} onPress={() => {}}>
-            <View style={styles.containerpomodoroTwo}>
-              <Text style={styles.topTextTwo}>{BreakTime / 60}</Text>
-              <Text style={styles.bottomTextTwo}>DAILY GOAL</Text>
-            </View>
-          </TouchableOpacity> */}
         </View>
-
         <View style={styles.PlusMinusMainView}>
           <TouchableOpacity
             style={styles.PlusMinusTouchableView}
@@ -739,9 +732,9 @@ const styles = StyleSheet.create({
     borderRadius: 3,
   },
   PlusMinusText: {
-    fontSize: 20,
+    fontSize: 23,
     color: '#ffffff',
-    paddingTop: 7,
+    paddingTop: 3,
   },
   ColorThemeStyle: {
     color: '#ffffff',
