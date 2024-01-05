@@ -19,17 +19,17 @@ import {
 } from 'react-native-google-mobile-ads';
 import {AnimatedCircularProgress} from 'react-native-circular-progress';
 
-let initialPomodoro = 60;
-let initialShortBreak = 60;
-let initialLongBreak = 60;
-let initialCycle = 2;
+let initialPomodoro = 25*60;
+let initialShortBreak = 5*60;
+let initialLongBreak = 30*60;
+let initialCycle = 3; 
 
 const HomeScreen = ({navigation}) => {
-  const [pomodoro, setPomodoro] = useState(initialPomodoro);
-  const [BreakTime, setBreakTime] = useState(initialShortBreak);
-  const [longBreak, setLongBreak] = useState(initialLongBreak);
+  const [pomodoro, setPomodoro] = useState(25*60);
+  const [BreakTime, setBreakTime] = useState(5*60);
+  const [longBreak, setLongBreak] = useState(30*60);
   const [cycleCount, setCycleCount] = useState(1);
-  const [cycle, setCycle] = useState(initialCycle);
+  const [cycle, setCycle] = useState(3);
   const [Awake, setAwake] = useState(true);
   const [vibratee, setVibratee] = useState(true);
 

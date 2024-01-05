@@ -14,10 +14,10 @@ const SettingScreen = () => {
   const navigation = useNavigation();
   const [backgroundColor, setBackgroundColor] = useState('#3cd689');
 
-  let initialPomodoroTime = 60; // 25 minutes by default for Pomodoro
-  let initialShortBreakTime = 60; // 5 minutes by default for short break
-  let initialLongBreakTime = 60; // 15 minutes by default for long break
-  let initialCycleCountValue = 2;
+  let initialPomodoroTime = 25*60; // 25 minutes by default for Pomodoro
+  let initialShortBreakTime = 15*60; // 5 minutes by default for short break
+  let initialLongBreakTime = 30*60; // 15 minutes by default for long break
+  let initialCycleCountValue = 3;
 
   const [pomodoro, setPomodoro] = useState(initialPomodoroTime);
   const [BreakTime, setBreakTime] = useState(initialShortBreakTime);
